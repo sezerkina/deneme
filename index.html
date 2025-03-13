@@ -72,7 +72,16 @@
         zoom: 3
       });
 
-      //code from step 6 will go here
+      // add markers to map
+for (const feature of geojson.features) {
+  
+  // code from step 7-1 will go here
+
+  // make a marker for each feature and add to the map
+  new mapboxgl.Marker().setLngLat(feature.geometry.coordinates).addTo(map);  // Replace this line with code from step 7-2
+
+   //code from step 8 will go here
+}
       
     </script>
   </body>
