@@ -1,1 +1,726 @@
-<iframe src="https://www.google.com/maps/d/u/6/embed?mid=1uHmd5ELBekT0aB7bGtQHc8nioviK7oo&ehbc=2E312F" width="640" height="480"></iframe>
+=  <!doctype html>
+  <html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ankara Filmleri Haritası — v5</title>
+    <style>
+      html, body { height: 100%; margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+      #app { display: grid; grid-template-columns: 320px 1fr; grid-template-rows: 56px 1fr; height: 100%; }
+      header { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid #e5e7eb; }
+      header h1 { font-size: 16px; margin: 0; font-weight: 600; }
+      header .actions { margin-left: auto; display: flex; gap: 8px; }
+      aside { border-right: 1px solid #e5e7eb; padding: 10px; overflow: auto; }
+      main { position: relative; }
+      #map { position: absolute; inset: 0; }
+      .panel-section { margin-bottom: 14px; }
+      .panel-section h3 { margin: 0 0 8px 0; font-size: 13px; font-weight: 600; color: #374151; }
+      input[type="text"], select { width: 100%; padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; }
+      .file-drop { border: 2px dashed #cbd5e1; border-radius: 8px; padding: 12px; text-align: center; color: #475569; background: #f8fafc; }
+      .file-drop.drag { background: #eef2ff; border-color: #6366f1; }
+      .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+      .chip { border: 1px solid #e5e7eb; border-radius: 999px; padding: 4px 8px; font-size: 12px; cursor: pointer; background: #fff; }
+      .chip.active { background: #111827; color: #fff; border-color: #111827; }
+      .layer-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+      .layer-list li { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+      .muted { color: #6b7280; }
+      .small { font-size: 12px; }
+      .btn { border: 1px solid #d1d5db; background: #fff; border-radius: 8px; padding: 8px 10px; cursor: pointer; font-size: 14px; }
+      .btn.primary { background: #111827; color: #fff; border-color: #111827; }
+      .legend { position: absolute; right: 10px; bottom: 10px; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 10px; font-size: 12px; color: #374151; }
+      .hidden { display: none; }
+      .row { display:flex; gap:8px; }
+      .row > * { flex:1; }
+      .range { display:flex; align-items:center; gap:8px; }
+      .range input[type="range"] { flex:1; }
+      .popup-content img { max-width: 240px; height: auto; display: block; margin: 6px 0; border-radius: 6px; }
+      /* Modal */
+      #help-modal { position:fixed; inset:0; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; }
+      #help-modal.hidden { display:none; }
+      #help-modal .card { background:#fff; padding:16px; border-radius:10px; width: min(720px, 92%); box-shadow: 0 10px 30px rgba(0,0,0,.2); }
+      /* Etiket maske üst katmanı — başlangıçta kapalı */
+      .label-mask { position:absolute; inset:0; pointer-events:none; background: transparent; mix-blend-mode: lighten; display:none; }
+      .label-mask.show { display:block; background: rgba(255,255,255,0.25); }
+      /* Cluster simgesi */
+      .cluster-circle {
+        width: 28px; height: 28px; border-radius: 50%;
+        background: rgba(37,99,235,0.18);
+        border: 2px solid #2563eb;
+        box-shadow: 0 0 0 2px rgba(37,99,235,0.12);
+      }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>Ankara Filmleri Haritası (v5)</h1>
+        <div class="actions">
+          <label class="btn">
+            KMZ/KML yükle
+            <input type="file" id="file-input" accept=".kmz,.kml" multiple style="display:none" />
+          </label>
+          <button id="export-btn" class="btn">Dışa aktar (GeoJSON)</button>
+          <button id="clear-btn" class="btn">Temizle</button>
+          <button id="help-btn" class="btn">Yardım</button>
+        </div>
+      </header>
+      <aside>
+        <div class="panel-section">
+          <h3>Arama</h3>
+          <input type="text" id="search" placeholder="Ad, açıklama, klasör adı..." />
+        </div>
+
+        <div class="panel-section">
+          <h3>Tür filtreleri</h3>
+          <div class="chips" id="type-filters">
+            <span class="chip active" data-type="Point">Nokta</span>
+            <span class="chip active" data-type="LineString">Çizgi</span>
+            <span class="chip active" data-type="Polygon">Poligon</span>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3>Katmanlar</h3>
+          <ul class="layer-list" id="layer-list"></ul>
+          <div class="small muted" id="layer-stats"></div>
+        </div>
+
+        <div class="panel-section">
+          <h3>Isı haritası</h3>
+          <div class="range small">
+            Yarıçap: <input id="heat-radius" type="range" min="5" max="60" value="25" />
+            <span id="heat-radius-val">25</span>
+          </div>
+          <div class="range small">
+            Blur: <input id="heat-blur" type="range" min="5" max="80" value="30" />
+            <span id="heat-blur-val">30</span>
+          </div>
+          <div class="range small">
+            Max yoğunluk: <input id="heat-max" type="range" min="0.1" max="3" step="0.1" value="1" />
+            <span id="heat-max-val">1.0</span>
+          </div>
+          <div class="row">
+            <select id="heat-weight-field" title="Ağırlık alanı">
+              <option value="">Ağırlık: 1</option>
+              <option value="name">Ağırlık: name (sayı varsa)</option>
+              <option value="description">Ağırlık: description (sayı varsa)</option>
+            </select>
+            <select id="heat-gradient" title="Gradyan">
+              <option value="classic">Klasik</option>
+              <option value="fire">Alev</option>
+              <option value="blue">Mavi</option>
+              <option value="green">Yeşil</option>
+              <option value="gray">Gri</option>
+            </select>
+          </div>
+          <div style="margin-top:8px;">
+            <label class="small"><input type="checkbox" id="heat-toggle" /> Yoğunluk (Heatmap) katmanını göster</label>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3>Harita stili</h3>
+          <div class="row">
+            <select id="basemap">
+              <option value="osm">OSM (etiketli)</option>
+              <option value="light">Hafif (etiketli)</option>
+              <option value="light_nl">Hafif Etiketsiz</option>
+              <option value="dark">Koyu (etiketli)</option>
+              <option value="dark_nl">Koyu Etiketsiz</option>
+              <option value="terrain">Arazi (etiketli)</option>
+              <option value="satellite">Uydu (etiketsiz)</option>
+              <option value="nolabel">OSM Etiketsiz</option>
+              <option value="nolabel2">Açık Gri Etiketsiz</option>
+            </select>
+            <select id="theme">
+              <option value="default">Tema: Varsayılan</option>
+              <option value="warm">Sıcak</option>
+              <option value="cool">Soğuk</option>
+              <option value="mono">Monokrom</option>
+            </select>
+          </div>
+          <label class="small" style="display:block; margin-top:8px;">
+            <input type="checkbox" id="toggle-labels" checked /> Etiketleri göster/gizle
+          </label>
+        </div>
+
+        <div class="panel-section">
+          <h3>Dosya yükleme</h3>
+          <div id="drop" class="file-drop">Dosyalarınızı buraya sürükleyip bırakın veya yukarıdan seçin</div>
+          <div class="small muted">KML IconStyle ve açıklama görselleri otomatik gösterilir. Isı haritası sadece noktalardan üretilir.</div>
+        </div>
+      </aside>
+
+      <main>
+        <div id="map"></div>
+        <div class="label-mask" id="label-mask"></div>
+        <div class="legend small">
+          • Noktalar cluster’lı • Çizgi: mavi • Poligon: sarı • Isı haritası • Etiketsiz açık/koyu stiller
+        </div>
+      </main>
+    </div>
+
+    <div id="help-modal" class="hidden" aria-modal="true" role="dialog" aria-labelledby="help-title">
+      <div class="card" role="document">
+        <h3 id="help-title" style="margin:0 0 8px 0;">Kullanım</h3>
+        <ol class="small" style="margin:0; padding-left:18px;">
+          <li>KMZ/KML dosyalarınızı yükleyin (üstten seçin veya sürükleyin).</li>
+          <li>Katman listesinde KMZ adı + klasör yolu ile öğeleri filtreleyin.</li>
+          <li>Popup’larda açıklama ve görseller, noktalarda özel ikonlar görünür.</li>
+          <li>Isı haritasını açıp parametreleri ayarlayın.</li>
+          <li>Harita stilinden “Hafif Etiketsiz” veya “Koyu Etiketsiz” i seçebilirsiniz.</li>
+        </ol>
+        <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end;">
+          <button id="close-help" class="btn primary">Tamam</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const $ = (sel) => document.querySelector(sel);
+        const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+        // Basemap kaynakları
+        const baseLayers = {
+          osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }),
+          light: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; Carto, OSM' }),
+          light_nl: L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}{r}.png', { attribution: '&copy; Carto, OSM' }),
+          dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; Carto, OSM' }),
+          dark_nl: L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}{r}.png', { attribution: '&copy; Carto, OSM' }),
+          terrain: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenTopoMap' }),
+          satellite: L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; Esri' }),
+          nolabel: L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png', { attribution: '&copy; Stadia, OSM' }),
+          nolabel2: L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_gray/{z}/{x}/{y}.png', { attribution: '&copy; Stadia, OSM' }),
+        };
+
+        // Harita — OSM varsayılan
+        const map = L.map('map', { zoomControl: true, center: [39.924, 32.854], zoom: 11, layers: [baseLayers.osm] });
+
+        // Cluster
+        const clusterGroup = L.markerClusterGroup({
+          disableClusteringAtZoom: 16,
+          iconCreateFunction: function () {
+            const div = document.createElement('div');
+            div.className = 'cluster-circle';
+            return L.divIcon({ html: div, className: '', iconSize: [28, 28] });
+          }
+        }).addTo(map);
+
+        const lineGroup = L.layerGroup().addTo(map);
+        const polyGroup = L.layerGroup().addTo(map);
+        const heatLayer = L.heatLayer([], { radius: 25, blur: 30, max: 1.0 }).addTo(map);
+
+        // Tema ve etiket kontrol
+        function applyTheme(theme) {
+          const mask = $('#label-mask');
+          mask.style.mixBlendMode = theme === 'mono' ? 'saturation' : 'lighten';
+          const active = theme !== 'default';
+          mask.classList.toggle('show', active);
+          if (theme === 'warm') mask.style.background = 'rgba(255, 200, 150, 0.18)';
+          else if (theme === 'cool') mask.style.background = 'rgba(150, 200, 255, 0.18)';
+          else if (theme === 'mono') mask.style.background = 'rgba(255, 255, 255, 0.35)';
+          else mask.classList.remove('show');
+        }
+        function setLabelsVisible(on) {
+          const mask = $('#label-mask');
+          mask.classList.toggle('show', !on);
+          mask.style.background = !on ? 'rgba(255,255,255,0.35)' : 'transparent';
+        }
+
+        const state = {
+          features: [],
+          folders: new Map(),
+          filters: { types: new Set(['Point','LineString','Polygon']), q: '' },
+          heat: { enabled: false, radius: 25, blur: 30, max: 1.0, weightField: '', gradient: 'classic' }
+        };
+
+        const gradients = {
+          classic: { 0.0: '#2c7bb6', 0.4: '#abd9e9', 0.6: '#ffffbf', 0.8: '#fdae61', 1.0: '#d7191c' },
+          fire:    { 0.0: '#000000', 0.4: '#440154', 0.6: '#482878', 0.8: '#ef4444', 1.0: '#f59e0b' },
+          blue:    { 0.0: '#dbeafe', 0.4: '#93c5fd', 0.7: '#3b82f6', 1.0: '#1e3a8a' },
+          green:   { 0.0: '#dcfce7', 0.4: '#86efac', 0.7: '#22c55e', 1.0: '#065f46' },
+          gray:    { 0.0: '#f3f4f6', 0.5: '#9ca3af', 1.0: '#111827' }
+        };
+
+        // KML/KMZ
+        async function handleFiles(files) {
+          const all = [];
+          for (const file of files) {
+            const ext = file.name.toLowerCase().split('.').pop();
+            try {
+              if (ext === 'kmz') {
+                const arrBuf = await file.arrayBuffer();
+                const parsed = await parseKMZ(arrBuf, file.name.replace(/\.kmz$/i,''));
+                all.push(...parsed);
+              } else if (ext === 'kml') {
+                const text = await file.text();
+                const parsed = parseKML(text, {}, file.name.replace(/\.kml$/i,''));
+                all.push(...parsed);
+              }
+            } catch (e) {
+              console.error('Dosya okunamadı:', file.name, e);
+              alert('Hata: ' + file.name + ' dosyası işlenemedi. Konsola bakınız.');
+            }
+          }
+          if (all.length === 0) {
+            alert('Geçerli veri bulunamadı.');
+            return;
+          }
+          addFeatures(all);
+        }
+
+        async function parseKMZ(arrayBuffer, kmzName) {
+          const zip = await JSZip.loadAsync(arrayBuffer);
+          const kmlEntry = zip.file(/\.kml$/i)[0];
+          if (!kmlEntry) return [];
+          const kmlText = await kmlEntry.async('text');
+
+          const assets = {};
+          await Promise.all(
+            zip.filter((path, file) => !file.dir && !/\.kml$/i.test(file.name)).map(async (f) => {
+              const base64 = await f.async('base64');
+              const mime = guessMime(f.name);
+              assets[normalizePath(f.name)] = `data:${mime};base64,${base64}`;
+            })
+          );
+
+          return parseKML(kmlText, assets, kmzName);
+        }
+
+        function guessMime(name) {
+          const ext = name.toLowerCase().split('.').pop();
+          if (ext === 'jpg' || ext === 'jpeg') return 'image/jpeg';
+          if (ext === 'png') return 'image/png';
+          if (ext === 'gif') return 'image/gif';
+          if (ext === 'svg') return 'image/svg+xml';
+          if (ext === 'ico') return 'image/x-icon';
+          return 'application/octet-stream';
+        }
+
+        function normalizePath(p) { return decodeURIComponent(p).replace(/\\/g,'/').replace(/^\.?\//,''); }
+
+        function parseKML(kmlText, assets = {}, kmzName = '') {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(kmlText, 'application/xml');
+
+          const q = (el, sel) => el.querySelector(sel) || el.querySelector(sel.replace(/(^|\\s)([a-z])/g, '$1kml\\:$2'));
+          const qa = (el, sel) => Array.from(el.querySelectorAll(sel)).length ? Array.from(el.querySelectorAll(sel)) : Array.from(el.querySelectorAll(sel.replace(/(^|\\s)([a-z])/g, '$1kml\\:$2')));
+
+          const styleById = new Map();
+          qa(doc, 'Style').forEach(s => { const id = s.getAttribute('id'); if (id) styleById.set('#'+id, s); });
+          const styleMap = new Map();
+          qa(doc, 'StyleMap Pair').forEach(p => {
+            const key = (q(p, 'key') && q(p, 'key').textContent) || '';
+            const styleUrl = (q(p, 'styleUrl') && q(p, 'styleUrl').textContent) || '';
+            const parent = p.closest('StyleMap');
+            const id = parent && parent.getAttribute('id');
+            if (!id) return;
+            if (!styleMap.has('#'+id)) styleMap.set('#'+id, {});
+            styleMap.get('#'+id)[key] = styleUrl;
+          });
+
+          const docEl = q(doc, 'Document') || doc;
+          const rootName = (q(docEl, 'name') && q(docEl, 'name').textContent) || 'Katman';
+
+          const features = [];
+          const folderStack = [];
+
+          function resolveStyle(styleUrl) {
+            if (!styleUrl) return null;
+            let sEl = null;
+            if (styleMap.has(styleUrl)) {
+              const mapEntry = styleMap.get(styleUrl);
+              sEl = styleById.get(mapEntry.normal || mapEntry.highlight || '');
+            } else if (styleById.has(styleUrl)) {
+              sEl = styleById.get(styleUrl);
+            }
+            if (!sEl) return null;
+
+            const iconStyle = q(sEl, 'IconStyle');
+            if (!iconStyle) return null;
+            const href = q(iconStyle, 'Icon href') && q(iconStyle, 'Icon href').textContent;
+            const scale = parseFloat(q(iconStyle, 'scale') && q(iconStyle, 'scale').textContent) || 1;
+            const hotSpot = q(iconStyle, 'hotSpot');
+            const hot = hotSpot ? {
+              x: parseFloat(hotSpot.getAttribute('x')) || null,
+              y: parseFloat(hotSpot.getAttribute('y')) || null,
+              xunits: hotSpot.getAttribute('xunits') || 'fraction',
+              yunits: hotSpot.getAttribute('yunits') || 'fraction'
+            } : null;
+            return { href, scale, hot };
+          }
+
+          function walk(container, folderName) {
+            const folders = qa(container, 'Folder');
+            const placemarks = qa(container, 'Placemark');
+
+            for (const f of folders) {
+              const fname = (q(f, 'name') && q(f, 'name').textContent) || folderName || rootName;
+              folderStack.push(fname);
+              walk(f, fname);
+              folderStack.pop();
+            }
+
+            for (const p of placemarks) {
+              const name = (q(p, 'name') && q(p, 'name').textContent) || '';
+              const descRaw = (q(p, 'description') && q(p, 'description').textContent) || '';
+              const balloonRaw = (q(p, 'BalloonStyle text') && q(p, 'BalloonStyle text').textContent) || '';
+              const styleUrl = (q(p, 'styleUrl') && q(p, 'styleUrl').textContent) || '';
+              const folderPath = [...folderStack, folderName].filter(Boolean).join(' / ') || rootName;
+              const fullFolder = (kmzName ? kmzName + ' / ' : '') + folderPath;
+
+              let geom = null;
+              const point = q(p, 'Point coordinates');
+              if (point) {
+                const [lon, lat] = point.textContent.trim().split(/,\s*/).map(Number);
+                if (!isNaN(lat) && !isNaN(lon)) geom = { type: 'Point', coordinates: [lon, lat] };
+              }
+              const line = q(p, 'LineString coordinates');
+              if (!geom && line) {
+                const coords = line.textContent.trim().split(/\s+/).map(c => c.split(',').slice(0,2).map(Number));
+                if (coords.length) geom = { type: 'LineString', coordinates: coords };
+              }
+              const polyOuter = q(p, 'Polygon outerBoundaryIs LinearRing coordinates');
+              if (!geom && polyOuter) {
+                const coords = polyOuter.textContent.trim().split(/\s+/).map(c => c.split(',').slice(0,2).map(Number));
+                if (coords.length) geom = { type: 'Polygon', coordinates: [coords] };
+              }
+              if (!geom) continue;
+
+              let description = balloonRaw || descRaw || '';
+              description = resolveAssetsInHtml(description, assets);
+
+              let icon = null;
+              const resolved = resolveStyle(styleUrl);
+              if (resolved && resolved.href) {
+                let href = resolved.href.trim();
+                const norm = normalizePath(href);
+                if (assets[norm]) href = assets[norm];
+                icon = { url: href, scale: resolved.scale, hot: resolved.hot };
+              } else {
+                const pIconStyle = q(p, 'Style IconStyle Icon href');
+                if (pIconStyle) {
+                  let href = pIconStyle.textContent.trim();
+                  const norm = normalizePath(href);
+                  if (assets[norm]) href = assets[norm];
+                  icon = { url: href, scale: 1, hot: null };
+                }
+              }
+
+              features.push({
+                type: 'Feature',
+                geometry: geom,
+                properties: { name, description, folder: fullFolder, styleUrl: styleUrl || '', icon }
+              });
+            }
+          }
+
+          walk(docEl, rootName);
+          return features;
+        }
+
+        function resolveAssetsInHtml(html, assets) {
+          if (!html) return '';
+          const div = document.createElement('div');
+          div.innerHTML = html;
+
+          div.querySelectorAll('img').forEach(img => {
+            const src = img.getAttribute('src') || '';
+            const key = normalizePath(src);
+            if (assets[key]) img.setAttribute('src', assets[key]);
+          });
+
+          div.querySelectorAll('[style]').forEach(el => {
+            const s = el.getAttribute('style');
+            if (!s) return;
+            const replaced = s.replace(/url\\(([^)]+)\\)/g, (m,g1)=>{
+              const raw = g1.trim().replace(/^['"]|['"]$/g,'');
+              const key = normalizePath(raw);
+              return assets[key] ? `url(${assets[key]})` : m;
+            });
+            if (replaced !== s) el.setAttribute('style', replaced);
+          });
+          div.querySelectorAll('a[href]').forEach(a=>{
+            const href = a.getAttribute('href') || '';
+            const key = normalizePath(href);
+            if (assets[key]) a.setAttribute('href', assets[key]);
+          });
+
+          return div.innerHTML;
+        }
+
+        function addFeatures(feats) {
+          state.features.push(...feats);
+          state.folders.clear();
+          for (const f of state.features) {
+            const k = f.properties.folder || 'Katman';
+            state.folders.set(k, (state.folders.get(k) || 0) + 1);
+          }
+          renderLayerList();
+          renderStats();
+          redrawMap();
+          updateHeat();
+        }
+
+        function renderLayerList() {
+          const ul = $('#layer-list');
+          ul.innerHTML = '';
+          const folders = Array.from(state.folders.entries()).sort((a,b)=>a[0].localeCompare(b[0]));
+          for (const [name, count] of folders) {
+            const id = 'lay-' + btoa(unescape(encodeURIComponent(name))).replace(/=/g,'');
+            const li = document.createElement('li');
+            li.innerHTML = `
+              <input type="checkbox" id="${id}" checked />
+              <label for="${id}">${name}</label>
+              <span class="muted small">(${count})</span>
+            `;
+            const input = li.querySelector('input');
+            input.addEventListener('change', () => { redrawMap(); updateHeat(); });
+            input.dataset.folder = name;
+            ul.appendChild(li);
+          }
+        }
+
+        function renderStats() {
+          const n = state.features.length;
+          const np = state.features.filter(f=>f.geometry.type==='Point').length;
+          const nl = state.features.filter(f=>f.geometry.type==='LineString').length;
+          const ng = state.features.filter(f=>f.geometry.type==='Polygon').length;
+          $('#layer-stats').textContent = `${n} öğe — ${np} nokta, ${nl} çizgi, ${ng} poligon`;
+        }
+
+        function getActiveFolders() {
+          const checks = $$('#layer-list input[type="checkbox"]');
+          const active = new Set();
+          for (const c of checks) if (c.checked) active.add(c.dataset.folder);
+          return active;
+        }
+
+        function toLeafletIcon(iconProp) {
+          if (!iconProp || !iconProp.url) return null;
+          const base = 32;
+          const size = Math.max(12, Math.round(base * (iconProp.scale || 1)));
+          let anchor = [size/2, size];
+          if (iconProp.hot && iconProp.hot.x != null && iconProp.hot.y != null) {
+            if (iconProp.hot.xunits === 'fraction') anchor[0] = iconProp.hot.x * size;
+            if (iconProp.hot.yunits === 'fraction') anchor[1] = iconProp.hot.y * size;
+            if (iconProp.hot.xunits === 'pixels') anchor[0] = iconProp.hot.x;
+            if (iconProp.hot.yunits === 'pixels') anchor[1] = iconProp.hot.y;
+          }
+          return L.icon({ iconUrl: iconProp.url, iconSize: [size, size], iconAnchor: [Math.round(anchor[0]), Math.round(anchor[1])] });
+        }
+
+        function redrawMap() {
+          clusterGroup.clearLayers();
+          lineGroup.clearLayers();
+          polyGroup.clearLayers();
+
+          const activeFolders = getActiveFolders();
+          const q = state.filters.q.toLowerCase();
+          const types = state.filters.types;
+
+          const matched = [];
+          for (const f of state.features) {
+            if (!activeFolders.has(f.properties.folder)) continue;
+            if (!types.has(f.geometry.type)) continue;
+            const text = ((f.properties.name || '') + ' ' + (f.properties.description || '') + ' ' + (f.properties.folder || '')).toLowerCase();
+            if (q && !text.includes(q)) continue;
+            matched.push(f);
+          }
+
+          const bounds = [];
+          for (const f of matched) {
+            const t = f.geometry.type;
+            if (t === 'Point') {
+              const [lon, lat] = f.geometry.coordinates;
+              const icon = toLeafletIcon(f.properties.icon);
+              const marker = icon ? L.marker([lat, lon], { icon }) : L.marker([lat, lon]);
+              marker.bindPopup(renderPopup(f), { maxWidth: 320 });
+              clusterGroup.addLayer(marker);
+              bounds.push([lat, lon]);
+            } else if (t === 'LineString') {
+              const latlngs = f.geometry.coordinates.map(([lng, lat]) => [lat, lng]);
+              const polyline = L.polyline(latlngs, { color: '#2563eb', weight: 3 });
+              polyline.bindPopup(renderPopup(f), { maxWidth: 360 });
+              lineGroup.addLayer(polyline);
+              latlngs.forEach(ll => bounds.push(ll));
+            } else if (t === 'Polygon') {
+              const latlngs = f.geometry.coordinates[0].map(([lng, lat]) => [lat, lng]);
+              const polygon = L.polygon(latlngs, { color: '#f59e0b', weight: 2, fillColor: '#fde68a', fillOpacity: 0.35 });
+              polygon.bindPopup(renderPopup(f), { maxWidth: 360 });
+              polyGroup.addLayer(polygon);
+              latlngs.forEach(ll => bounds.push(ll));
+            }
+          }
+
+          if (bounds.length) map.fitBounds(bounds, { padding: [24, 24] });
+        }
+
+        function renderPopup(f) {
+          const name = f.properties.name || '(Adsız)';
+          const folder = f.properties.folder || '';
+          const html = f.properties.description || '';
+          return `
+            <div class="popup-content">
+              <div style="font-weight:600; margin-bottom:4px;">${escapeHtml(name)}</div>
+              <div class="small muted" style="margin-bottom:6px;">${escapeHtml(folder)}</div>
+              <div>${html}</div>
+            </div>`;
+        }
+
+        function escapeHtml(s) {
+          return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+        }
+
+        function extractWeightFromText(txt) {
+          if (!txt) return NaN;
+          const m = String(txt).match(/(-?\d+(\.\d+)?)/);
+          return m ? parseFloat(m[1]) : NaN;
+        }
+
+        function collectHeatPoints() {
+          const activeFolders = getActiveFolders();
+          const q = state.filters.q.toLowerCase();
+          const pts = [];
+          for (const f of state.features) {
+            if (f.geometry.type !== 'Point') continue;
+            if (!activeFolders.has(f.properties.folder)) continue;
+            const text = ((f.properties.name || '') + ' ' + (f.properties.description || '') + ' ' + (f.properties.folder || '')).toLowerCase();
+            if (q && !text.includes(q)) continue;
+            const [lon, lat] = f.geometry.coordinates;
+
+            let w = 1;
+            if (state.heat.weightField === 'name') {
+              const val = extractWeightFromText(f.properties.name);
+              if (!isNaN(val)) w = Math.max(0, val);
+            } else if (state.heat.weightField === 'description') {
+              const val = extractWeightFromText(f.properties.description);
+              if (!isNaN(val)) w = Math.max(0, val);
+            }
+            pts.push([lat, lon, w]);
+          }
+          return pts;
+        }
+
+        function updateHeat() {
+          const pts = state.heat.enabled ? collectHeatPoints() : [];
+          heatLayer.setOptions({
+            radius: state.heat.radius,
+            blur: state.heat.blur,
+            max: state.heat.max,
+            gradient: gradients[state.heat.gradient] || gradients.classic
+          });
+          heatLayer.setLatLngs(pts);
+        }
+
+        // UI bağlama
+        $('#search').addEventListener('input', (e) => { state.filters.q = e.target.value; redrawMap(); updateHeat(); });
+        $('#type-filters').addEventListener('click', (e) => {
+          const chip = e.target.closest('.chip'); if (!chip) return;
+          const t = chip.dataset.type;
+          if (chip.classList.contains('active')) { chip.classList.remove('active'); state.filters.types.delete(t); }
+          else { chip.classList.add('active'); state.filters.types.add(t); }
+          redrawMap(); updateHeat();
+        });
+
+        // Dosya seçimi ve sürükle-bırak
+        $('#file-input').addEventListener('change', (e) => handleFiles(e.target.files));
+        const drop = $('#drop');
+        ['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, (e)=>{ e.preventDefault(); drop.classList.add('drag'); }));
+        ['dragleave','drop'].forEach(ev => drop.addEventListener(ev, (e)=>{ e.preventDefault(); drop.classList.remove('drag'); }));
+        drop.addEventListener('drop', (e) => { const files = e.dataTransfer.files; handleFiles(files); });
+        drop.addEventListener('click', () => $('#file-input').click());
+
+        // Isı haritası kontrolleri
+        const radius = $('#heat-radius');
+        const radiusVal = $('#heat-radius-val');
+        const blur = $('#heat-blur');
+        const blurVal = $('#heat-blur-val');
+        const max = $('#heat-max');
+        const maxVal = $('#heat-max-val');
+        const weightField = $('#heat-weight-field');
+        const gradientSel = $('#heat-gradient');
+        const heatToggle = $('#heat-toggle');
+
+        radius.addEventListener('input', ()=> { state.heat.radius = +radius.value; radiusVal.textContent = radius.value; updateHeat(); });
+        blur.addEventListener('input', ()=> { state.heat.blur = +blur.value; blurVal.textContent = blur.value; updateHeat(); });
+        max.addEventListener('input', ()=> { state.heat.max = +max.value; maxVal.textContent = (+max.value).toFixed(1); updateHeat(); });
+        weightField.addEventListener('change', ()=> { state.heat.weightField = weightField.value; updateHeat(); });
+        gradientSel.addEventListener('change', ()=> { state.heat.gradient = gradientSel.value; updateHeat(); });
+        heatToggle.addEventListener('change', ()=> { state.heat.enabled = heatToggle.checked; updateHeat(); });
+
+        // Basemap & tema + fallback
+        const basemapSel = $('#basemap');
+        const themeSel = $('#theme');
+        const labelsToggle = $('#toggle-labels');
+
+        function setBasemap(key) {
+          Object.values(baseLayers).forEach(l => { if (map.hasLayer(l)) map.removeLayer(l); });
+          const layer = baseLayers[key] || baseLayers.osm;
+          layer.addTo(map);
+
+          // 2 saniye içinde hiç tile yüklenmezse OSM’ye dön
+          let loaded = false;
+          const onLoad = () => { loaded = true; layer.off('tileload', onLoad); };
+          layer.on('tileload', onLoad);
+          setTimeout(() => {
+            if (!loaded && key !== 'osm') {
+              Object.values(baseLayers).forEach(l => { if (map.hasLayer(l)) map.removeLayer(l); });
+              baseLayers.osm.addTo(map);
+              basemapSel.value = 'osm';
+            }
+          }, 2000);
+        }
+
+        basemapSel.addEventListener('change', ()=> setBasemap(basemapSel.value));
+        themeSel.addEventListener('change', ()=> applyTheme(themeSel.value));
+        labelsToggle.addEventListener('change', ()=> setLabelsVisible(labelsToggle.checked));
+
+        // İlk durum
+        applyTheme('default');
+        setLabelsVisible(true);
+        basemapSel.value = 'osm';
+
+        // Dışa aktar
+        $('#export-btn').addEventListener('click', () => {
+          const data = { type: 'FeatureCollection', features: state.features };
+          const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'ankara_filmleri_merged.geojson';
+          a.click();
+          URL.revokeObjectURL(a.href);
+        });
+
+        // Temizle
+        $('#clear-btn').addEventListener('click', () => {
+          state.features = [];
+          state.folders.clear();
+          renderLayerList();
+          renderStats();
+          redrawMap();
+          updateHeat();
+        });
+
+        // Yardım modal
+        const helpBtn = $('#help-btn');
+        const helpModal = $('#help-modal');
+        const closeHelp = $('#close-help');
+        function openHelp() { helpModal.classList.remove('hidden'); setTimeout(()=>closeHelp.focus(), 0); }
+        function closeHelpModal() { helpModal.classList.add('hidden'); }
+        helpBtn.addEventListener('click', openHelp);
+        closeHelp.addEventListener('click', closeHelpModal);
+        helpModal.addEventListener('click', (e) => { if (e.target === helpModal) closeHelpModal(); });
+        document.addEventListener('keydown', (e) => { if (!helpModal.classList.contains('hidden') && e.key === 'Escape') closeHelpModal(); });
+      });
+    </script>
+  </body>
+  </html>"
