@@ -468,6 +468,8 @@ html,body{
   line-height: 1.25;
   color: #9ca3af;
   margin-top: 6px;
+  text-align: justify;
+  text-align-last: left;
 }
 
 .cc-license a{
@@ -476,6 +478,41 @@ html,body{
 }
 .cc-license a:hover{
   text-decoration: underline;
+}
+
+/* --- Tab3: seçili poligon özeti + film listesi --- */
+.polygon-summary{
+  margin: 6px 0 10px 0;
+  padding: 10px 10px;
+  border: 1px solid #1f2933;
+  border-radius: 10px;
+  background: rgba(2,6,23,0.6);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+}
+.polygon-kpis{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 10px;
+  margin-top: 8px;
+}
+.polygon-kpis .k{
+  display:block;
+  font-size: 10px;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: rgba(156,163,175,0.95);
+}
+.polygon-kpis .v{
+  display:block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #e5e7eb;
+  margin-top: 2px;
+}
+.polygon-kpi-sub{
+  margin-top: 6px;
+  font-size: 10px;
+  color: rgba(156,163,175,0.95);
 }
 
 </style>
@@ -616,6 +653,19 @@ body {
 
 .leaflet-popup-content {
   color: #e5e7eb;
+}
+.leaflet-tooltip{
+  background:#020617 !important;
+  color:#e5e7eb !important;
+  border:1px solid #111827 !important;
+  border-radius:10px !important;
+  padding:6px 10px !important;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.55) !important;
+  font-weight:600 !important;
+}
+.leaflet-tooltip:before{
+  border-top-color:#020617 !important;
+  border-bottom-color:#020617 !important;
 }
 
 #map-filter-info {
@@ -864,14 +914,14 @@ body {
 <aside id="sidebar">
 <h1>Ankara’nın Sinemasal Kartografyası</h1>
 
-<div class="description description-justify">Bu çalışma Ankara Üni&shy;versitesi Sosyal Bilimler Ensti&shy;tüsü Radyo Tele&shy;vizyon ve Sinema Anabilim Dalı’nda Prof. Dr. S. Ruken Öztürk danış&shy;manlığında Sezer Ahmet Kına tara&shy;fından yürü&shy;tülen <i>Sinemada Kentin Dönü&shy;şümünü Seyretmek: Ankara Örneği</i> başlıklı doktora tezi için hazır&shy;lanmıştır.</div>
+<div class="description description-justify">Bu çalışma Ankara Üniversitesi Sosyal Bilimler Enstitüsü Radyo Televizyon ve Sinema Anabilim Dalı’nda Prof. Dr. S. Ruken Öztürk danışmanlığında Sezer Ahmet Kına tarafından yürütülen <i>Sinemada Kentin Dönüşümünü Seyretmek: Ankara Örneği</i> başlıklı doktora tezi için hazırlanmıştır.</div>
 
 <p class="cc-license" xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">
-  <a property="dct:title" rel="cc:attributionURL" href="https://ankaracinemap.sezerkina.com">Ankara'nın Sinema&shy;sal Karto&shy;graf&shy;yası</a> (2022)
+  <a property="dct:title" rel="cc:attributionURL" href="https://ankaracinemap.sezerkina.com">Ankara'nın Sinemasal Kartografyası</a> (2022)
   <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://sezerkina.com">Sezer Ahmet Kına</a>
-  tara&shy;fından
-  <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.tr" rel="noopener noreferrer" target="_blank">CC&nbsp;BY&#8209;NC&#8209;ND</a>
-  ile lisans&shy;lan&shy;mıştır.
+  tarafından
+  <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.tr" rel="noopener noreferrer" target="_blank">CC&nbsp;BY-NC-ND</a>
+  ile lisanslanmıştır.
 </p>
 
 
@@ -905,10 +955,13 @@ body {
 </div>
 
 <div class="tab-content" id="tab-bolgeler">
-  <div style="display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;">
-    <button class="period-btn" id="btn-show-all-polygons">Tüm bölgeleri göster</button>
+  <div id="polygon-panel" style="display:none;">
+    <div id="polygon-summary" class="polygon-summary"></div>
+    <div id="polygon-film-list"></div>
   </div>
-  <div id="bolgeler-list"></div>
+  <div id="polygon-empty" style="color:#9ca3af;font-size:10pt;line-height:1.3;">
+    Haritadan bir bölge seç.
+  </div>
 </div>
 
 
@@ -1072,12 +1125,32 @@ function loadPolygons(){
           interactive: true,
           bubblingMouseEvents: false,
           style: function(){
-            return { weight: 2, opacity: 1, fillOpacity: 0.08 };
+            return { weight: 2, opacity: 0.9, fillOpacity: 0.10, color: '#e63946', fillColor: '#e63946', lineJoin: 'round', lineCap: 'round' };
           },
           onEachFeature: function(feat, lyr){
             try{
               const n = __getPolygonName(feat.properties);
               lyr.bindPopup('<b>' + n + '</b>');
+              try{
+                lyr.bindTooltip(n, {sticky:true, direction:'top', opacity:0.95});
+              }catch(e){}
+
+              // Hover: bölgeyi belli et (seçili değilse)
+              try{
+                lyr.on('mouseover', function(){
+                  try{
+                    if(__activePolygonLayer && __activePolygonLayer === lyr) return;
+                    lyr.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.18, color: '#ffd000', fillColor: '#ff4500', lineJoin: 'round', lineCap: 'round' });
+                  }catch(e){}
+                });
+                lyr.on('mouseout', function(){
+                  try{
+                    if(__activePolygonLayer && __activePolygonLayer === lyr) return;
+                    lyr.setStyle({ weight: 2, opacity: 0.9, fillOpacity: 0.10, color: '#e63946', fillColor: '#e63946', lineJoin: 'round', lineCap: 'round' });
+                  }catch(e){}
+                });
+              }catch(e){}
+
               try{
                   lyr.on('mousedown', function(){ applyPolygonFilter(feat, n, lyr); });
                   lyr.on('click', function(){ applyPolygonFilter(feat, n, lyr); });
@@ -1098,13 +1171,9 @@ function loadPolygons(){
       // sidebar listesi
       __renderPolygonsToSidebar();
 
-      // default: tümünü göster
-      try{
-        if(bb.isValid && bb.isValid()){
-          map.fitBounds(bb.pad(0.08), { padding:[20,20], maxZoom: 13, animate:true });
-        }
-      }catch(e){}
-    })
+      // default: Tab1/Tab2 ile aynı odak/ölçek (Tab3'e girince harita zıplamasın)
+      try{ map.setView(DEFAULT_CENTER, DEFAULT_ZOOM, { animate: false }); }catch(e){}
+})
     .catch(err => console.error('poligons.geojson okunamadı:', err));
 }
 
@@ -1203,6 +1272,231 @@ function __layerInsidePolygon(layer, polyFeature){
 }
 
 
+
+function __isPointGeom(t){ return (t === 'Point' || t === 'MultiPoint'); }
+function __isLineGeom(t){ return (t === 'LineString' || t === 'MultiLineString'); }
+
+function __computeGlobalMarkerTotals(){
+  let totalPoints = 0, totalLines = 0;
+  (allKmzFeatures || []).forEach(f => {
+    const t = f && f.geometry ? f.geometry.type : null;
+    if(__isPointGeom(t)) totalPoints++;
+    else if(__isLineGeom(t)) totalLines++;
+  });
+  return { totalPoints, totalLines, totalAll: (totalPoints + totalLines) };
+
+function __isTab3Active(){
+  try{
+    const t = document.getElementById('tab-bolgeler');
+    return !!(t && t.classList && t.classList.contains('active-visible'));
+  }catch(e){ return false; }
+}
+
+function __layerInsideAnyPolygon(layer){
+  try{
+    if(!polygonFeatures || !polygonFeatures.features || !polygonFeatures.features.length) return false;
+    for(let i=0; i<polygonFeatures.features.length; i++){
+      const f = polygonFeatures.features[i];
+      if(!f || !f.geometry) continue;
+      const gt = f.geometry.type;
+      if(gt !== 'Polygon' && gt !== 'MultiPolygon') continue;
+      if(__layerInsidePolygon(layer, f)) return true;
+    }
+  }catch(e){}
+  return false;
+}
+
+function __promptSelectRegion(){
+  try{
+    const empty = document.getElementById('polygon-empty');
+    const panel = document.getElementById('polygon-panel');
+    if(panel) panel.style.display = 'none';
+    if(empty){
+      empty.style.display = 'block';
+      empty.innerHTML = 'Önce haritadan bir <b>bölge</b> seç. <span style="color:#6b7280;">(Bölge dışında kalan markerlar seçilebilir.)</span>';
+    }
+  }catch(e){}
+}
+
+function __markerClickGate(layer, ev){
+  try{
+    // Kısıt yalnızca Tab3'te ve bölge seçilmemişken geçerli
+    if(!__isTab3Active()) return true;
+    if(__activePolygonFeature) return true;
+
+    // Poligonlar henüz yüklenmediyse kısıt uygulama
+    if(!polygonFeatures) return true;
+
+    // Eğer marker herhangi bir bölgenin içindeyse: önce bölge seçilmeli
+    if(__layerInsideAnyPolygon(layer)){
+      try{ map.closePopup(); }catch(e){}
+      __promptSelectRegion();
+      // olayı mümkün olduğunca durdur
+      try{
+        if(ev && ev.originalEvent){ L.DomEvent.stop(ev.originalEvent); }
+      }catch(e){}
+      return false;
+    }
+  }catch(e){}
+  return true;
+}
+
+}
+
+function __computePolygonStats(polyFeature){
+  const filmToItems = new Map(); // film -> [{name, kind, feature}]
+  const filmSet = new Set();
+  let pts = 0, lines = 0;
+
+  (allKmzFeatures || []).forEach(f => {
+    const layer = featureToLayer.get(f);
+    if(!layer) return;
+
+    if(!__layerInsidePolygon(layer, polyFeature)) return;
+
+    const film = cleanFolderName(f?.properties?.folder) || "Bilinmeyen Film";
+    const name = (f?.properties?.name) ? String(f.properties.name) : "(Adsız Mekân)";
+    const t = f && f.geometry ? f.geometry.type : null;
+
+    let kind = 'diger';
+    if(__isPointGeom(t)) { kind = 'mekan'; pts++; }
+    else if(__isLineGeom(t)) { kind = 'rota'; lines++; }
+
+    filmSet.add(film);
+    const arr = filmToItems.get(film) || [];
+    arr.push({ name, kind, feature: f });
+    filmToItems.set(film, arr);
+  });
+
+  const totals = __computeGlobalMarkerTotals();
+  const inAll = pts + lines;
+  const pct = totals.totalAll ? (inAll / totals.totalAll * 100) : 0;
+
+  return { pts, lines, films: filmSet.size, pct, filmToItems, totals, inAll };
+}
+
+function __renderPolygonPanel(polyName, stats){
+  const panel = document.getElementById('polygon-panel');
+  const empty = document.getElementById('polygon-empty');
+  const sum = document.getElementById('polygon-summary');
+  const list = document.getElementById('polygon-film-list');
+  if(!panel || !sum || !list || !empty) return;
+
+  empty.style.display = 'none';
+  panel.style.display = 'block';
+
+  const pct1 = Math.round((stats.pct || 0) * 10) / 10;
+  const pctText = pct1.toLocaleString('tr-TR');
+
+  sum.innerHTML =
+    '<div style="font-weight:700;font-size:12pt;margin-bottom:6px;">' + __escapeHtml(polyName || 'Bölge') + '</div>' +
+    '<div class="polygon-kpis">' +
+      '<div><span class="k">Film</span><span class="v">' + (stats.films || 0) + '</span></div>' +
+      '<div><span class="k">Kartografik oran</span><span class="v">%' + pctText + '</span></div>' +
+      '<div><span class="k">Mekân</span><span class="v">' + (stats.pts || 0) + '</span></div>' +
+      '<div><span class="k">Rota</span><span class="v">' + (stats.lines || 0) + '</span></div>' +
+    '</div>';
+
+  list.innerHTML = '';
+
+  const filmsSorted = Array.from(stats.filmToItems.keys())
+    .sort((a,b)=>{
+      const ya = parseInt((String(a).match(/\b(19\d{2}|20\d{2})\b/)||[0])[0]);
+      const yb = parseInt((String(b).match(/\b(19\d{2}|20\d{2})\b/)||[0])[0]);
+      const hasA = !isNaN(ya), hasB = !isNaN(yb);
+      if(hasA && hasB && ya !== yb) return ya - yb;
+      if(hasA && !hasB) return -1;
+      if(!hasA && hasB) return 1;
+      return String(a).localeCompare(String(b), 'tr');
+    });
+filmsSorted.forEach(filmName => {
+    const wrap = document.createElement('div');
+    wrap.className = 'film';
+
+    const title = document.createElement('div');
+    title.className = 'film-title';
+    title.textContent = filmName;
+
+    const ul = document.createElement('ul');
+    ul.className = 'mekan-list';
+    ul.style.display = 'none';
+
+    const items = (stats.filmToItems.get(filmName) || []).slice();
+    items.sort((a,b)=>{
+      if(a.kind === b.kind) return String(a.name).localeCompare(String(b.name), 'tr');
+      if(a.kind === 'mekan') return -1;
+      if(b.kind === 'mekan') return 1;
+      if(a.kind === 'rota') return -1;
+      if(b.kind === 'rota') return 1;
+      return 0;
+    });
+
+    items.forEach(it => {
+      const li = document.createElement('li');
+      li.textContent = it.name + (it.kind === 'rota' ? ' (rota)' : '');
+      li.dataset.rawText = li.textContent;
+
+      li.onclick = (e) => {
+        e.stopPropagation();
+        const layer = featureToLayer.get(it.feature);
+        if(!layer) return;
+
+        let targetCenter = null;
+        let bounds = L.latLngBounds([]);
+
+        if (layer.getLatLng) {
+          targetCenter = layer.getLatLng();
+        } else if (layer.getBounds) {
+          try{ bounds.extend(layer.getBounds()); }catch(err){}
+        } else if (layer.getLayers && typeof layer.getLayers === "function") {
+          try{
+            layer.getLayers().forEach((sub) => {
+              if (sub.getLatLng) bounds.extend(sub.getLatLng());
+              else if (sub.getBounds) bounds.extend(sub.getBounds());
+            });
+          }catch(err){}
+        }
+
+        if (bounds.isValid && bounds.isValid()) targetCenter = bounds.getCenter();
+
+        if (targetCenter) {
+          map.setView(targetCenter, 16, { animate: true });
+          setTimeout(() => { try{ map.panTo(targetCenter, { animate: true }); }catch(err){} }, 200);
+        }
+
+        if (layer.openPopup) {
+          try{ layer.openPopup(); }catch(err){}
+        } else if (layer.getLayers && typeof layer.getLayers === "function") {
+          const firstSub = layer.getLayers()[0];
+          if (firstSub && firstSub.openPopup) try{ firstSub.openPopup(); }catch(err){}
+        }
+      };
+
+      ul.appendChild(li);
+    });
+
+    title.onclick = function(e){
+      ul.style.display = (ul.style.display === 'none' || ul.style.display === '') ? 'block' : 'none';
+    };
+
+    wrap.appendChild(title);
+    wrap.appendChild(ul);
+    list.appendChild(wrap);
+  });
+}
+
+function __clearPolygonPanel(){
+  const panel = document.getElementById('polygon-panel');
+  const empty = document.getElementById('polygon-empty');
+  const sum = document.getElementById('polygon-summary');
+  const list = document.getElementById('polygon-film-list');
+  if(sum) sum.innerHTML = '';
+  if(list) list.innerHTML = '';
+  if(panel) panel.style.display = 'none';
+  if(empty) empty.style.display = 'block';
+}
+
+
 function __setPolygonFilterInfo(name){
   const fi = document.getElementById('map-filter-info');
   if(!fi) return;
@@ -1218,22 +1512,28 @@ function clearPolygonFilter(){
   // poligon stili reset
   try{
     if(__activePolygonLayer && __activePolygonLayer.setStyle){
-      __activePolygonLayer.setStyle({ weight: 2, opacity: 1, fillOpacity: 0.08 });
+      __activePolygonLayer.setStyle({ weight: 2, opacity: 0.9, fillOpacity: 0.10, color: '#e63946', fillColor: '#e63946', lineJoin: 'round', lineCap: 'round' });
       // seçiliyken öne alınmışsa geri it
       __activePolygonLayer.bringToBack && __activePolygonLayer.bringToBack();
     }
   }catch(e){}
   __activePolygonLayer = null;
 
-  // tüm kmzs katmanlarını geri getir (point + diğer)
+  // Tab3'te "Temizle" => tekrar sadece poligonlar kalsın
   try{
-    __kmzPointLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
-    __kmzOtherLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
+    if(__isTab3Active && __isTab3Active()){
+      try{ allLayers.clearLayers(); }catch(e){}
+    } else {
+      // tüm kmzs katmanlarını geri getir (point + diğer)
+      __kmzPointLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
+      __kmzOtherLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
 
-    // markerlar üstte kalsın
-    __kmzPointLayers.forEach(l => { try{ l.bringToFront && l.bringToFront(); }catch(e){} });
-    __kmzOtherLayers.forEach(l => { try{ l.bringToFront && l.bringToFront(); }catch(e){} });
+      // markerlar üstte kalsın
+      __kmzPointLayers.forEach(l => { try{ l.bringToFront && l.bringToFront(); }catch(e){} });
+      __kmzOtherLayers.forEach(l => { try{ l.bringToFront && l.bringToFront(); }catch(e){} });
+    }
   }catch(e){}
+  __clearPolygonPanel();
   clearFilterInfo();
 }
 
@@ -1244,7 +1544,7 @@ function applyPolygonFilter(polyFeature, polyName, polyLeafletLayer){
   // önce eski seçiliyi resetle
   try{
     if(__activePolygonLayer && __activePolygonLayer.setStyle){
-      __activePolygonLayer.setStyle({ weight: 2, opacity: 1, fillOpacity: 0.08 });
+      __activePolygonLayer.setStyle({ weight: 2, opacity: 0.9, fillOpacity: 0.10, color: '#e63946', fillColor: '#e63946', lineJoin: 'round', lineCap: 'round' });
       __activePolygonLayer.bringToBack && __activePolygonLayer.bringToBack();
     }
   }catch(e){}
@@ -1253,7 +1553,7 @@ function applyPolygonFilter(polyFeature, polyName, polyLeafletLayer){
   // seçili poligonu vurgula ama markerların üstüne çıkmasına izin verme
   try{
     if(__activePolygonLayer && __activePolygonLayer.setStyle){
-      __activePolygonLayer.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.18 });
+      __activePolygonLayer.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.22, color: '#ffd000', fillColor: '#ffd000', lineJoin: 'round', lineCap: 'round' });
       __activePolygonLayer.bringToBack && __activePolygonLayer.bringToBack();
     }
   }catch(e){}
@@ -1281,6 +1581,8 @@ function applyPolygonFilter(polyFeature, polyName, polyLeafletLayer){
       }
     });
   }catch(e){}
+
+  try{ const __st = __computePolygonStats(polyFeature); __renderPolygonPanel(polyName, __st); }catch(e){}
 
   __setPolygonFilterInfo(polyName);
 }
@@ -1553,7 +1855,9 @@ if (imgs.length === 1) {
 popup += `</div>`;
 if(layer.getLayers && typeof layer.getLayers === 'function'){
           layer.getLayers().forEach(ch => { if(ch.bindPopup) ch.bindPopup(popup); ch.feature = f; allLayers.addLayer(ch); featureToLayer.set(f, ch); __indexFeatureLayer(f, ch); if (ch.on) {
-      ch.on('click', function(){
+      ch.on('click', function(e){
+        try{ if(!__markerClickGate(ch, e)) return; }catch(err){}
+        if(!__markerClickGate(this, e)) return;
         let tc=null;
         if (ch.getLatLng) tc=ch.getLatLng();
         else if (ch.getBounds) tc=ch.getBounds().getCenter();
@@ -1568,6 +1872,9 @@ if(layer.getLayers && typeof layer.getLayers === 'function'){
 if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
   layer.off('click'); // varsa eski click eventini kaldır
   layer.on('click', function (e) {
+    try{ if(!__markerClickGate(layer, e)) return; }catch(err){}
+    if(!__markerClickGate(layer, e)) return;
+    if(!__markerClickGate(this, e)) return;
     const center = layer.getBounds().getCenter();
     map.openPopup(popup, center);
   });
@@ -1581,7 +1888,9 @@ if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
           }catch(e){}
           allLayers.addLayer(layer);
           featureToLayer.set(f, layer); __indexFeatureLayer(f, layer); if (layer.on) {
-      layer.on('click', function(){
+      layer.on('click', function(e){
+        try{ if(!__markerClickGate(layer, e)) return; }catch(err){}
+        if(!__markerClickGate(this, e)) return;
         let tc=null;
         if (layer.getLatLng) tc=layer.getLatLng();
         else if (layer.getBounds) tc=layer.getBounds().getCenter();
@@ -2037,8 +2346,13 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
       document.getElementById('film-list').style.display = 'none';
       document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
       clearFilterInfo();
-      // Tab3'te poligon + kmzs (noktasal/çizgisel) birlikte görünsün
-      loadKmzs(function(){ loadPolygons(); });
+      // Tab3: önce sadece poligonlar görünsün; bölge seçilince içerideki marker/rota görünsün
+      loadKmzs(function(){
+        try{ __activePolygonFeature = null; __activePolygonName = null; __activePolygonLayer = null; }catch(e){}
+        try{ __clearPolygonPanel && __clearPolygonPanel(); }catch(e){}
+        try{ allLayers.clearLayers(); }catch(e){}
+        loadPolygons();
+      });
     } else {
       document.getElementById('search').style.display = 'none';
       document.getElementById('film-list').style.display = 'none';
