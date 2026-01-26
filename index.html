@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ankara'nın Sinemasal Kartografyası</title>
+<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+<script>
+  (function(){
+    function ensureHidden() {
+      document.querySelectorAll('.leaflet-control-attribution, .leaflet-control-scale').forEach(el => { try{ el.remove(); }catch(e){} });
+      const s = document.createElement('style');
+      s.id = 'force-hide-leaflet-credits';
+      s.innerHTML = '.leaflet-control-attribution, .leaflet-control-scale{display:none !important; visibility:hidden !important; height:0 !important; margin:0 !important; padding:0 !important;}';
+      if(!document.getElementById('force-hide-leaflet-credits')) document.head.appendChild(s);
+    }
+    ensureHidden();
+    setTimeout(ensureHidden, 250);
+    setTimeout(ensureHidden, 800);
+    window._ensureHiddenInterval = setInterval(ensureHidden, 1200);
+
+    function setupScale(map){
+      if(!map) return;
+      if(window._ensureHiddenInterval) { clearInterval(window._ensureHiddenInterval); window._ensureHiddenInterval = null; }
+      let scaleDiv = document.querySelector('.custom-scale');
+      if(!scaleDiv){
+        scaleDiv = L.DomUtil.create('div', 'custom-scale');
+        scaleDiv.style.position = 'absolute';
+        scaleDiv.style.bottom = '8px';
+        scaleDiv.style.right = '75px';
+        scaleDiv.style.background = 'rgba(255,255,255,0.95)';
+        scaleDiv.style.padding = '4px 8px';
+        scaleDiv.style.borderRadius = '4px';
+        scaleDiv.style.fontSize = '11px';
+        scaleDiv.style.fontWeight = '600';
+        scaleDiv.style.boxShadow = '0 1px 2px rgba(0,0,0,0.08)';
+        scaleDiv.style.zIndex = '1000';
+        if(map.getContainer()) map.getContainer().appendChild(scaleDiv);
+      }
+      function updateScale() {
+        const lat = map.getCenter().lat * Math.PI / 180;
+        const metersPerPixel = 40075016.686 * Math.cos(lat) / Math.pow(2, map.getZoom() + 8);
+        const scale = Math.round(1 / (metersPerPixel / 0.000264583));
+        scaleDiv.textContent = '1:' + scale.toLocaleString('tr-TR');
+      }
+      map.on('zoomend moveend viewreset', updateScale);
+      updateScale();
+      const z = document.querySelector('.leaflet-control-zoom');
+      if(z){ z.style.right = '10px'; z.style.bottom = '30px'; z.style.transition = 'right 0.2s, bottom 0.2s'; }
+    }
+
+</script>
+<style>
+html,body{
+  height:100%;
+  margin:0;
+  font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+  background:#f7f9fb;
+  overflow:hidden;
+}
+
+
+#sidebar{
+  position:absolute;
+  left:0;top:0;
+  width:340px;height:100%;
+  background:#fff;
+  border-right:1px solid #e6eef6;
+  box-shadow:2px 0 6px rgba(0,0,0,0.06);
+  padding:18px;
+  box-sizing:border-box;
+  overflow:auto;
+  transition:transform .35s ease;
+  z-index:1200;
+
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+#sidebar.closed{transform:translateX(-100%);box-shadow:none;border-right:none;}
+#toggle-btn{
+  position:absolute;
+  top:20px;left:340px;
+  width:28px;height:48px;
+  background:#fff;border:1px solid #d0d7df;border-left:none;
+  border-radius:0 6px 6px 0;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:2000;
+  box-shadow:0 1px 3px rgba(0,0,0,0.15);
+  transition:background 0.2s ease, left .35s ease;
+}
+#toggle-btn:hover{background:#f3f4f6;}
+#toggle-btn span{font-size:14pt;color:#e5e7eb;user-select:none;}
+#sidebar h1{font-weight:700;font-size:12pt;margin:4px 0 8px;}
+#sidebar .description{font-weight:400;font-style: normal;font-size:8pt;color:#445;line-height:1.2;margin-bottom:12px;
+  text-align: left !important;
+  word-spacing: normal;
+  letter-spacing: normal;
+
+  text-align: justify !important;
+  text-align-last: left;
+}
+#search{width:100%;padding:6px 8px;font-size:8pt;font-style:italic;border:1px solid #d0d7df;border-radius:6px;margin-bottom:12px;box-sizing:border-box;}
+#search:focus { outline: none !important; }
+
+.film{margin-bottom:10px;border-bottom:1px solid #f0f4f8;padding-bottom:8px;}
+#film-list{margin-bottom:0 !important;padding-bottom:0 !important;}
+
+.film:last-of-type{margin-bottom:0;border-bottom:none;padding-bottom:0;}
+.film-title{cursor:pointer;font-weight:500;font-size:11pt;color:#e5e7eb;margin-bottom:6px;}
+.mekan-list{list-style:disc;margin:0 0 0 18px;padding:0;display:none;}
+.mekan-list li{font-weight:400;font-size:9pt;margin-bottom:6px;cursor:pointer;color:#e5e7eb;}
+.mekan-list li:hover{text-decoration:underline;}
+#map{position:absolute;left:0;top:0;right:0;bottom:0;z-index:1;}
+.leaflet-control-zoom{position:absolute !important;bottom: 30px;right:20px;transform: scale(0.75);border-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,0.1);}
+.leaflet-popup-content img{max-width:200px;height:auto;border-radius:6px;margin-top:6px;display:block;}
+.leaflet-popup-content-wrapper {width:280px !important;max-width:280px !important;}
+.leaflet-popup-content { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif !important; font-weight: 400; }
+
+
+
+.numeric-scale {
+      position:absolute;
+      top:8px;
+      bottom:auto;
+      right:8px;
+      z-index:1000;
+      background:rgba(255,255,255,0.7);
+      border-radius:4px;
+      padding:2px 6px;
+      font-size:10px;
+      color:#374151;
+      font-family:system-ui, sans-serif;
+      pointer-events:none;
+    }
+    .map-attribution{
+      position:absolute;
+      bottom:6px;
+      right:8px;
+      z-index:1000;
+      background:rgba(255,255,255,0.7);
+      border-radius:4px;
+      padding:2px 6px;
+      font-size:10px;
+      color:#374151;
+      font-family:system-ui, sans-serif;
+      line-height:1.2;
+    }
+    .map-attribution .credit-full{ display:none; }
+    .map-attribution .credit-short{ display:inline; }
+
+    /* Hover / focus ile tam kredi metnini göster */
+    .map-attribution:hover .credit-full,
+    .map-attribution:focus-within .credit-full{ display:inline; }
+    .map-attribution:hover .credit-short,
+    .map-attribution:focus-within .credit-short{ display:none; }
+
+    /* Mobilde hover yok: tam metin her zaman görünsün */
+    @media (max-width: 768px){
+      .map-attribution .credit-full{ display:inline; }
+      .map-attribution .credit-short{ display:none; }
+    }
+
+    .map-attribution a{
+      color:#374151;
+      text-decoration:none;
+    }
+    .map-attribution a:hover{ text-decoration:underline; }
+
+
+
+
+
+
+.leaflet-control-zoom {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+
+
+
+.leaflet-control-attribution {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+
+.tab-btn.active {
+  background: #e8ecf3 !important;
+  font-weight: 600 !important;
+  border-color: #ccc !important;
+}
+
+
+.tab-btn {
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+}
+.tab-btn:hover {
+  background: #f1f4f9 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+
+.tab-content {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.tab-content.active-visible {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  position: relative;
+  z-index: 10;
+}
+.tab-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.tab-content.active-visible {
+  display: block;
+  opacity: 1;
+}
+
+
+.film-title {
+  transition: background-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease, color 0.18s ease;
+  padding:6px 8px;
+  border-radius:6px;
+}
+.film-title:hover {
+  background: #f1f4f9;
+  transform: translateY(-2px);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  color: #111;
+}
+.mekan-list li {
+  transition: transform 0.16s ease, color 0.16s ease, padding-left 0.16s ease;
+  padding-left:2px;
+  border-radius:4px;
+}
+.mekan-list li:hover {
+  transform: translateX(4px);
+  color: #111;
+  text-decoration: none;
+  background: rgba(0,0,0,0.01);
+  padding-left:6px;
+}
+
+#filter-info { font-size:12px; color:#0f172a; display:none; }
+#filter-info .btn-clear { margin-left:8px; cursor:pointer; color:#2563eb; font-weight:600; text-decoration:underline; background:none;border:none;padding:0; }
+
+
+
+.film-title.selected {
+  background: #e8ecf3 !important;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  border-radius: 6px;
+  transform: translateY(-1px);
+}
+
+
+#map-filter-info {
+  color: #444455 !important;
+}
+#map-filter-info .btn-clear:hover {
+  background: #f2f4fa !important;
+}
+
+#map-filter-info {
+  color: #444455 !important;
+}
+
+#map-filter-info .btn-clear {
+  margin-left: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  background: #f2f3f7; 
+  color: #333;
+  border: none; 
+  border-radius: 6px;
+  padding: 6px 10px;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+}
+
+#map-filter-info .btn-clear:hover {
+  background: #f2f4fa !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+
+@media (max-width: 768px) {
+  #sidebar {
+    width: 100%;
+    height: auto;
+    max-height: 50%;
+    top: auto;
+    bottom: 0;
+    border-right: none;
+    border-top: 1px solid #e6eef6;
+    transform: translateY(0);
+  }
+  #sidebar.closed {
+    transform: translateY(100%);
+  }
+  #toggle-btn {
+    top: auto;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 28px;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid #d0d7df;
+    border-bottom: none;
+  }
+  #sidebar.closed + #toggle-btn {
+    bottom: 0;
+  }
+}
+
+.tab-container {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e6eef6;
+  padding-bottom: 8px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 8px 12px;
+  background: #f9fafb;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 9pt;
+  font-weight: 500;
+  text-align: center;
+  color: #374151;
+}
+
+.tab-btn.active {
+  background: #e8ecf3;
+  font-weight: 600;
+  border-color: #ccc;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active-visible {
+  display: block;
+}
+
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div id="sidebar">
+  <h1>Ankara'nın Sinemasal Kartografyası</h1>
+  
+  <div class="tab-container">
+    <div class="tab-btn active" data-tab="tab1">Filmler ve Mekânlar</div>
+    <div class="tab-btn" data-tab="tab2">Mekânsal Dağılım ve Yoğunluk</div>
+    <div class="tab-btn" data-tab="tab3">Bölgesel Dağılım</div>
+  </div>
+
+  <!-- TAB 1: Filmler ve Mekânlar -->
+  <div class="tab-content active-visible" id="tab1">
+    <p class="description">
+      Bu harita, Ankara'da çekilmiş filmlerin mekânsal dağılımını görselleştirir. 
+      Aşağıdaki listeden bir film seçerek o filme ait çekim noktalarını haritada görebilir, 
+      mekân isimlerine tıklayarak detaylı bilgilere ulaşabilirsiniz.
+    </p>
+
+    <div id="map-filter-info" style="margin-bottom:12px; padding:8px; background:#f0f4f8; border-radius:6px; font-size:10pt; display:none;">
+      <span id="filter-text"></span>
+      <button class="btn-clear">Temizle</button>
+    </div>
+
+    <input type="text" id="search" placeholder="Film veya mekân ara..."/>
+    
+    <div id="film-list"></div>
+  </div>
+
+  <!-- TAB 2: Mekânsal Dağılım ve Yoğunluk -->
+  <div class="tab-content" id="tab2">
+    <p class="description">
+      Bu görünümde, Ankara'daki film çekim noktalarının yoğunluk haritasını (heatmap) görebilirsiniz. 
+      Kırmızı tonlar yoğun çekim yapılan bölgeleri, mavi tonlar ise daha az kullanılan alanları temsil eder.
+    </p>
+  </div>
+
+  <!-- TAB 3: Bölgesel Dağılım -->
+  <div class="tab-content" id="tab3">
+    <p class="description">Bölgesel dağılım içeriği buraya gelecek.</p>
+  </div>
+
+</div>
+
+<div id="toggle-btn">
+  <span>◀</span>
+</div>
+
+<script>
+// Veri
+const filmData = [
+  {
+    "film": "Selvi Boylum Al Yazmalım",
+    "yonetmen": "Atıf Yılmaz",
+    "yil": 1977,
+    "mekanlar": [
+      {"ad": "Anıtkabir", "lat": 39.9250, "lng": 32.8369, "aciklama": "Açılış sahnesi", "resim": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/An%C4%B1tkabir_Ankara_2014_08.JPG/800px-An%C4%B1tkabir_Ankara_2014_08.JPG"},
+      {"ad": "Kızılay Meydanı", "lat": 39.9199, "lng": 32.8543, "aciklama": "Şehir sahneleri"},
+      {"ad": "Ulus Meydanı", "lat": 39.9450, "lng": 32.8597, "aciklama": "Karşılaşma sahnesi"}
+    ]
+  },
+  {
+    "film": "Hababam Sınıfı",
+    "yonetmen": "Ertem Eğilmez",
+    "yil": 1975,
+    "mekanlar": [
+      {"ad": "Ankara Üniversitesi Cebeci Kampüsü", "lat": 39.9400, "lng": 32.8700, "aciklama": "Okul sahneleri", "resim": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Ankara_%C3%9Cniversitesi_Cebeci_Kamp%C3%BCs%C3%BC.jpg/800px-Ankara_%C3%9Cniversitesi_Cebeci_Kamp%C3%BCs%C3%BC.jpg"},
+      {"ad": "Gençlik Parkı", "lat": 39.9300, "lng": 32.8550, "aciklama": "Park sahneleri"}
+    ]
+  },
+  {
+    "film": "Aşk Filmlerinin Unutulmaz Yönetmeni",
+    "yonetmen": "Çağan Irmak",
+    "yil": 2014,
+    "mekanlar": [
+      {"ad": "Kuğulu Park", "lat": 39.9100, "lng": 32.8600, "aciklama": "Romantik sahneler", "resim": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Ku%C4%9Fulu_Park%2C_Ankara.jpg/800px-Ku%C4%9Fulu_Park%2C_Ankara.jpg"},
+      {"ad": "Tunalı Hilmi Caddesi", "lat": 39.9150, "lng": 32.8500, "aciklama": "Sokak sahneleri"},
+      {"ad": "Atakule", "lat": 39.8920, "lng": 32.8610, "aciklama": "Şehir manzarası", "resim": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Atakule_-_panoramio.jpg/800px-Atakule_-_panoramio.jpg"}
+    ]
+  },
+  {
+    "film": "Bizim Büyük Çaresizliğimiz",
+    "yonetmen": "Seyfi Teoman",
+    "yil": 2011,
+    "mekanlar": [
+      {"ad": "Ankara Kalesi", "lat": 39.9400, "lng": 32.8650, "aciklama": "Tarihi doku", "resim": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Ankara_Castle.jpg/800px-Ankara_Castle.jpg"},
+      {"ad": "Hamamönü", "lat": 39.9380, "lng": 32.8620, "aciklama": "Sokak sahneleri", "resim": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Hamam%C3%B6n%C3%BC%2C_Ankara.jpg/800px-Hamam%C3%B6n%C3%BC%2C_Ankara.jpg"}
+    ]
+  },
+  {
+    "film": "Mutluluk",
+    "yonetmen": "Abdullah Oğuz",
+    "yil": 2007,
+    "mekanlar": [
+      {"ad": "ODTÜ Kampüsü", "lat": 39.8917, "lng": 32.7806, "aciklama": "Üniversite sahneleri", "resim": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/METU_Campus.jpg/800px-METU_Campus.jpg"},
+      {"ad": "Dikmen Vadisi", "lat": 39.8800, "lng": 32.8700, "aciklama": "Doğa sahneleri"}
+    ]
+  }
+];
+
+// Harita
+const map = L.map('map', {
+  zoomControl: false
+}).setView([39.9208, 32.8541], 12);
+
+L.control.zoom({
+  position: 'bottomright'
+}).addTo(map);
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '',
+  maxZoom: 19
+}).addTo(map);
+
+let allMarkers = [];
+let heatmapLayer = null;
+let currentFilmFilter = null;
+
+// Marker oluştur
+function createMarkers() {
+  filmData.forEach(film => {
+    film.mekanlar.forEach(mekan => {
+      const marker = L.marker([mekan.lat, mekan.lng]);
+      
+      let popupContent = `<b>${mekan.ad}</b><br><i>${film.film}</i> (${film.yil})<br>${mekan.aciklama}`;
+      if (mekan.resim) {
+        popupContent += `<br><img src="${mekan.resim}" alt="${mekan.ad}"/>`;
+      }
+      
+      marker.bindPopup(popupContent);
+      marker.filmAdi = film.film;
+      marker.mekanAdi = mekan.ad;
+      allMarkers.push(marker);
+    });
+  });
+}
+
+createMarkers();
+
+// Marker'ları haritaya ekle
+function showMarkers(filmFilter = null) {
+  allMarkers.forEach(m => m.remove());
+  
+  allMarkers.forEach(marker => {
+    if (!filmFilter || marker.filmAdi === filmFilter) {
+      marker.addTo(map);
+    }
+  });
+}
+
+// Heatmap oluştur
+function showHeatmap() {
+  if (heatmapLayer) {
+    map.removeLayer(heatmapLayer);
+  }
+  
+  const heatData = [];
+  filmData.forEach(film => {
+    film.mekanlar.forEach(mekan => {
+      heatData.push([mekan.lat, mekan.lng, 0.8]);
+    });
+  });
+  
+  heatmapLayer = L.heatLayer(heatData, {
+    radius: 25,
+    blur: 35,
+    maxZoom: 13,
+    max: 1.0,
+    gradient: {
+      0.0: '#3b82f6',
+      0.3: '#22c55e',
+      0.5: '#eab308',
+      0.7: '#f97316',
+      1.0: '#ef4444'
+    }
+  }).addTo(map);
+}
+
+// Film listesi oluştur
+function renderFilmList(searchTerm = '') {
+  const filmList = document.getElementById('film-list');
+  filmList.innerHTML = '';
+  
+  const filteredFilms = filmData.filter(film => {
+    const filmMatch = film.film.toLowerCase().includes(searchTerm.toLowerCase());
+    const mekanMatch = film.mekanlar.some(m => m.ad.toLowerCase().includes(searchTerm.toLowerCase()));
+    return filmMatch || mekanMatch;
+  });
+  
+  filteredFilms.forEach(film => {
+    const filmDiv = document.createElement('div');
+    filmDiv.className = 'film';
+    
+    const filmTitle = document.createElement('div');
+    filmTitle.className = 'film-title';
+    filmTitle.textContent = `${film.film} (${film.yil})`;
+    
+    if (currentFilmFilter === film.film) {
+      filmTitle.classList.add('selected');
+    }
+    
+    filmTitle.onclick = () => {
+      if (currentFilmFilter === film.film) {
+        currentFilmFilter = null;
+        filmTitle.classList.remove('selected');
+        showMarkers();
+        document.getElementById('map-filter-info').style.display = 'none';
+      } else {
+        document.querySelectorAll('.film-title').forEach(t => t.classList.remove('selected'));
+        currentFilmFilter = film.film;
+        filmTitle.classList.add('selected');
+        showMarkers(film.film);
+        
+        document.getElementById('filter-text').textContent = `Gösterilen: ${film.film}`;
+        document.getElementById('map-filter-info').style.display = 'block';
+      }
+      
+      const mekanList = filmTitle.nextElementSibling;
+      if (mekanList && mekanList.classList.contains('mekan-list')) {
+        mekanList.style.display = mekanList.style.display === 'block' ? 'none' : 'block';
+      }
+    };
+    
+    const mekanList = document.createElement('ul');
+    mekanList.className = 'mekan-list';
+    
+    film.mekanlar.forEach(mekan => {
+      const li = document.createElement('li');
+      li.textContent = mekan.ad;
+      li.onclick = (e) => {
+        e.stopPropagation();
+        map.setView([mekan.lat, mekan.lng], 15);
+        allMarkers.find(m => m.mekanAdi === mekan.ad && m.filmAdi === film.film).openPopup();
+      };
+      mekanList.appendChild(li);
+    });
+    
+    filmDiv.appendChild(filmTitle);
+    filmDiv.appendChild(mekanList);
+    filmList.appendChild(filmDiv);
+  });
+}
+
+// Arama
+document.getElementById('search').addEventListener('input', (e) => {
+  renderFilmList(e.target.value);
+});
+
+// Filtre temizle
+document.querySelector('#map-filter-info .btn-clear').addEventListener('click', () => {
+  currentFilmFilter = null;
+  showMarkers();
+  document.getElementById('map-filter-info').style.display = 'none';
+  document.querySelectorAll('.film-title').forEach(t => t.classList.remove('selected'));
+});
+
+// Sidebar toggle
+const sidebar = document.getElementById('sidebar');
+const toggleBtn = document.getElementById('toggle-btn');
+
+toggleBtn.addEventListener('click', () => {
+  sidebar.classList.toggle('closed');
+  toggleBtn.querySelector('span').textContent = sidebar.classList.contains('closed') ? '▶' : '◀';
+});
+
+// Tab geçişleri
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetTab = btn.getAttribute('data-tab');
+    
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    document.querySelectorAll('.tab-content').forEach(content => {
+      content.classList.remove('active-visible');
+    });
+    
+    const targetContent = document.getElementById(targetTab);
+    targetContent.classList.add('active-visible');
+    
+    // Harita içeriğini güncelle
+    allMarkers.forEach(m => m.remove());
+    if (heatmapLayer) map.removeLayer(heatmapLayer);
+    
+    if (targetTab === 'tab1') {
+      showMarkers(currentFilmFilter);
+    } else if (targetTab === 'tab2') {
+      showHeatmap();
+    } else if (targetTab === 'tab3') {
+      // Tab 3 içeriği buraya gelecek
+    }
+  });
+});
+
+// İlk yükleme
+renderFilmList();
+showMarkers();
+
+</script>
+
+</body>
+</html>
