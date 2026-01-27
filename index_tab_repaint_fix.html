@@ -1,0 +1,2790 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ankara’nın Sinemasal Kartografyası</title>
+<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+<script>
+  (function(){
+    function ensureHidden() {
+      document.querySelectorAll('.leaflet-control-attribution, .leaflet-control-scale').forEach(el => { try{ el.remove(); }catch(e){} });
+      const s = document.createElement('style');
+      s.id = 'force-hide-leaflet-credits';
+      s.innerHTML = '.leaflet-control-attribution, .leaflet-control-scale{display:none !important; visibility:hidden !important; height:0 !important; margin:0 !important; padding:0 !important;}';
+      if(!document.getElementById('force-hide-leaflet-credits')) document.head.appendChild(s);
+    }
+    ensureHidden();
+    setTimeout(ensureHidden, 250);
+    setTimeout(ensureHidden, 800);
+    window._ensureHiddenInterval = setInterval(ensureHidden, 1200);
+
+    function setupScale(map){
+      if(!map) return;
+      if(window._ensureHiddenInterval) { clearInterval(window._ensureHiddenInterval); window._ensureHiddenInterval = null; }
+      let scaleDiv = document.querySelector('.custom-scale');
+      if(!scaleDiv){
+        scaleDiv = L.DomUtil.create('div', 'custom-scale');
+        scaleDiv.style.position = 'absolute';
+        scaleDiv.style.bottom = '8px';
+        scaleDiv.style.right = '75px';
+        scaleDiv.style.background = 'rgba(255,255,255,0.95)';
+        scaleDiv.style.padding = '4px 8px';
+        scaleDiv.style.borderRadius = '4px';
+        scaleDiv.style.fontSize = '11px';
+        scaleDiv.style.fontWeight = '600';
+        scaleDiv.style.boxShadow = '0 1px 2px rgba(0,0,0,0.08)';
+        scaleDiv.style.zIndex = '1000';
+        if(map.getContainer()) map.getContainer().appendChild(scaleDiv);
+      }
+      function updateScale() {
+        const lat = map.getCenter().lat * Math.PI / 180;
+        const metersPerPixel = 40075016.686 * Math.cos(lat) / Math.pow(2, map.getZoom() + 8);
+        const scale = Math.round(1 / (metersPerPixel / 0.000264583));
+        scaleDiv.textContent = '1:' + scale.toLocaleString('tr-TR');
+      }
+      map.on('zoomend moveend viewreset', updateScale);
+      updateScale();
+      const z = document.querySelector('.leaflet-control-zoom');
+      if(z){ z.style.right = '10px'; z.style.bottom = '30px'; z.style.transition = 'right 0.2s, bottom 0.2s'; }
+    }
+
+</script>
+<style>
+html,body{
+  height:100%;
+  margin:0;
+  font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+  background:#f7f9fb;
+  overflow:hidden;
+}
+
+
+#sidebar{
+  position:absolute;
+  left:0;top:0;
+  width:340px;height:100%;
+  background:#fff;
+  border-right:1px solid #e6eef6;
+  box-shadow:2px 0 6px rgba(0,0,0,0.06);
+  padding:18px;
+  box-sizing:border-box;
+  overflow:auto;
+  transition:transform .35s ease;
+  z-index:1200;
+
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+#sidebar.closed{transform:translateX(-100%);box-shadow:none;border-right:none;}
+#toggle-btn{
+  position:absolute;
+  top:20px;left:340px;
+  width:28px;height:48px;
+  background:#fff;border:1px solid #d0d7df;border-left:none;
+  border-radius:0 6px 6px 0;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:2000;
+  box-shadow:0 1px 3px rgba(0,0,0,0.15);
+  transition:background 0.2s ease, left .35s ease;
+}
+#toggle-btn:hover{background:#f3f4f6;}
+#toggle-btn span{font-size:14pt;color:#e5e7eb;user-select:none;}
+#sidebar h1{font-weight:700;font-size:12pt;margin:4px 0 8px;}
+#sidebar .description{font-weight:400;font-style: normal;font-size:8pt;color:#445;line-height:1.2;margin-bottom:12px;
+  text-align: left !important;
+  word-spacing: normal;
+  letter-spacing: normal;
+
+  text-align: justify !important;
+  text-align-last: left;
+}
+#search{width:100%;padding:6px 8px;font-size:8pt;font-style:italic;border:1px solid #d0d7df;border-radius:6px;margin-bottom:12px;box-sizing:border-box;}
+#search:focus { outline: none !important; }
+
+.film{margin-bottom:10px;border-bottom:1px solid #f0f4f8;padding-bottom:8px;}
+#film-list{margin-bottom:0 !important;padding-bottom:0 !important;}
+
+.film:last-of-type{margin-bottom:0;border-bottom:none;padding-bottom:0;}
+.film-title{cursor:pointer;font-weight:500;font-size:11pt;color:#e5e7eb;margin-bottom:6px;}
+.mekan-list{list-style:disc;margin:0 0 0 18px;padding:0;display:none;}
+.mekan-list li{font-weight:400;font-size:9pt;margin-bottom:6px;cursor:pointer;color:#e5e7eb;}
+.mekan-list li:hover{text-decoration:underline;}
+#map{position:absolute;left:0;top:0;right:0;bottom:0;z-index:1;}
+.leaflet-control-zoom{position:absolute !important;bottom: 30px;right:20px;transform: scale(0.75);border-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,0.1);}
+.leaflet-popup-content img{max-width:200px;height:auto;border-radius:6px;margin-top:6px;display:block;}
+.leaflet-popup-content-wrapper {width:280px !important;max-width:280px !important;}
+.leaflet-popup-content { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif !important; font-weight: 400; }
+
+
+
+.numeric-scale {
+      position:absolute;
+      top:8px;
+      bottom:auto;
+      right:8px;
+      z-index:1000;
+      background:rgba(255,255,255,0.7);
+      border-radius:4px;
+      padding:2px 6px;
+      font-size:10px;
+      color:#374151;
+      font-family:system-ui, sans-serif;
+      pointer-events:none;
+    }
+    .map-attribution{
+      position:absolute;
+      bottom:6px;
+      right:8px;
+      z-index:1000;
+      background:rgba(255,255,255,0.7);
+      border-radius:4px;
+      padding:2px 6px;
+      font-size:10px;
+      color:#374151;
+      font-family:system-ui, sans-serif;
+      line-height:1.2;
+    }
+    .map-attribution .credit-full{ display:none; }
+    .map-attribution .credit-short{ display:inline; }
+
+    /* Hover / focus ile tam kredi metnini göster */
+    .map-attribution:hover .credit-full,
+    .map-attribution:focus-within .credit-full{ display:inline; }
+    .map-attribution:hover .credit-short,
+    .map-attribution:focus-within .credit-short{ display:none; }
+
+    /* Mobilde hover yok: tam metin her zaman görünsün */
+    @media (max-width: 768px){
+      .map-attribution .credit-full{ display:inline; }
+      .map-attribution .credit-short{ display:none; }
+    }
+
+    .map-attribution a{
+      color:#374151;
+      text-decoration:none;
+    }
+    .map-attribution a:hover{ text-decoration:underline; }
+
+
+
+
+
+
+.leaflet-control-zoom {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+
+
+
+.leaflet-control-attribution {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+
+.tab-btn.active {
+  background: #e8ecf3 !important;
+  font-weight: 600 !important;
+  border-color: #ccc !important;
+}
+
+
+.tab-btn {
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+}
+.tab-btn:hover {
+  background: #f1f4f9 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+
+.tab-content {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.tab-content.active-visible {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  position: relative;
+  z-index: 10;
+}
+.tab-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.tab-content.active-visible {
+  display: block;
+  opacity: 1;
+}
+
+
+.film-title {
+  transition: background-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease, color 0.18s ease;
+  padding:6px 8px;
+  border-radius:6px;
+}
+.film-title:hover {
+  background: #f1f4f9;
+  transform: translateY(-2px);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  color: #111;
+}
+.mekan-list li {
+  transition: transform 0.16s ease, color 0.16s ease, padding-left 0.16s ease;
+  padding-left:2px;
+  border-radius:4px;
+}
+.mekan-list li:hover {
+  transform: translateX(4px);
+  color: #111;
+  text-decoration: none;
+  background: rgba(0,0,0,0.01);
+  padding-left:6px;
+}
+
+#filter-info { font-size:12px; color:#0f172a; display:none; }
+#filter-info .btn-clear{
+  /* Keep text size as-is (inherit), just reduce button box height */
+  font: inherit;
+  padding: 0 10px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  line-height: 22px !important;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+}
+
+
+
+.film-title.selected {
+  background: #e8ecf3 !important;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  border-radius: 6px;
+  transform: translateY(-1px);
+}
+
+
+#map-filter-info {
+  color: #444455 !important;
+}
+#map-filter-info .btn-clear:hover {
+  background: #f2f4fa !important;
+}
+
+#map-filter-info {
+  color: #444455 !important;
+}
+
+#map-filter-info .btn-clear {
+  margin-left: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  background: #f2f3f7; 
+  color: #333;
+  border: none; 
+  border-radius: 6px;
+  padding: 6px 10px;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+}
+
+#map-filter-info .btn-clear:hover {
+  background: #f2f4fa !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+
+@media (max-width: 768px) {
+
+  .tab-btn {
+    color: #333 !important;
+  }
+
+
+  #sidebar {
+    width: 200px !important;
+  }
+
+
+  #toggle-btn {
+    left: 200px !important;
+  }
+
+
+  #sidebar.closed + #toggle-btn {
+    left: 0 !important;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+
+  #sidebar {
+    width: 220px !important;
+  }
+
+
+  #toggle-btn {
+    left: 220px !important;
+  }
+
+  #sidebar.closed + #toggle-btn {
+    left: 0 !important;
+  }
+
+
+  #map-filter-info {
+    width: 90% !important;
+    max-width: 90% !important;
+    font-size: 11px !important;
+    padding: 4px 8px !important;
+    text-align: center !important;
+    bottom: 10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border-radius: 8px !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .numeric-scale {
+    display: none !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .film-title {
+    font-size: 10pt !important;
+  }
+}
+
+
+
+.leaflet-popup-content img[src=""], 
+.leaflet-popup-content img:not([src]), 
+.leaflet-popup-content img[src*="lh3.googleusercontent.com"],
+.leaflet-popup-content img[src*="mymaps.usercontent.google.com"] {
+  display: none !important;
+}
+
+
+.carousel-container {
+  margin-top: 4px;
+  display: inline-block;
+}
+
+.carousel-controls {
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carousel-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.carousel-btn {
+  border: 1px solid #d0d7df;
+  background: #f5f7fa;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  line-height: 1.2;
+  cursor: pointer;
+  font-family: inherit;
+  color: #333;
+}
+
+.carousel-btn:hover {
+  background: #e8ecf3;
+}
+
+.carousel-counter {
+  font-size: 10px;
+  color: #555;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #d0d7df;
+  background: #f9fafb;
+  font-family: inherit;
+}
+
+
+.period-btn {
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:6px 8px;
+  margin-bottom:6px;
+  font-size:11pt;
+  border:1px solid #f0f4f8;
+  border-radius:6px;
+  background:#fff;
+  color:#e5e7eb;
+  cursor:pointer;
+  transition: background-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+}
+.period-btn:hover {
+  background:#f1f4f9;
+  transform: translateY(-2px);
+  box-shadow:0 1px 6px rgba(0,0,0,0.06);
+}
+.period-btn.active {
+  background:#e8ecf3 !important;
+  font-weight:600 !important;
+  box-shadow:0 1px 4px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+#map-filter-info .btn-clear {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.description-justify{
+  text-align: justify;
+  text-align-last: left;
+}
+
+.cc-license{
+  font-size: 8pt;
+  line-height: 1.25;
+  color: #9ca3af;
+  margin-top: 6px;
+  text-align: justify;
+  text-align-last: left;
+}
+
+.cc-license a{
+  color: #374151;
+  text-decoration: none;
+}
+.cc-license a:hover{
+  text-decoration: underline;
+}
+
+/* --- Tab3: seçili poligon özeti + film listesi --- */
+.polygon-summary{
+  margin: 6px 0 10px 0;
+  padding: 10px 10px;
+  border: 1px solid #e63946;
+  border-radius: 10px;
+  background: rgba(2,6,23,0.6);
+  box-shadow: 0 0 0 1px rgba(230,57,70,0.35),  0 6px 16px rgba(0,0,0,0.35);
+}
+.polygon-kpis{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 10px;
+  margin-top: 8px;
+}
+.polygon-kpis .k{
+  display:block;
+  font-size: 10px;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: rgba(156,163,175,0.95);
+}
+.polygon-kpis .v{
+  display:block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #e5e7eb;
+  margin-top: 2px;
+}
+.polygon-kpi-sub{
+  margin-top: 6px;
+  font-size: 10px;
+  color: rgba(156,163,175,0.95);
+}
+
+.fi-ico{display:inline-block;margin-right:8px;}
+#map-filter-info .btn-clear{
+  padding: 0 10px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  line-height: 22px !important;
+}
+.period-row{
+  margin-top: 10px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.period-item{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10pt;
+  color: #cbd5f5;
+  letter-spacing: 0.2px;
+}
+.period-box{
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  border: 1px solid #334155;
+  background: rgba(148,163,184,0.12);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.18);
+}
+.period-box.on{
+  background: #e63946;
+  border-color: #e63946;
+  box-shadow: 0 0 0 1px rgba(230,57,70,0.55);
+}
+
+/* Tab3: dönem göstergeleri tek satır + KPI etiketi rengi */
+.period-row{
+  margin-top: 10px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: nowrap;
+  align-items: center;
+  white-space: nowrap;
+}
+.period-item{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9.5pt;
+  color: #9ca3af; /* KPI etiketi (ROTA vb.) ile uyumlu */
+  letter-spacing: 0.1px;
+  white-space: nowrap;
+}
+.period-box{
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  border: 1px solid #334155;
+  background: rgba(148,163,184,0.12);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.18);
+  flex: 0 0 auto;
+}
+.period-box.on{
+  background: #e63946;
+  border-color: #e63946;
+  box-shadow: 0 0 0 1px rgba(230,57,70,0.55);
+}
+
+</style>
+
+<style>
+.leaflet-popup-content .carousel-image {
+    display: none !important;
+}
+.leaflet-popup-content .carousel-image.active {
+    display: block !important;
+}
+</style>
+
+
+<style>
+/* --- Sinematik koyu tema override'ları --- */
+
+#sidebar .description{
+  text-align: justify !important;
+  text-align-last: left;
+}
+
+
+body {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+#sidebar {
+  background: #020617;
+  border-right: 1px solid #111827;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.65);
+}
+
+#sidebar h1 {
+  color: #e5e7eb;
+}
+
+#sidebar .description {
+  color: #9ca3af;
+}
+
+#toggle-btn {
+  background: #020617;
+  border-color: #111827;
+}
+
+#toggle-btn:hover {
+  background: #1a2235;
+}
+
+#search {
+  background: #020617;
+  border-color: #1f2933;
+  color: #e5e7eb;
+}
+
+#search::placeholder {
+  color: #6b7280;
+}
+
+.film-title {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #020617;
+  border: 1px solid #1f2933;
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin: 0 0 6px 0;
+  color: #e5e7eb;
+  box-sizing: border-box;
+}
+.film {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 8px;
+}
+
+
+.film-title:hover {
+  background: #1a2235;
+  border-color: #334155;
+  color: #e5e7eb;
+}
+
+.film-title.selected {
+  background: #1a2235 !important;
+  border-color: #e63946 !important;
+  box-shadow: 0 0 0 1px rgba(230,57,70,0.45);
+}
+
+.mekan-list li {
+  color: #cbd5f5;
+}
+
+.mekan-list li:hover {
+  background: #1a2235;
+  color: #e5e7eb;
+}
+
+.tab-btn {
+  background: #020617 !important;
+  border-color: #1f2933 !important;
+  color: #e5e7eb !important;
+}
+
+.tab-btn:hover {
+  background: #1a2235 !important;
+}
+
+.tab-btn.active {
+  background: #1a2235 !important;
+  border-color: #e63946 !important;
+}
+
+.period-btn {
+  background: #020617;
+  border-color: #1f2933;
+  color: #e5e7eb;
+}
+
+.period-btn:hover {
+  background: #1a2235;
+}
+
+.period-btn.active {
+  background: #1a2235 !important;
+  border-color: #e63946 !important;
+  box-shadow: 0 0 0 1px rgba(230,57,70,0.4);
+}
+
+.leaflet-popup-content-wrapper {
+  background: #020617;
+  color: #e5e7eb;
+  border: 1px solid #111827;
+}
+
+.leaflet-popup-content {
+  color: #e5e7eb;
+}
+.leaflet-tooltip{
+  background:#020617 !important;
+  color:#e5e7eb !important;
+  border:1px solid #111827 !important;
+  border-radius:10px !important;
+  padding:6px 10px !important;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.55) !important;
+  font-weight:600 !important;
+}
+.leaflet-tooltip:before{
+  border-top-color:#020617 !important;
+  border-bottom-color:#020617 !important;
+}
+
+#map-filter-info {
+  background: rgba(15,23,42,0.92) !important;
+  border-color: rgba(15,23,42,1) !important;
+  color: #e5e7eb !important;
+}
+
+#map-filter-info .btn-clear {
+  background: #e63946 !important;
+  color: #e5e7eb !important;
+  border: 0 !important;
+}
+
+#map-filter-info .btn-clear:hover {
+  background: #b91c1c !important;
+  border-color: #f97373 !important;
+}
+
+.numeric-scale {
+  background: rgba(15,23,42,0.9);
+  color: #e5e7eb;
+}
+
+.map-attribution{
+  background: rgba(15,23,42,0.9);
+  color: #e5e7eb;
+}
+.map-attribution a{
+  color: #cbd5f5;
+}
+
+
+
+
+.cc-license a{ color: #cbd5f5; }
+.carousel-btn {
+  background: #020617;
+  border-color: #1f2933;
+  color: #e5e7eb;
+}
+
+.carousel-btn:hover {
+  background: #1a2235;
+}
+
+.carousel-counter {
+  background: #020617;
+  border-color: #1f2933;
+  color: #e5e7eb;
+}
+
+#map {
+  border-radius: 10px;
+  box-shadow: 0 0 0 12px #0b1120 inset;
+  border: 6px solid #0b1120;
+  overflow: hidden;
+}
+
+/* Sidebar kapalıyken çerçeveyi kaldır */
+#sidebar.closed ~ #map {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+</style>
+
+<style>
+/* Popup üçgenini (tip) koyu popup ile aynı renge getir – sadece rengi dokun, şekle değil */
+.leaflet-popup-tip {
+  background: #020617 !important;  /* popup ile aynı zemin */
+  box-shadow: none !important;     /* beyaz/soluk kenar gölgesini kaldır */
+}
+</style>
+
+<style>
+#search:hover {
+  background:#1b2236 !important;
+  color:#e5e7eb !important;
+}
+#search:focus {
+  background:#1b2236 !important;
+  color:#e5e7eb !important;
+  outline:none !important;
+  border-color:#1f2933 !important;
+  box-shadow:none !important;
+}
+</style>
+
+
+<style>
+#left-edge-hotspot {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 100vh;
+  z-index: 1400;
+  pointer-events: auto;
+}
+
+/* Mobilde menü açıkken sol hotspot dokunuşları çalmasın */
+#sidebar:not(.closed) ~ #left-edge-hotspot { pointer-events: none; }
+#sidebar.closed ~ #left-edge-hotspot { pointer-events: auto; }
+
+#bottom-edge-hotspot {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 80px;
+  z-index: 0;
+  pointer-events: none;
+}
+#map-filter-info {
+  transition: opacity 0.25s ease;
+}
+</style>
+
+<style>
+#sidebar-slider {
+  margin: 6px 0 10px 0;
+}
+
+/* Biraz daha yatay ve kompakt bir oran (yaklaşık 2.3:1) */
+.slider-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 42%;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid #1f2933;
+  background: #020617;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+
+#sidebar-slider-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+#sidebar-slider-image.visible {
+  opacity: 1;
+}
+
+/* Noktaları tamamen gizle */
+.slider-dots {
+  display: none !important;
+}
+
+.slider-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #4b5563;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease, background-color 0.2s ease, width 0.2s ease;
+}
+
+.slider-dot.active {
+  opacity: 1;
+  background: #e63946;
+  transform: translateY(-1px);
+  width: 14px;
+}
+</style>
+
+
+<style>
+#film-list mark {
+  background-color: #5a70ad;
+  color: #e5e7eb;
+  padding: 0 1px;
+  border-radius: 2px;
+}
+</style>
+
+
+<style>
+/* Film listesinde aşağıda içerik olduğunu ima eden "scroll hint" */
+
+#scroll-hint{
+  position: sticky;
+  bottom: -18px;
+  width: calc(100% + 36px);
+  margin-left: -18px;
+  margin-right: -18px;
+  height: 52px;
+  background: linear-gradient(to bottom, rgba(2,6,23,0), rgba(2,6,23,0.92) 55%, rgba(2,6,23,0.98));
+  display: none;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 30;
+}
+
+#scroll-hint .hint-pill{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border-radius:999px;
+  background: rgba(15,23,42,0.85);
+  border: 1px solid rgba(148,163,184,0.22);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+}
+
+#scroll-hint .hint-icon{
+  font-size: 22px;
+  line-height: 1;
+  color: #e5e7eb;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+  animation: scrollPulse 1.35s ease-in-out infinite;
+}
+
+#scroll-hint .hint-text{
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(229,231,235,0.82);
+}
+
+@keyframes scrollPulse{
+  0%   { transform: translateY(0); opacity: .65; }
+  50%  { transform: translateY(7px); opacity: 1; }
+  100% { transform: translateY(0); opacity: .65; }
+}
+
+/* Desktop'ta daha minimal istersen yazıyı kapat */
+@media (min-width: 769px){
+  #scroll-hint .hint-text{ opacity: 0.0; width:0; overflow:hidden; padding:0; margin:0; }
+  #scroll-hint .hint-pill{ padding:6px 12px; }
+}
+50%  { transform: translateY(6px); opacity: 1; }
+  100% { transform: translateY(0); opacity: .4; }
+}
+</style>
+
+<style>
+/* Tab3 (Bölgeler): scroll hint, Tab1 ile aynı görünüm */
+#scroll-hint-bolgeler{
+  position: sticky;
+  bottom: -18px;
+  width: calc(100% + 36px);
+  margin-left: -18px;
+  margin-right: -18px;
+  height: 52px;
+  background: linear-gradient(to bottom, rgba(2,6,23,0), rgba(2,6,23,0.92) 55%, rgba(2,6,23,0.98));
+  display: none;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 30;
+}
+</style>
+
+
+
+<style>
+/* --- Tab repaint artefact fix --- */
+.tab-content { overflow: hidden; }
+.tab-content:not(.active-visible){
+  visibility: hidden;
+  pointer-events: none;
+}
+</style>
+
+</head>
+<body>
+<aside id="sidebar">
+<h1>Ankara’nın Sinemasal Kartografyası</h1>
+
+<div class="description description-justify">Bu çalışma Ankara Üniversitesi Sosyal Bilimler Enstitüsü Radyo Televizyon ve Sinema Anabilim Dalı’nda Prof. Dr. S. Ruken Öztürk danışmanlığında Sezer Ahmet Kına tarafından yürütülen <i>Sinemada Kentin Dönüşümünü Seyretmek: Ankara Örneği</i> başlıklı doktora tezi için hazırlanmıştır.</div>
+
+<p class="cc-license" xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">
+  <a property="dct:title" rel="cc:attributionURL" href="https://ankaracinemap.sezerkina.com">Ankara'nın Sinemasal Kartografyası</a> (2022)
+  <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://sezerkina.com">Sezer Ahmet Kına</a>
+  tarafından
+  <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.tr" rel="noopener noreferrer" target="_blank">CC&nbsp;BY-NC-ND</a>
+  ile lisanslanmıştır.
+</p>
+
+
+<div id="sidebar-slider">
+  <div class="slider-image-wrapper">
+    <img id="sidebar-slider-image" src="" alt="Ankara sinematik görseli"/>
+  </div>
+  <div class="slider-dots"></div>
+</div>
+
+<div id="tab-menu"
+ style="display:flex;gap:8px;margin-bottom:12px;">
+<button class="tab-btn active" data-tab="filmler" style="flex:1;padding:6px 4px;border:1px solid #ccc;border-radius:6px;background:#fff;cursor:pointer;">Filmler ve Mekânlar</button>
+<button class="tab-btn" data-tab="yogunluk" style="flex:1;padding:6px 4px;border:1px solid #ccc;border-radius:6px;background:#fff;cursor:pointer;">Dağılım ve Yoğunluk</button>
+<button class="tab-btn" data-tab="bolgeler" style="flex:1;padding:6px 4px;border:1px solid #ccc;border-radius:6px;background:#fff;cursor:pointer;">Kentsel Odaklar</button>
+</div>
+
+<div class="tab-content active-visible" id="tab-filmler">
+<input aria-label="Haritada ara" id="search" placeholder="Haritada ara"/>
+<div id="film-list"></div>
+<div id="scroll-hint" aria-hidden="true"><span>⌄</span></div>
+</div>
+
+<div class="tab-content" id="tab-yogunluk">
+  <div id="period-buttons" style="display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;">
+    <button class="period-btn" data-period="1966-1980">1966–1980: Yeşilçam'ın Modern Ankara'sı</button>
+    <button class="period-btn" data-period="1988-2001">1988–2001: Neoliberal Çevrim ve Yeni Merkezler</button>
+    <button class="period-btn" data-period="2010-2022">2010–2022: Dağınık Odak, Parçalı Metropol</button>
+  </div>
+  <div id="yogunluk-content"></div>
+</div>
+
+<div class="tab-content" id="tab-bolgeler">
+  <div id="polygon-panel" style="display:none;">
+    <div id="polygon-summary" class="polygon-summary"></div>
+    <div id="polygon-film-list"></div>
+    <div id="scroll-hint-bolgeler" aria-hidden="true"><span>⌄</span></div>
+  </div>
+  <div id="polygon-empty" style="color:#9ca3af;font-size:10pt;line-height:1.3;">
+    Haritadan bir odak seçiniz.
+  </div>
+</div>
+
+
+</aside>
+<div id="toggle-btn"><span>◂</span></div>
+<div id="left-edge-hotspot"></div>
+<div id="bottom-edge-hotspot"></div>
+<div id="map">
+<div id="map-filter-info" style="display:none;position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.85);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.1);border-radius:10px;padding:6px 12px;font-size:13px;color:#111;z-index:1500;box-shadow:0 2px 4px rgba(0,0,0,0.08);"></div>
+<div class="map-attribution" aria-label="Harita altyapı kredileri">
+  <span class="credit-short">ⓘ Map credits</span>
+  <span class="credit-full">
+    © <a href="https://carto.com/" target="_blank" rel="noopener">CARTO</a> ·
+    © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>
+  </span>
+</div>
+</div>
+<script>
+function cleanFolderName(folder){
+  if(!folder) return "";
+  return folder.replace(/[\/|]+/g, '').trim();
+}
+
+const DEFAULT_CENTER = [39.93, 32.85];
+const DEFAULT_ZOOM = 11;
+const hitRenderer = L.canvas({tolerance:18});
+const map = L.map('map', {preferCanvas:true, tap:true, tapTolerance:20}).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+// Panes: poligonlar altta, çizgiler ortada, markerlar üstte (tıklanabilirlik için)
+map.createPane('polygonPane');
+map.getPane('polygonPane').style.zIndex = 350;
+map.createPane('linePane');
+map.getPane('linePane').style.zIndex = 450;
+map.createPane('markerPane');
+map.getPane('markerPane').style.zIndex = 650;
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  maxZoom: 22, }).addTo(map);
+const scaleDiv = L.DomUtil.create('div', 'numeric-scale', map.getContainer());
+function updateNumericScale() {
+  const centerLat = map.getCenter().lat;
+  const metersPerPixel = 156543.03392 * Math.cos(centerLat * Math.PI / 180) / Math.pow(2, map.getZoom());
+  const scaleDenominator = Math.round(39.37 * metersPerPixel * 96);
+  scaleDiv.textContent = '1 : ' + scaleDenominator.toLocaleString('tr-TR');
+}
+map.on('moveend zoomend', updateNumericScale);
+updateNumericScale();
+
+
+let films = {};
+let featureToLayer = new Map();
+let allLayers = L.layerGroup().addTo(map);
+let polygonLayers = L.layerGroup().addTo(map); // Tab3 poligon katmanı (kmzs katmanından ayrı)
+let __kmzPointLayers = []; // kmzs: Point/MultiPoint layer'ları
+let __kmzOtherLayers = []; // kmzs: LineString vb.
+let __activePolygonFeature = null;
+let __activePolygonName = null;
+let __activePolygonLayer = null;
+let allKmzFeatures = [];
+
+// --- Bölgeler (poligonlar) ---
+let polygonFeatures = null;
+let polygonLayerIndex = []; // {name, layer, bounds}
+
+function __getPolygonName(props){
+  if(!props) return "Bölge";
+  // önce name gibi anahtarlar
+  const direct = props.name || props.Name || props.NAME || props.bolge || props.Bolge || props.BÖLGE;
+  if(direct && String(direct).trim()) return String(direct).trim();
+
+  // geojson.io bazen "Ulus": "" gibi tek anahtar koyuyor
+  const keys = Object.keys(props || {});
+  if(keys.length === 1 && keys[0]) return String(keys[0]).trim();
+
+  // birden fazla anahtar varsa ilk dolu değeri al, yoksa ilk anahtar
+  for(const k of keys){
+    const v = props[k];
+    if(v !== null && v !== undefined && String(v).trim()) return String(v).trim();
+  }
+  if(keys[0]) return String(keys[0]).trim();
+
+  return "Bölge";
+}
+
+function __renderPolygonsToSidebar(){
+  const listEl = document.getElementById('bolgeler-list');
+  if(!listEl) return;
+  listEl.innerHTML = '';
+
+  polygonLayerIndex.forEach((item) => {
+    const b = document.createElement('button');
+    b.className = 'period-btn';
+    b.textContent = item.name;
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#bolgeler-list .period-btn').forEach(x=>x.classList.remove('active'));
+      try{ clearPolygonFilter(); }catch(e){}
+      b.classList.add('active');
+      try{
+        // seçili poligon filtresi uygula
+        try{
+          const base = (item.layer && item.layer.getLayers) ? (item.layer.getLayers()[0] || item.layer) : item.layer;
+          applyPolygonFilter(item.feature, item.name, base);
+        }catch(e){}
+        if(item.bounds && item.bounds.isValid && item.bounds.isValid()){
+          map.fitBounds(item.bounds.pad(0.08), { padding: [20,20], maxZoom: 16, animate: true });
+        }
+      }catch(e){}
+    });
+    listEl.appendChild(b);
+  });
+
+  const allBtn = document.getElementById('btn-show-all-polygons');
+  if(allBtn){
+    allBtn.addEventListener('click', () => {
+      document.querySelectorAll('#bolgeler-list .period-btn').forEach(x=>x.classList.remove('active'));
+      const bb = L.latLngBounds([]);
+      polygonLayerIndex.forEach(it => { try{ if(it.bounds) bb.extend(it.bounds); }catch(e){} });
+      try{
+        if(bb.isValid && bb.isValid()) map.fitBounds(bb.pad(0.08), { padding: [20,20], maxZoom: 13, animate: true });
+      }catch(e){}
+    });
+  }
+}
+
+function loadPolygons(){
+  // FORCE reload polygons every time
+  polygonFeatures = null;
+  polygonLayerIndex = [];
+
+  // Tab3 poligon katmanı: kmzs (noktasal/çizgisel) katmanını silmeden sadece poligonları yönet
+  try{ if(polygonLayers) polygonLayers.clearLayers(); }catch(e){}
+
+  if(polygonFeatures){
+    // cache varsa yeniden çiz
+    polygonLayerIndex.forEach(it => { try{ polygonLayers.addLayer(it.layer); }catch(e){} });
+    __renderPolygonsToSidebar();
+    // default: tümünü göster
+    const bb = L.latLngBounds([]);
+    polygonLayerIndex.forEach(it => { try{ if(it.bounds) bb.extend(it.bounds); }catch(e){} });
+    try{ if(bb.isValid && bb.isValid()) map.fitBounds(bb.pad(0.08), { padding:[20,20], maxZoom: 13, animate:true }); }catch(e){}
+    return;
+  }
+
+  fetch('poligons.geojson')
+    .then(r => r.json())
+    .then(geojson => {
+      polygonFeatures = geojson;
+
+      polygonLayerIndex = [];
+      const bb = L.latLngBounds([]);
+
+      (geojson.features || []).forEach((f) => {
+        if(!f || !f.geometry) return;
+        const gt = f.geometry.type;
+        if(gt !== 'Polygon' && gt !== 'MultiPolygon') return;
+
+        const name = __getPolygonName(f.properties);
+
+        const layer = L.geoJSON(f, {
+          pane: 'polygonPane',
+          renderer: hitRenderer,
+          interactive: true,
+          bubblingMouseEvents: false,
+          style: function(){
+            return { weight: 2, opacity: 0.9, fillOpacity: 0.07, color: '#596f8f', fillColor: '#596f8f', lineJoin: 'round', lineCap: 'round', dashArray: '6 4' };
+          },
+          onEachFeature: function(feat, lyr){
+            try{
+              const n = __getPolygonName(feat.properties);              // Popup disabled (sidebar already shows details)
+              
+              try{ lyr.bindTooltip(n, {sticky:true, direction:'top', opacity:0.95}); }catch(e){}
+              // Disable Leaflet's default auto-tooltip handlers; we'll control it manually
+              try{
+                if(lyr._openTooltip)   lyr.off('mouseover', lyr._openTooltip, lyr);
+                if(lyr._moveTooltip)   lyr.off('mousemove', lyr._moveTooltip, lyr);
+                if(lyr._closeTooltip)  { lyr.off('mouseout', lyr._closeTooltip, lyr); lyr.off('click', lyr._closeTooltip, lyr); }
+              }catch(e){}
+// Hover: bölgeyi belli et (seçili değilse)
+              try{
+                lyr.on('mouseover', function(){
+                  try{
+                    if(__activePolygonLayer && __activePolygonLayer === lyr) return;
+                    lyr.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.07, color: '#e5e7eb', fillColor: '#596f8f', lineJoin: 'round', lineCap: 'round', dashArray: '6 4' });
+                  try{ lyr.openTooltip && lyr.openTooltip(); }catch(e){} }catch(e){}
+                });
+                lyr.on('mouseout', function(){
+                  try{
+                    if(__activePolygonLayer && __activePolygonLayer === lyr) return;
+                    lyr.setStyle({ weight: 2, opacity: 0.9, fillOpacity: 0.07, color: '#596f8f', fillColor: '#596f8f', lineJoin: 'round', lineCap: 'round', dashArray: '6 4' });
+                  try{ lyr.closeTooltip && lyr.closeTooltip(); }catch(e){} }catch(e){}
+                });
+              }catch(e){}
+
+              try{
+                  // IMPORTANT: Only bind on 'click' (not 'mousedown').
+                  // If we add KMZ layers on mousedown, they may appear under the cursor before the subsequent 'click'
+                  // and steal that click (opening popups). Binding only to 'click' ensures the first click selects
+                  // the polygon and only then reveals KMZ items.
+                  lyr.on('click', function(e){
+                    try{ if(e && e.originalEvent) L.DomEvent.stop(e.originalEvent); }catch(err){}
+                    try{ lyr.closeTooltip && lyr.closeTooltip(); }catch(e){}
+                    applyPolygonFilter(feat, n, lyr);
+                  });
+                }catch(e){}
+            }catch(e){}
+          }
+        });
+
+        // bounds + index
+        let bounds = null;
+        try{ bounds = layer.getBounds(); }catch(e){}
+        polygonLayerIndex.push({ name, layer, bounds, feature: f });
+
+        try{ polygonLayers.addLayer(layer); }catch(e){}
+        try{ if(bounds) bb.extend(bounds); }catch(e){}
+      });
+
+      // sidebar listesi
+      __renderPolygonsToSidebar();
+
+      // default: Tab1/Tab2 ile aynı odak/ölçek (Tab3'e girince harita zıplamasın)
+      try{ map.setView(DEFAULT_CENTER, DEFAULT_ZOOM, { animate: false }); }catch(e){}
+})
+    .catch(err => console.error('poligons.geojson okunamadı:', err));
+}
+
+
+function __pointInRing(lng, lat, ring){
+  // ring: [[lng,lat],...]
+  let inside = false;
+  for (let i=0, j=ring.length-1; i<ring.length; j=i++){
+    const xi = ring[i][0], yi = ring[i][1];
+    const xj = ring[j][0], yj = ring[j][1];
+    const intersect = ((yi > lat) !== (yj > lat)) && (lng < (xj - xi) * (lat - yi) / ((yj - yi) || 1e-12) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+
+function __pointInGeoJSONPolygon(latlng, geom){
+  if(!latlng || !geom) return false;
+  const lng = latlng.lng, lat = latlng.lat;
+
+  const checkPolygonCoords = (coords) => {
+    if(!coords || !coords.length) return false;
+    const outer = coords[0];
+    if(!outer || outer.length < 3) return false;
+    if(!__pointInRing(lng, lat, outer)) return false;
+    // holes
+    for(let h=1; h<coords.length; h++){
+      const hole = coords[h];
+      if(hole && hole.length >= 3 && __pointInRing(lng, lat, hole)) return false;
+    }
+    return true;
+  };
+
+  if(geom.type === 'Polygon'){
+    return checkPolygonCoords(geom.coordinates);
+  }
+  if(geom.type === 'MultiPolygon'){
+    const polys = geom.coordinates || [];
+    for(let p=0; p<polys.length; p++){
+      if(checkPolygonCoords(polys[p])) return true;
+    }
+    return false;
+  }
+  return false;
+}
+
+function __layerInsidePolygon(layer, polyFeature){
+  if(!layer || !polyFeature || !polyFeature.geometry) return false;
+
+  // helper: latlng flatten
+  const __flatten = (latlngs, out=[]) => {
+    if(!latlngs) return out;
+    if(Array.isArray(latlngs)){
+      latlngs.forEach(x => __flatten(x, out));
+    } else if(typeof latlngs.lat === 'number' && typeof latlngs.lng === 'number'){
+      out.push(latlngs);
+    }
+    return out;
+  };
+
+  // Point / CircleMarker
+  if(typeof layer.getLatLng === 'function'){
+    return __pointInGeoJSONPolygon(layer.getLatLng(), polyFeature.geometry);
+  }
+
+  // MultiPoint group
+  if(typeof layer.getLayers === 'function'){
+    try{
+      const subs = layer.getLayers() || [];
+      for(let i=0; i<subs.length; i++){
+        const sub = subs[i];
+        if(!sub) continue;
+        if(typeof sub.getLatLng === 'function'){
+          if(__pointInGeoJSONPolygon(sub.getLatLng(), polyFeature.geometry)) return true;
+        } else if(typeof sub.getLatLngs === 'function'){
+          const pts = __flatten(sub.getLatLngs(), []);
+          for(let j=0; j<pts.length; j++){
+            if(__pointInGeoJSONPolygon(pts[j], polyFeature.geometry)) return true;
+          }
+        }
+      }
+    }catch(e){}
+  }
+
+  // Polyline / MultiPolyline
+  if(typeof layer.getLatLngs === 'function'){
+    try{
+      const pts = __flatten(layer.getLatLngs(), []);
+      for(let i=0; i<pts.length; i++){
+        if(__pointInGeoJSONPolygon(pts[i], polyFeature.geometry)) return true;
+      }
+    }catch(e){}
+  }
+
+  return false;
+}
+
+
+
+function __isPointGeom(t){ return (t === 'Point' || t === 'MultiPoint'); }
+function __isLineGeom(t){ return (t === 'LineString' || t === 'MultiLineString'); }
+
+function __computeGlobalMarkerTotals(){
+  let totalPoints = 0, totalLines = 0;
+  (allKmzFeatures || []).forEach(f => {
+    const t = f && f.geometry ? f.geometry.type : null;
+    if(__isPointGeom(t)) totalPoints++;
+    else if(__isLineGeom(t)) totalLines++;
+  });
+  return { totalPoints, totalLines, totalAll: (totalPoints + totalLines) };
+}
+
+function __isTab3Active(){
+  try{
+    const t = document.getElementById('tab-bolgeler');
+    return !!(t && t.classList && t.classList.contains('active-visible'));
+  }catch(e){ return false; }
+}
+
+function __layerInsideAnyPolygon(layer){
+  try{
+    if(!polygonFeatures || !polygonFeatures.features || !polygonFeatures.features.length) return false;
+    for(let i=0; i<polygonFeatures.features.length; i++){
+      const f = polygonFeatures.features[i];
+      if(!f || !f.geometry) continue;
+      const gt = f.geometry.type;
+      if(gt !== 'Polygon' && gt !== 'MultiPolygon') continue;
+      if(__layerInsidePolygon(layer, f)) return true;
+    }
+  }catch(e){}
+  return false;
+}
+
+function __promptSelectRegion(){
+  try{
+    const empty = document.getElementById('polygon-empty');
+    const panel = document.getElementById('polygon-panel');
+    if(panel) panel.style.display = 'none';
+    if(empty){
+      empty.style.display = 'block';
+      empty.innerHTML = 'Önce haritadan bir <b>bölge</b> seç. <span style="color:#6b7280;">(Bölge dışında kalan markerlar seçilebilir.)</span>';
+    }
+  }catch(e){}
+}
+
+/**
+ * Tab3'te poligon seçilmeden, herhangi bir poligonun İÇİNDE kalan kırmızı öğelere tıklamayı engeller.
+ * - Tab1/Tab2: hiç dokunmaz.
+ * - Tab3 + poligon seçili: serbest bırakır.
+ */
+function __markerClickGate(layer, ev){
+  try{
+    if(!__isTab3Active()) return true;      // sadece Tab3
+    if(__activePolygonFeature) return true; // poligon seçildiyse serbest
+
+    // poligonlar gelmediyse engelleme yapma
+    if(!polygonFeatures) return true;
+
+    // Poligon içindeyse: önce bölge seçilmeli
+    if(__layerInsideAnyPolygon(layer)){
+      try{ map.closePopup(); }catch(e){}
+      try{ if(layer && layer.closePopup) layer.closePopup(); }catch(e){}
+      __promptSelectRegion();
+
+      // popup auto-open dahil, olayı kes
+      try{
+        const oe = (ev && ev.originalEvent) ? ev.originalEvent : ev;
+        if(oe) L.DomEvent.stop(oe);
+      }catch(e){}
+      return false;
+    }
+  }catch(e){}
+  return true;
+}
+
+/**
+ * Leaflet'in bindPopup() otomatik açılmasını da kontrol etmek için:
+ * 'preclick' aşamasında gate uygular.
+ */
+function __wireClickGate(layer){
+  try{
+    if(!layer) return;
+    if(layer.__clickGateWired) return;
+    layer.__clickGateWired = true;
+
+    if(layer.on){
+      layer.on('preclick', function(e){
+        if(!__markerClickGate(layer, e)){
+          try{
+            const oe = (e && e.originalEvent) ? e.originalEvent : e;
+            if(oe) L.DomEvent.stop(oe);
+          }catch(err){}
+        }
+      });
+    }
+
+    // Group ise çocuklara da uygula
+    if(layer.getLayers && typeof layer.getLayers === 'function'){
+      try{ layer.getLayers().forEach(ch => __wireClickGate(ch)); }catch(e){}
+    }
+  }catch(e){}
+}
+
+
+function __computePolygonStats(polyFeature){
+  const filmToItems = new Map(); // film -> [{name, kind, feature}]
+  const filmSet = new Set();
+  let pts = 0, lines = 0;
+
+  (allKmzFeatures || []).forEach(f => {
+    const layer = featureToLayer.get(f);
+    if(!layer) return;
+
+    if(!__layerInsidePolygon(layer, polyFeature)) return;
+
+    const film = cleanFolderName(f?.properties?.folder) || "Bilinmeyen Film";
+    const name = (f?.properties?.name) ? String(f.properties.name) : "(Adsız Mekân)";
+    const t = f && f.geometry ? f.geometry.type : null;
+
+    let kind = 'diger';
+    if(__isPointGeom(t)) { kind = 'mekan'; pts++; }
+    else if(__isLineGeom(t)) { kind = 'rota'; lines++; }
+
+    filmSet.add(film);
+    const arr = filmToItems.get(film) || [];
+    arr.push({ name, kind, feature: f });
+    filmToItems.set(film, arr);
+  });
+
+  const totals = __computeGlobalMarkerTotals();
+  const inAll = pts + lines;
+  const pct = totals.totalAll ? (inAll / totals.totalAll * 100) : 0;
+
+  return { pts, lines, films: filmSet.size, pct, filmToItems, totals, inAll };
+}
+
+function __renderPolygonPanel(polyName, stats){
+  const panel = document.getElementById('polygon-panel');
+  const empty = document.getElementById('polygon-empty');
+  const sum = document.getElementById('polygon-summary');
+  const list = document.getElementById('polygon-film-list');
+  if(!panel || !sum || !list || !empty) return;
+
+  empty.style.display = 'none';
+  panel.style.display = 'block';
+
+  const pct1 = Math.round((stats.pct || 0) * 10) / 10;
+  const pctText = pct1.toLocaleString('tr-TR');
+
+  // Dönem göstergeleri (poligon içindeki film yıllarına göre)
+  const __periods = { p1:false, p2:false, p3:false };
+  try{
+    Array.from(stats.filmToItems.keys()).forEach((filmName)=>{
+      const m = String(filmName || '').match(/\b(19\d{2}|20\d{2})\b/);
+      if(!m) return;
+      const y = parseInt(m[0], 10);
+      if(y >= 1966 && y <= 1980) __periods.p1 = true;
+      if(y >= 1988 && y <= 2001) __periods.p2 = true;
+      if(y >= 2010 && y <= 2022) __periods.p3 = true;
+    });
+  }catch(e){}
+
+  const __periodRow =
+    '<div class="period-row">' +
+      '<span class="period-item"><span class="period-box ' + (__periods.p1 ? 'on' : '') + '"></span><span>1966–1980</span></span>' +
+      '<span class="period-item"><span class="period-box ' + (__periods.p2 ? 'on' : '') + '"></span><span>1988–2001</span></span>' +
+      '<span class="period-item"><span class="period-box ' + (__periods.p3 ? 'on' : '') + '"></span><span>2010–2022</span></span>' +
+    '</div>';
+
+  sum.innerHTML =
+    '<div style="font-weight:700;font-size:12pt;margin-bottom:6px;">' + __escapeHtml(polyName || 'Bölge') + '</div>' +
+    '<div class="polygon-kpis">' +
+      '<div><span class="k">Film</span><span class="v">' + (stats.films || 0) + '</span></div>' +
+      '<div><span class="k">Kartografik oran</span><span class="v">%' + pctText + '</span></div>' +
+      '<div><span class="k">Mekân</span><span class="v">' + (stats.pts || 0) + '</span></div>' +
+      '<div><span class="k">Rota</span><span class="v">' + (stats.lines || 0) + '</span></div>' +
+    '</div>' + __periodRow;
+
+
+  list.innerHTML = '';
+
+  const filmsSorted = Array.from(stats.filmToItems.keys())
+    .sort((a,b)=>{
+      const ya = parseInt((String(a).match(/\b(19\d{2}|20\d{2})\b/)||[0])[0]);
+      const yb = parseInt((String(b).match(/\b(19\d{2}|20\d{2})\b/)||[0])[0]);
+      const hasA = !isNaN(ya), hasB = !isNaN(yb);
+      if(hasA && hasB && ya !== yb) return ya - yb;
+      if(hasA && !hasB) return -1;
+      if(!hasA && hasB) return 1;
+      return String(a).localeCompare(String(b), 'tr');
+    });
+filmsSorted.forEach(filmName => {
+    const wrap = document.createElement('div');
+    wrap.className = 'film';
+
+    const title = document.createElement('div');
+    title.className = 'film-title';
+    title.textContent = filmName;
+
+    const ul = document.createElement('ul');
+    ul.className = 'mekan-list';
+    ul.style.display = 'none';
+
+    const items = (stats.filmToItems.get(filmName) || []).slice();
+    items.sort((a,b)=>{
+      if(a.kind === b.kind) return String(a.name).localeCompare(String(b.name), 'tr');
+      if(a.kind === 'mekan') return -1;
+      if(b.kind === 'mekan') return 1;
+      if(a.kind === 'rota') return -1;
+      if(b.kind === 'rota') return 1;
+      return 0;
+    });
+
+    items.forEach(it => {
+      const li = document.createElement('li');
+      li.textContent = it.name + (it.kind === 'rota' ? ' (rota)' : '');
+      li.dataset.rawText = li.textContent;
+
+      li.onclick = (e) => {
+        e.stopPropagation();
+        const layer = featureToLayer.get(it.feature);
+        if(!layer) return;
+
+        let targetCenter = null;
+        let bounds = L.latLngBounds([]);
+
+        if (layer.getLatLng) {
+          targetCenter = layer.getLatLng();
+        } else if (layer.getBounds) {
+          try{ bounds.extend(layer.getBounds()); }catch(err){}
+        } else if (layer.getLayers && typeof layer.getLayers === "function") {
+          try{
+            layer.getLayers().forEach((sub) => {
+              if (sub.getLatLng) bounds.extend(sub.getLatLng());
+              else if (sub.getBounds) bounds.extend(sub.getBounds());
+            });
+          }catch(err){}
+        }
+
+        if (bounds.isValid && bounds.isValid()) targetCenter = bounds.getCenter();
+
+        if (targetCenter) {
+          map.setView(targetCenter, 16, { animate: true });
+          setTimeout(() => { try{ map.panTo(targetCenter, { animate: true }); }catch(err){} }, 200);
+        }
+
+        // Open popup for the clicked item (mekân/rota) when available
+        try{
+          if(layer.openPopup){
+            layer.openPopup();
+          } else if (layer.getLayers && typeof layer.getLayers === "function") {
+            const subs = layer.getLayers();
+            const firstWithPopup = (subs && subs.find) ? subs.find(l => l && l.openPopup) : null;
+            const sub = firstWithPopup || (subs ? subs[0] : null);
+            if(sub && sub.openPopup) sub.openPopup();
+          }
+        }catch(err){}
+      };
+
+      ul.appendChild(li);
+    });
+
+    title.onclick = function(e){
+      ul.style.display = (ul.style.display === 'none' || ul.style.display === '') ? 'block' : 'none';
+    };
+
+    wrap.appendChild(title);
+    wrap.appendChild(ul);
+    list.appendChild(wrap);
+  });
+}
+
+function __clearPolygonPanel(){
+  const panel = document.getElementById('polygon-panel');
+  const empty = document.getElementById('polygon-empty');
+  const sum = document.getElementById('polygon-summary');
+  const list = document.getElementById('polygon-film-list');
+  if(sum) sum.innerHTML = '';
+  if(list) list.innerHTML = '';
+  if(panel) panel.style.display = 'none';
+  if(empty) empty.style.display = 'block';
+}
+
+
+function __setPolygonFilterInfo(name){
+  const fi = document.getElementById('map-filter-info');
+  if(!fi) return;
+  fi.style.display = 'block';
+  fi.innerHTML = '<span class="fi-ico" aria-hidden="true">🔎</span>' +
+    '<strong>' + __escapeHtml(name || '') +
+    '</strong> odağı görüntüleniyor. ' +
+    '<button class="btn-clear" type="button" onclick="clearPolygonFilter()">Tümünü Göster</button>';
+}
+
+function clearPolygonFilter(){
+  __activePolygonFeature = null;
+  __activePolygonName = null;
+
+  // poligon stili reset
+  try{
+    if(__activePolygonLayer && __activePolygonLayer.setStyle){
+      __activePolygonLayer.setStyle({ weight: 2, opacity: 0.9, fillOpacity: 0.07, color: '#596f8f', fillColor: '#596f8f', lineJoin: 'round', lineCap: 'round', dashArray: '6 4' });
+      // seçiliyken öne alınmışsa geri it
+      __activePolygonLayer.bringToBack && __activePolygonLayer.bringToBack();
+    }
+  }catch(e){}
+  __activePolygonLayer = null;
+
+  // Tab3'te "Temizle" => tekrar sadece poligonlar kalsın
+  try{
+    if(__isTab3Active && __isTab3Active()){
+      try{ allLayers.clearLayers(); }catch(e){}
+    } else {
+      // tüm kmzs katmanlarını geri getir (point + diğer)
+      __kmzPointLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
+      __kmzOtherLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
+
+      // markerlar üstte kalsın
+      __kmzPointLayers.forEach(l => { try{ l.bringToFront && l.bringToFront(); }catch(e){} });
+      __kmzOtherLayers.forEach(l => { try{ l.bringToFront && l.bringToFront(); }catch(e){} });
+    }
+  }catch(e){}
+    // Tab3 default görünümüne dön (zoom/merkez)
+  try{
+    if(__isTab3Active && __isTab3Active()){
+      map.setView(DEFAULT_CENTER, DEFAULT_ZOOM, { animate: true });
+    }
+  }catch(e){}
+__clearPolygonPanel();
+  clearFilterInfo();
+}
+
+function applyPolygonFilter(polyFeature, polyName, polyLeafletLayer){
+  __activePolygonFeature = polyFeature;
+  __activePolygonName = polyName;
+
+  // önce eski seçiliyi resetle
+  try{
+    if(__activePolygonLayer && __activePolygonLayer.setStyle){
+      __activePolygonLayer.setStyle({ weight: 2, opacity: 0.9, fillOpacity: 0.07, color: '#596f8f', fillColor: '#596f8f', lineJoin: 'round', lineCap: 'round', dashArray: '6 4' });
+      __activePolygonLayer.bringToBack && __activePolygonLayer.bringToBack();
+    }
+  }catch(e){}
+  __activePolygonLayer = polyLeafletLayer || null;
+
+  // Selected polygon should not show hover tooltip
+  try{ if(__activePolygonLayer && __activePolygonLayer.closeTooltip) __activePolygonLayer.closeTooltip(); }catch(e){}
+
+  // seçili poligonu vurgula ama markerların üstüne çıkmasına izin verme
+  try{
+    if(__activePolygonLayer && __activePolygonLayer.setStyle){
+      __activePolygonLayer.setStyle({ weight: 4, opacity: 1, fillOpacity: 0.20, color: '#334155', fillColor: '#475569', lineJoin: 'round', lineCap: 'round', dashArray: '6 4' });
+      __activePolygonLayer.bringToBack && __activePolygonLayer.bringToBack();
+    }
+  }catch(e){}
+  // Tab3: seçilen poligona zoom + ortala
+  try{
+    if(__activePolygonLayer){
+      let bb = null;
+      if(__activePolygonLayer.getBounds) bb = __activePolygonLayer.getBounds();
+      else if(__activePolygonLayer.getLayers){
+        const first = (__activePolygonLayer.getLayers() || [])[0];
+        if(first && first.getBounds) bb = first.getBounds();
+      }
+      if(bb && bb.isValid && bb.isValid()){
+        map.fitBounds(bb.pad(0.10), { padding:[20,20], maxZoom:16, animate:true });
+      }
+    }
+  }catch(e){}
+
+  // kmzs layer'larını filtrele (point + çizgisel)
+  try{
+    // hepsini kaldır
+    __kmzPointLayers.forEach(l => { if(l && allLayers.hasLayer(l)) allLayers.removeLayer(l); });
+    __kmzOtherLayers.forEach(l => { if(l && allLayers.hasLayer(l)) allLayers.removeLayer(l); });
+
+    // poligon içinde kalanları ekle
+    __kmzPointLayers.forEach(l => {
+      if(!l) return;
+      if(__layerInsidePolygon(l, polyFeature)){
+        allLayers.addLayer(l);
+        try{ l.bringToFront && l.bringToFront(); }catch(e){}
+      }
+    });
+
+    __kmzOtherLayers.forEach(l => {
+      if(!l) return;
+      if(__layerInsidePolygon(l, polyFeature)){
+        allLayers.addLayer(l);
+        try{ l.bringToFront && l.bringToFront(); }catch(e){}
+      }
+    });
+  }catch(e){}
+
+  try{ const __st = __computePolygonStats(polyFeature); __renderPolygonPanel(polyName, __st); }catch(e){}
+
+  __setPolygonFilterInfo(polyName);
+}
+
+
+// --- /Bölgeler (poligonlar) ---
+
+
+
+let featureToLayers = new Map();
+
+function __indexFeatureLayer(feat, layer){
+  if(!feat || !layer) return;
+  let arr = featureToLayers.get(feat);
+  if(!arr){
+    arr = [];
+    featureToLayers.set(feat, arr);
+  }
+  arr.push(layer);
+}
+
+function __getActiveBaseFeaturesForSearch(){
+  // Eğer bir film seçiliyse (showOnlyFilm), arama sadece o filmin feature'ları içinde çalışsın
+  const sel = document.querySelector('.film-title.selected');
+  if(sel){
+    const filmName = (sel.textContent || '').trim();
+    if(filmName && films && films[filmName]) return films[filmName];
+  }
+  return allKmzFeatures || [];
+}
+
+function __renderFeaturesToMap(feats){
+  allLayers.clearLayers();
+  const b = L.latLngBounds([]);
+  (feats || []).forEach(f=>{
+    const layers = featureToLayers.get(f) || [];
+    layers.forEach(l=>{
+      try{
+        allLayers.addLayer(l);
+        // bounds toplama: layer tipine göre
+        if(l.getLatLng) b.extend(l.getLatLng());
+        else if(l.getBounds) b.extend(l.getBounds());
+      }catch(e){}
+    });
+  });
+  try{
+    if(b.isValid && b.isValid()) map.fitBounds(b.pad(0.08), { padding: [20,20], maxZoom: 16, animate: true });
+  }catch(e){}
+}
+
+
+function __escapeRegExp(s){
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Unicode uyumlu "tam kelime" yakalama (Türkçe karakterlerle de çalışsın diye \b yerine kullanıyoruz)
+function __makeTokenRegex(token){
+  const t = (token || '').trim();
+  if(!t) return null;
+
+  // Çok kelimeli ifade: parça içinde arama (includes) mantığına uygun basit regex
+  if(t.includes(' ')){
+    return new RegExp(__escapeRegExp(t), 'iu');
+  }
+
+  // Tek kelime: kelime sınırı şartı (harf/rakam dışı karakterlerle çevrili olsun)
+  // (^|[^\p{L}\p{N}_]) token ([^\p{L}\p{N}_]|$)
+  return new RegExp('(^|[^\\p{L}\\p{N}_])(' + __escapeRegExp(t) + ')([^\\p{L}\\p{N}_]|$)', 'iu');
+}
+
+
+
+// Akıllı arama:
+// - "tırnak içi ifade" tek bir token olarak aranır
+// - + kullanılırsa tüm token'lar aynı anda (AND) aranır
+// - + yoksa token'lardan herhangi biri (OR) yeter
+function __parseSmartQuery(raw){
+  const s = (raw || '').trim();
+  if(!s) return { raw:'', tokens:[], requireAll:false };
+
+  const tokens = [];
+  // çift tırnak içi ifadeleri çek
+  const re = /"([^"]+)"/g;
+  let m;
+  while((m = re.exec(s)) !== null){
+    const phrase = (m[1] || '').trim();
+    if(phrase) tokens.push(phrase.toLowerCase());
+  }
+  // tırnaklı kısımları çıkar
+  const remainder = s.replace(re, ' ').trim();
+
+  // + işareti AND göstergesi
+  const requireAll = remainder.includes('+') || s.includes('+');
+
+  // kalan parçaları + ve boşluklardan böl
+  const parts = remainder.split(/\s*\+\s*|\s+/).map(p=>p.trim()).filter(Boolean);
+  parts.forEach(p => tokens.push(p.toLowerCase()));
+
+  // boş token temizle
+  const clean = tokens.filter(t=>t && t.length);
+
+  return { raw:s, tokens: clean, requireAll };
+}
+
+function __matchTextSmart(haystack, parsed){
+  const h = (haystack || '').toLowerCase();
+  const tokens = parsed && parsed.tokens ? parsed.tokens : [];
+  if(!tokens.length) return true;
+
+  const tests = (t) => {
+    const rx = __makeTokenRegex(t);
+    if(!rx) return false;
+    return rx.test(h);
+  };
+
+  if(parsed.requireAll){
+    return tokens.every(t => tests(t));
+  }
+  return tokens.some(t => tests(t));
+}
+
+
+function __escapeHtml(str){
+  return (str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function __highlightSmart(text, parsed){
+  const tokens = (parsed && parsed.tokens) ? parsed.tokens.slice() : [];
+  let out = __escapeHtml(text || '');
+  if(!tokens.length) return out;
+
+  tokens.sort((a,b)=>b.length-a.length);
+
+  tokens.forEach(tok=>{
+    if(!tok) return;
+    const rx = __makeTokenRegex(tok);
+    if(!rx) return;
+
+    // Tek kelime regex'inde yakalanan grup(2) token, çevresi grup1/grup3 — bunları koruyarak mark'la
+    if(tok.includes(' ')){
+      out = out.replace(new RegExp(__escapeRegExp(tok), 'giu'), m => '<mark>' + m + '</mark>');
+    } else {
+      out = out.replace(rx, (full, pre, mid, post) => (pre || '') + '<mark>' + (mid || '') + '</mark>' + (post || ''));
+    }
+  });
+
+  return out;
+}
+
+function __applySearchDeterministic(q){
+  const parsed = __parseSmartQuery(q);
+  const baseFeats = __getActiveBaseFeaturesForSearch();
+
+  if(!parsed.tokens.length){
+    // Arama boşsa: mevcut moda göre base feature'ları geri çiz
+    __renderFeaturesToMap(baseFeats);
+    return;
+  }
+
+  const matched = [];
+  baseFeats.forEach(f=>{
+    const props = f && f.properties ? f.properties : {};
+    const hay = ((props.name || '')).toString();
+    if(__matchTextSmart(hay, parsed)) matched.push(f);
+  });
+
+  __renderFeaturesToMap(matched);
+}
+
+// Harita odak/zoom'unu her tuş vuruşunda zıplatmamak için debounce
+let __searchDebounceTimer = null;
+function __applySearchDeterministicDebounced(qRaw){
+  if(__searchDebounceTimer) clearTimeout(__searchDebounceTimer);
+  __searchDebounceTimer = setTimeout(() => {
+    __applySearchDeterministic(qRaw);
+  }, 250);
+}
+
+
+function loadKmzs(onComplete){
+  fetch('kmzs.geojson').then(r=>r.json()).then(data=>{
+    films = {}; featureToLayer = new Map(); featureToLayers = new Map(); allLayers.clearLayers(); __kmzPointLayers = []; __kmzOtherLayers = [];
+    allKmzFeatures = [];
+    data.features.forEach(f=>{
+      let year = null;
+      if (f.properties) {
+        if (typeof f.properties.year === 'number') {
+          year = f.properties.year;
+        } else {
+          const folderStr = f.properties.folder || '';
+          const ym = folderStr.match(/\b(19[0-9]{2}|20[0-2][0-9])\b/);
+          if (ym) year = parseInt(ym[0]);
+        }
+        if (year) f.properties._year = year;
+      }
+      allKmzFeatures.push(f);
+      const folder = cleanFolderName(f.properties?.folder) || "Bilinmeyen Film";
+      const name = f.properties?.name || "(Adsız Mekân)";
+      if(!films[folder]) films[folder]=[];
+      films[folder].push(f);
+
+      const geom = f.geometry;
+      if(!geom) return;
+
+      const styleProps = f.properties?.style || {};
+      const color = styleProps.fillColor || '#e63946';
+      let layer = null;
+      if(geom.type === 'Point'){
+        const coords = [geom.coordinates[1], geom.coordinates[0]];
+        const radius = styleProps.radius || 6;
+        layer = L.circleMarker(coords, {pane:'markerPane', renderer: hitRenderer, 
+          radius,
+          color,
+          fillColor: styleProps.fillColor || color,
+          fillOpacity: ('fillOpacity' in styleProps) ? styleProps.fillOpacity : 1
+        });
+      } else if(geom.type === 'MultiPoint'){
+        const coords = geom.coordinates.map(c => [c[1], c[0]]);
+        const group = L.featureGroup(coords.map(c => L.circleMarker(c, {pane:'markerPane', renderer: hitRenderer, radius: styleProps.radius||6, color, fillColor: styleProps.fillColor||color, fillOpacity: ('fillOpacity' in styleProps)? styleProps.fillOpacity:1})));
+        layer = group;
+      } else if(geom.type === 'LineString' || geom.type === 'MultiLineString'){
+        const coords = (geom.type === 'LineString') ? geom.coordinates.map(c => [c[1], c[0]]) : geom.coordinates.map(line => line.map(c => [c[1], c[0]]));
+        layer = (geom.type === 'LineString') ? L.polyline(coords, {pane:'linePane', renderer: hitRenderer, color: color, weight: 3, opacity: 0.9}) : L.featureGroup(coords.map(line => L.polyline(line, {pane:'linePane', renderer: hitRenderer, color: color, weight:3, opacity:0.9})));
+      } else if(geom.type === 'Polygon' || geom.type === 'MultiPolygon'){
+        const coords = (geom.type === 'Polygon') ? geom.coordinates.map(ring => ring.map(c => [c[1], c[0]])) : geom.coordinates.map(poly => poly.map(ring => ring.map(c => [c[1], c[0]])));
+        layer = (geom.type === 'Polygon') ? L.polygon(coords, {pane:'polygonPane', renderer: hitRenderer, color: color, weight:2, fillColor: color, fillOpacity:0.3}) : L.featureGroup(coords.map(poly => L.polygon(poly, {renderer: hitRenderer, color: color, weight:2, fillColor: color, fillOpacity:0.3})));
+      }
+
+      if(layer){
+
+const props = f.properties || {};
+let desc = props.description || '';
+let rawImgs = (desc.match(/<img[^>]*>/gi) || []);
+desc = desc.replace(/<img[^>]*>/gi, '').trim();
+
+let imgs = [];
+if (Array.isArray(props.images)) {
+  imgs = props.images.map(src => `<img class='carousel-image' src="${src}" alt="">`);
+} else {
+  if (props.image) rawImgs.push(`<img class='carousel-image' src="${props.image}" alt="">`);
+  imgs = rawImgs;
+}
+
+let popup = `<div style="font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;">`;
+popup += `<div style="font-weight:700;font-size:11pt;margin-bottom:4px;">${name}</div>`;
+popup += `<div style="font-weight:500;font-size:10pt;margin-bottom:6px;">${folder}</div>`;
+if(desc){ popup += `<div style="font-weight:400;font-size:9pt;margin-bottom:8px;">${desc}</div>`; }
+
+if (imgs.length === 1) {
+  popup += imgs[0].replace("carousel-image", "");
+} else if (imgs.length > 1) {
+  imgs = imgs.map((im,i)=>im.replace("carousel-image", i===0 ? "carousel-image active" : "carousel-image"));
+  popup += `
+    <div class="carousel-container">
+      ${imgs.join('')}
+      <div class="carousel-controls">
+        <div class="carousel-buttons">
+          <button class="carousel-btn prev" onclick="carouselPrev(this)">‹</button>
+          <button class="carousel-btn next" onclick="carouselNext(this)">›</button>
+        </div>
+        <div class="carousel-counter">1 / ${imgs.length}</div>
+      </div>
+    </div>`;
+}
+popup += `</div>`;
+if(layer.getLayers && typeof layer.getLayers === 'function'){
+          layer.getLayers().forEach(ch => { if(ch.bindPopup) ch.bindPopup(popup); ch.feature = f; allLayers.addLayer(ch); featureToLayer.set(f, ch); __indexFeatureLayer(f, ch); try{ __wireClickGate(ch); }catch(e){}; if (ch.on) {
+      ch.on('click', function(e){
+        try{ if(!__markerClickGate(ch, e)) return; }catch(err){}
+        if(!__markerClickGate(this, e)) return;
+        let tc=null;
+        if (ch.getLatLng) tc=ch.getLatLng();
+        else if (ch.getBounds) tc=ch.getBounds().getCenter();
+        if (tc) map.panTo(tc,{animate:true});
+      });
+    }
+    });
+        } else {
+
+           if(layer.bindPopup) layer.bindPopup(popup);
+          try{ __wireClickGate(layer); }catch(e){}
+
+if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
+  layer.off('click'); // varsa eski click eventini kaldır
+  layer.on('click', function (e) {
+    try{ if(!__markerClickGate(layer, e)) return; }catch(err){}
+    if(!__markerClickGate(layer, e)) return;
+    if(!__markerClickGate(this, e)) return;
+    const center = layer.getBounds().getCenter();
+    map.openPopup(popup, center);
+  });
+}
+
+          layer.feature = f;
+          // kmzs layer indeksleri (poligon filtresi için)
+          try{
+            if(geom && (geom.type === 'Point' || geom.type === 'MultiPoint')) __kmzPointLayers.push(layer);
+            else __kmzOtherLayers.push(layer);
+          }catch(e){}
+          allLayers.addLayer(layer);
+          featureToLayer.set(f, layer); __indexFeatureLayer(f, layer); if (layer.on) {
+      layer.on('click', function(e){
+        try{ if(!__markerClickGate(layer, e)) return; }catch(err){}
+        if(!__markerClickGate(this, e)) return;
+        let tc=null;
+        if (layer.getLatLng) tc=layer.getLatLng();
+        else if (layer.getBounds) tc=layer.getBounds().getCenter();
+        else if (layer.getLayers && typeof layer.getLayers==='function'){
+          try{
+            const gb=L.latLngBounds([]);
+            layer.getLayers().forEach(sub=>{
+              if(sub.getLatLng) gb.extend(sub.getLatLng());
+              else if(sub.getBounds) gb.extend(sub.getBounds());
+            });
+            if(gb.isValid && gb.isValid()) tc=gb.getCenter();
+          }catch(e){}
+        }
+        if (tc) map.panTo(tc,{animate:true});
+      });
+    }
+  if (layer.on) {
+    layer.on('click', function() {
+      let targetCenter = null;
+      if (layer.getLatLng) targetCenter = layer.getLatLng();
+      else if (layer.getBounds) targetCenter = layer.getBounds().getCenter();
+      else if (layer.getLayers && typeof layer.getLayers === 'function') {
+        try {
+          const groupBounds = L.latLngBounds([]);
+          layer.getLayers().forEach(sub => {
+            if (sub.getLatLng) groupBounds.extend(sub.getLatLng());
+            else if (sub.getBounds) groupBounds.extend(sub.getBounds());
+          });
+          if (groupBounds.isValid()) targetCenter = groupBounds.getCenter();
+        } catch (err) {}
+      }
+      if (targetCenter) map.panTo(targetCenter, { animate: true });
+    });
+  }
+
+        }
+      }
+    });
+
+    try{
+      const b=allLayers.getBounds();
+      if(b && b.isValid && b.isValid()) map.fitBounds(b.pad(0.08));
+    }catch(e){ map.setView([39.93,32.85],11); }
+
+    const filmList = document.getElementById('film-list');
+    filmList.innerHTML = '';
+    Object.keys(films)
+    .sort((a,b)=>{
+      const ya=parseInt((a.match(/\d{4}/)||[0])[0]);
+      const yb=parseInt((b.match(/\d{4}/)||[0])[0]);
+      return (ya||9999)-(yb||9999);
+    })
+    .forEach(film=>{
+      const div=document.createElement('div');
+      div.className='film';
+      const title=document.createElement('div');
+      title.className='film-title';
+      title.textContent=film;
+      const ul=document.createElement('ul');
+      ul.className='mekan-list';
+
+      films[film].forEach(feat=>{
+        const li=document.createElement('li');
+        li.textContent=feat.properties.name||'(Adsız Mekan)';
+        li.dataset.rawText = li.textContent;
+        li.onclick = (e) => {
+  e.stopPropagation();
+  const layer = featureToLayer.get(feat);
+  if (!layer) return;
+
+  let targetCenter = null;
+  let bounds = L.latLngBounds([]);
+
+  if (layer.getLatLng) {
+    targetCenter = layer.getLatLng();
+  }
+
+  else if (layer.getBounds) {
+    bounds.extend(layer.getBounds());
+  }
+
+  else if (layer.getLayers && typeof layer.getLayers === "function") {
+    layer.getLayers().forEach((sub) => {
+      if (sub.getLatLng) bounds.extend(sub.getLatLng());
+      else if (sub.getBounds) bounds.extend(sub.getBounds());
+    });
+  }
+
+  if (bounds.isValid && bounds.isValid()) {
+    targetCenter = bounds.getCenter();
+  }
+
+  if (targetCenter) {
+    map.setView(targetCenter, 16, { animate: true });
+    setTimeout(() => map.panTo(targetCenter, { animate: true }), 200);
+  }
+
+  // Popup disabled (sidebar already shows details)
+
+  if (window.innerWidth <= 768) {
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.getElementById("toggle-btn");
+    const arrow = toggle.querySelector("span");
+    sidebar.classList.add("closed");
+    toggle.style.left = "0";
+    arrow.textContent = "▸";
+  }
+};
+        ul.appendChild(li);
+      });
+
+      title.onclick = function(e) {
+  document.querySelectorAll('.mekan-list').forEach(list => {
+    if (list !== ul) list.style.display = 'none';
+  });
+
+  showOnlyFilm(film);
+
+  ul.style.display = (ul.style.display === 'none' || ul.style.display === '') ? 'block' : 'none';
+};
+      div.appendChild(title);
+      div.appendChild(ul);
+      filmList.appendChild(div);
+    });
+
+    const searchInput = document.getElementById('search');
+    searchInput.addEventListener('input',(e)=>{
+      const qRaw = e.target.value;
+      const parsed = __parseSmartQuery(qRaw);
+      __applySearchDeterministicDebounced(qRaw);
+document.querySelectorAll('.film').forEach(div=>{
+        const title = div.querySelector('.film-title').textContent.toLowerCase();
+        const liNodes = Array.from(div.querySelectorAll('li'));
+        const lis = liNodes.map(li=>li.textContent.toLowerCase());
+        const match = !parsed.tokens.length || lis.some(t=>__matchTextSmart(t, parsed));
+        div.style.display = match ? 'block' : 'none';
+
+        if(parsed.tokens.length){
+          // highlight + renk ayarı mark ile yapılacak
+          liNodes.forEach(li=>{
+            const text = li.dataset.rawText || li.textContent;
+            li.innerHTML = __highlightSmart(text, parsed);
+          });
+
+          // eşleşen mekan(lar)ı listenin en üstüne taşı
+          const ul = div.querySelector('.mekan-list');
+          if (ul) {
+            const matchingLis = [];
+            const nonMatchingLis = [];
+            Array.from(ul.querySelectorAll('li')).forEach(li=>{
+              const t = (li.dataset.rawText || li.textContent).toLowerCase();
+              if (__matchTextSmart(t, parsed)) matchingLis.push(li);
+              else nonMatchingLis.push(li);
+            });
+            ul.innerHTML = '';
+            matchingLis.concat(nonMatchingLis).forEach(li=>ul.appendChild(li));
+          }
+        } else {
+
+          // arama kutusu boşsa highlight'ları temizle
+          liNodes.forEach(li=> { li.innerHTML = __escapeHtml(li.dataset.rawText || li.textContent); });
+        }
+      });
+    });
+
+    if(onComplete) onComplete();
+    clearFilterInfo();
+  }).catch(err=>{
+    console.error('kmzs.geojson yükleme hatası', err);
+    if(onComplete) onComplete(err);
+  });
+}
+
+function loadHeatmap(periodKey){
+  clearFilterInfo();
+  allLayers.clearLayers();
+  if (!allKmzFeatures.length) return;
+
+  let minYear = 0, maxYear = 9999;
+  if (periodKey === '1966-1980') { minYear = 1966; maxYear = 1980; }
+  else if (periodKey === '1988-2001') { minYear = 1988; maxYear = 2001; }
+  else if (periodKey === '2010-2022') { minYear = 2010; maxYear = 2022; }
+
+  const points = [];
+
+  allKmzFeatures.forEach(f => {
+    const props = f.properties || {};
+    const year = props._year;
+    if (!year || year < minYear || year > maxYear) return;
+
+    const layer = featureToLayer.get(f);
+    if (!layer) return;
+
+    const addPointFromLatLng = (latlng) => {
+      if (!latlng) return;
+      points.push([latlng.lat, latlng.lng, 1.6]);
+    };
+
+    if (layer.getLatLng) {
+      addPointFromLatLng(layer.getLatLng());
+    } else if (layer.getBounds) {
+      addPointFromLatLng(layer.getBounds().getCenter());
+    } else if (layer.getLayers && typeof layer.getLayers === 'function') {
+      try{
+        const groupBounds = L.latLngBounds([]);
+        layer.getLayers().forEach(sub => {
+          if (sub.getLatLng) groupBounds.extend(sub.getLatLng());
+          else if (sub.getBounds) groupBounds.extend(sub.getBounds());
+        });
+        if (groupBounds.isValid && groupBounds.isValid()) {
+          addPointFromLatLng(groupBounds.getCenter());
+        }
+      }catch(e){}
+    }
+
+    if (window.__updateScrollHint) setTimeout(window.__updateScrollHint, 120);
+  });
+
+  if (!points.length) {
+    console.warn('Seçilen dönem için heatmap noktası bulunamadı.');
+    return;
+  }
+
+  L.heatLayer(points, {
+    radius: 42,
+    blur: 26,
+    maxZoom: 19,
+    max: 1.0,
+    minOpacity: 0.25,
+    gradient: {
+      0.0: '#000000',
+      0.3: '#2b0000',
+      0.5: '#660000',
+      0.7: '#b30000',
+      0.85: '#ff4500',
+      1.0: '#ffd000'
+    }
+  }).addTo(allLayers);
+
+  try{
+    const b = allLayers.getBounds();
+    if (b && b.isValid && b.isValid()) map.fitBounds(b.pad(0.08));
+  }catch(e){}
+}
+
+function clearData(){ allLayers.clearLayers(); clearFilterInfo(); }
+
+
+function pulseLayer(layer){
+  try{
+    if(!layer) return;
+    if(typeof layer.setRadius === 'function' && (layer instanceof L.CircleMarker || layer instanceof L.Circle)){
+      var orig = layer.options && (layer.options.radius || layer.getRadius && layer.getRadius()) ? (layer.getRadius ? layer.getRadius() : layer.options.radius) : 6;
+      var bigger = Math.round(orig * 2.5);
+      layer.setRadius(bigger);
+      setTimeout(function(){ try{ layer.setRadius(orig); }catch(e){} }, 1000);
+    } else if(typeof layer.setStyle === 'function'){
+      var origWeight = (layer.options && layer.options.weight) ? layer.options.weight : 3;
+      layer.setStyle({weight: Math.max(2, origWeight*1.8)});
+      if(layer.bringToFront) layer.bringToFront();
+      setTimeout(function(){ try{ layer.setStyle({weight: origWeight}); }catch(e){} }, 1000);
+    }
+  }catch(e){ console.error('pulseLayer error', e); }
+}
+
+function showFilterInfo(filmName){
+  var fi = document.getElementById('map-filter-info');
+  fi.innerHTML = '🎞️&nbsp;&nbsp;<strong>' + filmName + '</strong> filmi görüntüleniyor. '
+               + '<button class="btn-clear" onclick="restoreAll()">Tümünü Göster</button>';
+  fi.style.display = 'block';
+}
+function clearFilterInfo(){
+  var fi = document.getElementById('map-filter-info');
+  if(fi){ fi.style.display='none'; fi.innerHTML=''; }
+}
+function restoreAll(){
+  try{ clearPolygonFilter(); }catch(e){}
+  clearFilterInfo();
+  document.querySelectorAll('.film-title').forEach(ft=>ft.classList.remove('selected'));
+  loadKmzs();
+}
+function showOnlyFilm(filmName){
+  document.querySelectorAll('.film-title').forEach(ft => ft.classList.remove('selected'));
+  document.querySelectorAll('.film-title').forEach(ft => {
+    if(ft.textContent.trim() === filmName.trim()) ft.classList.add('selected');
+  });
+  if(!films || !films[filmName]) return;
+  allLayers.clearLayers();
+  var bounds = L.latLngBounds([]);
+  films[filmName].forEach(function(f){
+    var layer = featureToLayer.get(f);
+    if(!layer) return;
+    if(layer.getLayers && typeof layer.getLayers === 'function'){
+      layer.getLayers().forEach(function(ch){
+        allLayers.addLayer(ch);
+        if(ch.getLatLng) bounds.extend(ch.getLatLng());
+        else if(ch.getBounds) bounds.extend(ch.getBounds());
+      });
+    } else {
+      allLayers.addLayer(layer);
+      if(layer.getLatLng) bounds.extend(layer.getLatLng());
+      else if(layer.getBounds) bounds.extend(layer.getBounds());
+    }
+  });
+  try{
+    if(bounds.isValid && bounds.isValid()) map.fitBounds(bounds.pad(0.08));
+  }catch(e){ console.error('fitBounds error', e); }
+  showFilterInfo(filmName);
+
+
+}
+
+
+
+function showPeriodFilterInfo(periodText){
+  var fi = document.getElementById('map-filter-info');
+  fi.innerHTML =
+    '🗺️&nbsp;&nbsp;<strong>' + periodText + ' dönemi</strong> dağılımı ve yoğunluğu görüntüleniyor. ' +
+    '<button class="btn-clear" onclick="restoreAllPeriods()">Tümünü Göster</button>';
+  fi.style.display = 'block';
+}
+
+function restoreAllPeriods(){
+  clearFilterInfo();
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+  loadFullHeatmap();
+}
+
+function loadFullHeatmap(){
+  clearFilterInfo();
+  allLayers.clearLayers();
+  if (!allKmzFeatures.length) return;
+
+  const points = [];
+
+  allKmzFeatures.forEach(f => {
+    const layer = featureToLayer.get(f);
+    if (!layer) return;
+
+    const addPointFromLatLng = (latlng) => {
+      if (!latlng) return;
+      points.push([latlng.lat, latlng.lng, 1.6]);
+    };
+
+    if (layer.getLatLng) {
+      addPointFromLatLng(layer.getLatLng());
+    } else if (layer.getBounds) {
+      addPointFromLatLng(layer.getBounds().getCenter());
+    } else if (layer.getLayers && typeof layer.getLayers === 'function') {
+      try{
+        const groupBounds = L.latLngBounds([]);
+        layer.getLayers().forEach(sub => {
+          if (sub.getLatLng) groupBounds.extend(sub.getLatLng());
+          else if (sub.getBounds) groupBounds.extend(sub.getBounds());
+        });
+        if (groupBounds.isValid && groupBounds.isValid()) {
+          addPointFromLatLng(groupBounds.getCenter());
+        }
+      }catch(e){}
+    }
+  });
+
+  if (!points.length) {
+    console.warn('Tüm dönemler için heatmap noktası bulunamadı.');
+    return;
+  }
+
+  L.heatLayer(points, {
+    radius: 42,
+    blur: 26,
+    maxZoom: 19,
+    max: 1.0,
+    minOpacity: 0.25,
+    gradient: {
+      0.0: '#000000',
+      0.3: '#2b0000',
+      0.5: '#660000',
+      0.7: '#b30000',
+      0.85: '#ff4500',
+      1.0: '#ffd000'
+    }
+  }).addTo(allLayers);
+
+  try{
+    const b = allLayers.getBounds();
+    if (b && b.isValid && b.isValid()) map.fitBounds(b.pad(0.08));
+  }catch(e){}
+}
+
+const sidebar=document.getElementById('sidebar');
+const toggle=document.getElementById('toggle-btn');
+const arrow=toggle.querySelector('span');
+toggle.addEventListener('click', () => {
+  sidebar.classList.toggle('closed');
+  const isClosed = sidebar.classList.contains('closed');
+
+  if (isClosed) {
+    toggle.style.left = '0';
+    arrow.textContent = '▸';
+  } else {
+    toggle.style.left = '340px';
+    arrow.textContent = '◂';
+  }
+
+  map.invalidateSize();
+});
+
+
+
+
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', () => {
+    // içerikleri kapat
+    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active-visible'));
+
+    // aktif sekme butonu
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const tab = btn.dataset.tab;
+
+    // Tab3 dışına çıkarken poligon katmanını kaldır
+    try{ if(tab !== 'bolgeler' && typeof polygonLayers !== 'undefined') polygonLayers.clearLayers(); }catch(e){}
+
+    // içerikleri aç/kapat
+    document.getElementById('tab-filmler').classList.toggle('active-visible', tab === 'filmler');
+    document.getElementById('tab-yogunluk').classList.toggle('active-visible', tab === 'yogunluk');
+    const bolgelerTab = document.getElementById('tab-bolgeler');
+    if(bolgelerTab) bolgelerTab.classList.toggle('active-visible', tab === 'bolgeler');
+
+    // Sekme değişiminde Leaflet yeniden boyutlandırma (gizli container'dan gelince şart)
+    setTimeout(function(){ try{ map.invalidateSize(); }catch(e){} }, 60);
+
+    if(tab === 'filmler'){
+      document.getElementById('search').style.display = 'block';
+      document.getElementById('film-list').style.display = 'block';
+      loadKmzs();
+    } else if(tab === 'yogunluk'){
+      document.getElementById('search').style.display = 'none';
+      document.getElementById('film-list').style.display = 'none';
+      document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+      loadFullHeatmap();
+      clearFilterInfo();
+      map.setView(DEFAULT_CENTER, DEFAULT_ZOOM, { animate: true });
+    } else if(tab === 'bolgeler'){
+      document.getElementById('search').style.display = 'none';
+      document.getElementById('film-list').style.display = 'none';
+      document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+      clearFilterInfo();
+      // Tab3: önce sadece poligonlar görünsün; bölge seçilince içerideki marker/rota görünsün
+      try{ allLayers.clearLayers(); }catch(e){}
+      loadKmzs(function(){
+        try{ __activePolygonFeature = null; __activePolygonName = null; __activePolygonLayer = null; }catch(e){}
+        try{ __clearPolygonPanel && __clearPolygonPanel(); }catch(e){}
+        try{ allLayers.clearLayers(); }catch(e){}
+        loadPolygons();
+      });
+    } else {
+      document.getElementById('search').style.display = 'none';
+      document.getElementById('film-list').style.display = 'none';
+      clearData();
+    }
+  });
+});
+
+
+document.querySelectorAll('.period-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const periodKey = btn.getAttribute('data-period');
+    const yogunlukTabBtn = document.querySelector('.tab-btn[data-tab="yogunluk"]');
+    if (yogunlukTabBtn && yogunlukTabBtn.classList.contains('active')) {
+      loadHeatmap(periodKey);
+
+      const periodText = btn.textContent.split(':')[0].trim();
+      showPeriodFilterInfo(periodText);
+    }
+  });
+});
+
+loadKmzs();
+document.getElementById('tab-filmler').classList.add('active-visible');
+document.getElementById('tab-filmler').classList.add('active-visible');
+document.querySelector('.tab-btn[data-tab="filmler"]').classList.add('active');
+
+</script>
+
+
+<script>
+// --- Sidebar scroll ipucu (Tab3: seçili poligon film listesi aşağı uzuyorsa) ---
+(function initBolgelerScrollHint(){
+  const sidebar = document.getElementById('sidebar');
+  const tabBolgeler = document.getElementById('tab-bolgeler');
+  const scrollHint = document.getElementById('scroll-hint-bolgeler');
+  if(!sidebar || !tabBolgeler || !scrollHint) return;
+
+  function isBolgelerActive(){
+    return tabBolgeler.classList.contains('active-visible');
+  }
+
+  function updateBolgelerHint(){
+    // Sadece "Kentsel Odaklar" sekmesindeyken, panel açıksa ve sidebar gerçekten kaydırılabiliyorken göster
+    const panel = document.getElementById('polygon-panel');
+    const panelVisible = !!(panel && panel.style && panel.style.display !== 'none');
+    const hasList = !!(document.getElementById('polygon-film-list') && document.getElementById('polygon-film-list').children.length);
+    const canScroll = sidebar.scrollHeight > (sidebar.clientHeight + 6);
+    const nearTop = sidebar.scrollTop < 8;
+
+    if (isBolgelerActive() && panelVisible && hasList && canScroll && nearTop) {
+      scrollHint.style.display = 'flex';
+    } else {
+      scrollHint.style.display = 'none';
+    }
+  }
+
+  sidebar.addEventListener('scroll', updateBolgelerHint, {passive:true});
+  window.addEventListener('resize', updateBolgelerHint);
+
+  const obs = new MutationObserver(() => updateBolgelerHint());
+  obs.observe(tabBolgeler, {childList:true, subtree:true, attributes:true});
+
+  setTimeout(updateBolgelerHint, 350);
+
+  // dışarıdan çağrı (tab değişiminde) için:
+  window.__updateBolgelerHint = updateBolgelerHint;
+})();
+</script>
+
+
+<script>
+function carouselNext(btn){
+  const container = btn.closest('.carousel-container');
+  if (!container) return;
+  const imgs = container.querySelectorAll('.carousel-image');
+  const counter = container.querySelector('.carousel-counter');
+  if (!imgs.length) return;
+  let i = [...imgs].findIndex(im => im.classList.contains('active'));
+  if (i === -1) i = 0;
+
+  imgs[i].classList.remove('active');
+  const newIndex = (i + 1) % imgs.length;
+  imgs[newIndex].classList.add('active');
+
+  if (counter) {
+    counter.textContent = (newIndex + 1) + ' / ' + imgs.length;
+  }
+}
+function carouselPrev(btn){
+  const container = btn.closest('.carousel-container');
+  if (!container) return;
+  const imgs = container.querySelectorAll('.carousel-image');
+  const counter = container.querySelector('.carousel-counter');
+  if (!imgs.length) return;
+  let i = [...imgs].findIndex(im => im.classList.contains('active'));
+  if (i === -1) i = 0;
+
+  imgs[i].classList.remove('active');
+  const newIndex = (i - 1 + imgs.length) % imgs.length;
+  imgs[newIndex].classList.add('active');
+
+  if (counter) {
+    counter.textContent = (newIndex + 1) + ' / ' + imgs.length;
+  }
+}
+</script>
+
+
+<script>
+// --- Sidebar otomatik fotoğraf slider'ı ---
+
+// Buraya kendi GitHub (raw) görsel URL'lerini ekleyebilirsin:
+const sidebarSliderImages = [
+  "images/menu-images/m_i_1.jpg",
+  "images/menu-images/m_i_2.jpg",
+  "images/menu-images/m_i_3.jpg",
+  "images/menu-images/m_i_4.jpg",
+  "images/menu-images/m_i_5.jpg",
+  "images/menu-images/m_i_6.jpg",
+  "images/menu-images/m_i_7.jpg",
+  "images/menu-images/m_i_8.jpg",
+  "images/menu-images/m_i_9.jpg",
+  "images/menu-images/m_i_10.jpg"
+];
+
+(function initSidebarSlider(){
+  if (!sidebarSliderImages || sidebarSliderImages.length === 0) return;
+
+  const imgEl = document.getElementById('sidebar-slider-image');
+  const dotsContainer = document.querySelector('.slider-dots');
+  if (!imgEl || !dotsContainer) return;
+
+  let currentIndex = 0;
+  let intervalId = null;
+
+  function renderDots() {
+    dotsContainer.innerHTML = '';
+    sidebarSliderImages.forEach((_, idx) => {
+      const dot = document.createElement('div');
+      dot.className = 'slider-dot' + (idx === currentIndex ? ' active' : '');
+      dot.addEventListener('click', () => {
+        goToSlide(idx, true);
+      });
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  function goToSlide(index, resetTimer) {
+    currentIndex = (index + sidebarSliderImages.length) % sidebarSliderImages.length;
+    const url = sidebarSliderImages[currentIndex];
+
+    imgEl.classList.remove('visible');
+    // Küçük bir timeout ile fade geçişini daha yumuşak yapalım
+    setTimeout(() => {
+      imgEl.src = url;
+      imgEl.onload = () => {
+        imgEl.classList.add('visible');
+      };
+    }, 80);
+
+    const dots = dotsContainer.querySelectorAll('.slider-dot');
+    dots.forEach((d, i) => {
+      d.classList.toggle('active', i === currentIndex);
+    });
+
+    if (resetTimer && intervalId) {
+      clearInterval(intervalId);
+      startAutoPlay();
+    }
+  }
+
+  function startAutoPlay() {
+    intervalId = setInterval(() => {
+      goToSlide(currentIndex + 1, false);
+    }, 2000); // 2 saniyede bir değişsin
+  }
+
+  // Başlangıç
+  renderDots();
+  goToSlide(0, false);
+  startAutoPlay();
+})();
+</script>
+
+
+<script>
+// --- Sidebar scroll ipucu (film listesi aşağı doğru uzuyorsa) ---
+(function initSidebarScrollHint(){
+  const sidebar = document.getElementById('sidebar');
+  const tabFilmler = document.getElementById('tab-filmler');
+  const scrollHint = document.getElementById('scroll-hint');
+  if(!sidebar || !tabFilmler || !scrollHint) return;
+
+  function isFilmlerActive(){
+    return tabFilmler.classList.contains('active-visible');
+  }
+
+  function updateScrollHint(){
+    // Sadece "Filmler" sekmesindeyken ve sidebar gerçekten kaydırılabiliyorken göster
+    const canScroll = sidebar.scrollHeight > (sidebar.clientHeight + 6);
+    const nearTop = sidebar.scrollTop < 8;
+    if (isFilmlerActive() && canScroll && nearTop) {
+      scrollHint.style.display = 'flex';
+    } else {
+      scrollHint.style.display = 'none';
+    }
+  }
+
+  sidebar.addEventListener('scroll', updateScrollHint, {passive:true});
+  window.addEventListener('resize', updateScrollHint);
+
+  // kmz/film listesi her yenilendiğinde yükseklik değişebilir
+  const obs = new MutationObserver(() => updateScrollHint());
+  obs.observe(tabFilmler, {childList:true, subtree:true});
+
+  // ilk ölçüm
+  setTimeout(updateScrollHint, 350);
+
+  // dışarıdan da çağrılabilsin (tab değişiminde)
+  window.__updateScrollHint = updateScrollHint;
+})();
+</script>
+
+
+
+
+</body>
+</html>
