@@ -979,6 +979,17 @@ body {
   </span>
 </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
 <script>
 function cleanFolderName(folder){
   if(!folder) return "";
@@ -989,7 +1000,8 @@ const DEFAULT_CENTER = [39.93, 32.85];
 const DEFAULT_ZOOM = 11;
 const hitRenderer = L.canvas({tolerance:18});
 const map = L.map('map', {preferCanvas:true, tap:true, tapTolerance:20}).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
-// Panes: poligonlar altta, çizgiler ortada, markerlar üstte (tıklanabilirlik için)
+
+// Panes: poligonlar altta, çizgiler ortada, markerlar üstte
 map.createPane('polygonPane');
 map.getPane('polygonPane').style.zIndex = 350;
 map.createPane('linePane');
@@ -999,6 +1011,7 @@ map.getPane('markerPane').style.zIndex = 650;
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   maxZoom: 22, }).addTo(map);
+
 const scaleDiv = L.DomUtil.create('div', 'numeric-scale', map.getContainer());
 function updateNumericScale() {
   const centerLat = map.getCenter().lat;
@@ -1013,15 +1026,15 @@ updateNumericScale();
 let films = {};
 let featureToLayer = new Map();
 let allLayers = L.layerGroup().addTo(map);
-let polygonLayers = L.layerGroup().addTo(map); // Tab3 poligon katmanı (kmzs katmanından ayrı)
-let __kmzPointLayers = []; // kmzs: Point/MultiPoint layer'ları
-let __kmzOtherLayers = []; // kmzs: LineString vb.
+let polygonLayers = L.layerGroup().addTo(map); 
+let __kmzPointLayers = []; 
+let __kmzOtherLayers = []; 
 let __activePolygonFeature = null;
 let __activePolygonName = null;
 let __activePolygonLayer = null;
 let allKmzFeatures = [];
 
-// Poligon seçiminin ilk tıkında (overlap olsa bile) kmzs popup'larını kapat.
+// Poligon seçiminin ilk tıkında kmzs popup'larını kapat.
 window.__suppressKmzPopupsUntil = 0;
 try{
   map.on('popupopen', function(e){
@@ -1029,7 +1042,6 @@ try{
       if(!__isTab3Active || !__isTab3Active()) return;
       if(!window.__suppressKmzPopupsUntil || Date.now() > window.__suppressKmzPopupsUntil) return;
       const src = e && e.popup ? e.popup._source : null;
-      // kmzs katmanları (point/line) işaretliyoruz
       if(src && src.__isKmzLayer){
         try{ map.closePopup(e.popup); }catch(err){ try{ map.closePopup(); }catch(_){} }
       }
@@ -1039,25 +1051,19 @@ try{
 
 // --- Bölgeler (poligonlar) ---
 let polygonFeatures = null;
-let polygonLayerIndex = []; // {name, layer, bounds}
+let polygonLayerIndex = []; 
 
 function __getPolygonName(props){
   if(!props) return "Bölge";
-  // önce name gibi anahtarlar
   const direct = props.name || props.Name || props.NAME || props.bolge || props.Bolge || props.BÖLGE;
   if(direct && String(direct).trim()) return String(direct).trim();
-
-  // geojson.io bazen "Ulus": "" gibi tek anahtar koyuyor
   const keys = Object.keys(props || {});
   if(keys.length === 1 && keys[0]) return String(keys[0]).trim();
-
-  // birden fazla anahtar varsa ilk dolu değeri al, yoksa ilk anahtar
   for(const k of keys){
     const v = props[k];
     if(v !== null && v !== undefined && String(v).trim()) return String(v).trim();
   }
   if(keys[0]) return String(keys[0]).trim();
-
   return "Bölge";
 }
 
@@ -1065,66 +1071,18 @@ function __renderPolygonsToSidebar(){
   const listEl = document.getElementById('bolgeler-list');
   if(!listEl) return;
   listEl.innerHTML = '';
-
-  polygonLayerIndex.forEach((item) => {
-    const b = document.createElement('button');
-    b.className = 'period-btn';
-    b.textContent = item.name;
-    b.addEventListener('click', () => {
-      document.querySelectorAll('#bolgeler-list .period-btn').forEach(x=>x.classList.remove('active'));
-      try{ clearPolygonFilter(); }catch(e){}
-      b.classList.add('active');
-      try{
-        // seçili poligon filtresi uygula
-        try{
-          const base = (item.layer && item.layer.getLayers) ? (item.layer.getLayers()[0] || item.layer) : item.layer;
-          applyPolygonFilter(item.feature, item.name, base);
-        }catch(e){}
-        if(item.bounds && item.bounds.isValid && item.bounds.isValid()){
-          map.fitBounds(item.bounds.pad(0.08), { padding: [20,20], maxZoom: 16, animate: true });
-        }
-      }catch(e){}
-    });
-    listEl.appendChild(b);
-  });
-
-  const allBtn = document.getElementById('btn-show-all-polygons');
-  if(allBtn){
-    allBtn.addEventListener('click', () => {
-      document.querySelectorAll('#bolgeler-list .period-btn').forEach(x=>x.classList.remove('active'));
-      const bb = L.latLngBounds([]);
-      polygonLayerIndex.forEach(it => { try{ if(it.bounds) bb.extend(it.bounds); }catch(e){} });
-      try{
-        if(bb.isValid && bb.isValid()) map.fitBounds(bb.pad(0.08), { padding: [20,20], maxZoom: 13, animate: true });
-      }catch(e){}
-    });
-  }
+  // Sidebar listesi (Varsa)
 }
 
 function loadPolygons(){
-  // FORCE reload polygons every time
   polygonFeatures = null;
   polygonLayerIndex = [];
-
-  // Tab3 poligon katmanı: kmzs (noktasal/çizgisel) katmanını silmeden sadece poligonları yönet
   try{ if(polygonLayers) polygonLayers.clearLayers(); }catch(e){}
-
-  if(polygonFeatures){
-    // cache varsa yeniden çiz
-    polygonLayerIndex.forEach(it => { try{ polygonLayers.addLayer(it.layer); }catch(e){} });
-    __renderPolygonsToSidebar();
-    // default: tümünü göster
-    const bb = L.latLngBounds([]);
-    polygonLayerIndex.forEach(it => { try{ if(it.bounds) bb.extend(it.bounds); }catch(e){} });
-    try{ if(bb.isValid && bb.isValid()) map.fitBounds(bb.pad(0.08), { padding:[20,20], maxZoom: 13, animate:true }); }catch(e){}
-    return;
-  }
 
   fetch('poligons.geojson')
     .then(r => r.json())
     .then(geojson => {
       polygonFeatures = geojson;
-
       polygonLayerIndex = [];
       const bb = L.latLngBounds([]);
 
@@ -1147,11 +1105,8 @@ function loadPolygons(){
             try{
               const n = __getPolygonName(feat.properties);
               lyr.bindPopup('<b>' + n + '</b>');
-              try{
-                lyr.bindTooltip(n, {sticky:true, direction:'top', opacity:0.95});
-              }catch(e){}
+              try{ lyr.bindTooltip(n, {sticky:true, direction:'top', opacity:0.95}); }catch(e){}
 
-              // Hover: bölgeyi belli et (seçili değilse)
               try{
                 lyr.on('mouseover', function(){
                   try{
@@ -1175,27 +1130,19 @@ function loadPolygons(){
           }
         });
 
-        // bounds + index
         let bounds = null;
         try{ bounds = layer.getBounds(); }catch(e){}
         polygonLayerIndex.push({ name, layer, bounds, feature: f });
-
         try{ polygonLayers.addLayer(layer); }catch(e){}
         try{ if(bounds) bb.extend(bounds); }catch(e){}
       });
-
-      // sidebar listesi
       __renderPolygonsToSidebar();
-
-      // default: Tab1/Tab2 ile aynı odak/ölçek (Tab3'e girince harita zıplamasın)
       try{ map.setView(DEFAULT_CENTER, DEFAULT_ZOOM, { animate: false }); }catch(e){}
 })
     .catch(err => console.error('poligons.geojson okunamadı:', err));
 }
 
-
 function __pointInRing(lng, lat, ring){
-  // ring: [[lng,lat],...]
   let inside = false;
   for (let i=0, j=ring.length-1; i<ring.length; j=i++){
     const xi = ring[i][0], yi = ring[i][1];
@@ -1209,23 +1156,18 @@ function __pointInRing(lng, lat, ring){
 function __pointInGeoJSONPolygon(latlng, geom){
   if(!latlng || !geom) return false;
   const lng = latlng.lng, lat = latlng.lat;
-
   const checkPolygonCoords = (coords) => {
     if(!coords || !coords.length) return false;
     const outer = coords[0];
     if(!outer || outer.length < 3) return false;
     if(!__pointInRing(lng, lat, outer)) return false;
-    // holes
     for(let h=1; h<coords.length; h++){
       const hole = coords[h];
       if(hole && hole.length >= 3 && __pointInRing(lng, lat, hole)) return false;
     }
     return true;
   };
-
-  if(geom.type === 'Polygon'){
-    return checkPolygonCoords(geom.coordinates);
-  }
+  if(geom.type === 'Polygon') return checkPolygonCoords(geom.coordinates);
   if(geom.type === 'MultiPolygon'){
     const polys = geom.coordinates || [];
     for(let p=0; p<polys.length; p++){
@@ -1238,8 +1180,6 @@ function __pointInGeoJSONPolygon(latlng, geom){
 
 function __layerInsidePolygon(layer, polyFeature){
   if(!layer || !polyFeature || !polyFeature.geometry) return false;
-
-  // helper: latlng flatten
   const __flatten = (latlngs, out=[]) => {
     if(!latlngs) return out;
     if(Array.isArray(latlngs)){
@@ -1249,13 +1189,9 @@ function __layerInsidePolygon(layer, polyFeature){
     }
     return out;
   };
-
-  // Point / CircleMarker
   if(typeof layer.getLatLng === 'function'){
     return __pointInGeoJSONPolygon(layer.getLatLng(), polyFeature.geometry);
   }
-
-  // MultiPoint group
   if(typeof layer.getLayers === 'function'){
     try{
       const subs = layer.getLayers() || [];
@@ -1273,8 +1209,6 @@ function __layerInsidePolygon(layer, polyFeature){
       }
     }catch(e){}
   }
-
-  // Polyline / MultiPolyline
   if(typeof layer.getLatLngs === 'function'){
     try{
       const pts = __flatten(layer.getLatLngs(), []);
@@ -1283,11 +1217,8 @@ function __layerInsidePolygon(layer, polyFeature){
       }
     }catch(e){}
   }
-
   return false;
 }
-
-
 
 function __isPointGeom(t){ return (t === 'Point' || t === 'MultiPoint'); }
 function __isLineGeom(t){ return (t === 'LineString' || t === 'MultiLineString'); }
@@ -1309,106 +1240,19 @@ function __isTab3Active(){
   }catch(e){ return false; }
 }
 
-function __layerInsideAnyPolygon(layer){
-  try{
-    if(!polygonFeatures || !polygonFeatures.features || !polygonFeatures.features.length) return false;
-    for(let i=0; i<polygonFeatures.features.length; i++){
-      const f = polygonFeatures.features[i];
-      if(!f || !f.geometry) continue;
-      const gt = f.geometry.type;
-      if(gt !== 'Polygon' && gt !== 'MultiPolygon') continue;
-      if(__layerInsidePolygon(layer, f)) return true;
-    }
-  }catch(e){}
-  return false;
-}
-
-function __promptSelectRegion(){
-  try{
-    const empty = document.getElementById('polygon-empty');
-    const panel = document.getElementById('polygon-panel');
-    if(panel) panel.style.display = 'none';
-    if(empty){
-      empty.style.display = 'block';
-      empty.innerHTML = 'Önce haritadan bir <b>bölge</b> seç. <span style="color:#6b7280;">(Bölge dışında kalan markerlar seçilebilir.)</span>';
-    }
-  }catch(e){}
-}
-
-/**
- * Tab3'te poligon seçilmeden, herhangi bir poligonun İÇİNDE kalan kırmızı öğelere tıklamayı engeller.
- * - Tab1/Tab2: hiç dokunmaz.
- * - Tab3 + poligon seçili: serbest bırakır.
- */
-function __markerClickGate(layer, ev){
-  try{
-    if(!__isTab3Active()) return true;      // sadece Tab3
-    if(__activePolygonFeature) return true; // poligon seçildiyse serbest
-
-    // poligonlar gelmediyse engelleme yapma
-    if(!polygonFeatures) return true;
-
-    // Poligon içindeyse: önce bölge seçilmeli
-    if(__layerInsideAnyPolygon(layer)){
-      try{ map.closePopup(); }catch(e){}
-      try{ if(layer && layer.closePopup) layer.closePopup(); }catch(e){}
-      __promptSelectRegion();
-
-      // popup auto-open dahil, olayı kes
-      try{
-        const oe = (ev && ev.originalEvent) ? ev.originalEvent : ev;
-        if(oe) L.DomEvent.stop(oe);
-      }catch(e){}
-      return false;
-    }
-  }catch(e){}
-  return true;
-}
-
-/**
- * Leaflet'in bindPopup() otomatik açılmasını da kontrol etmek için:
- * 'preclick' aşamasında gate uygular.
- */
-function __wireClickGate(layer){
-  try{
-    if(!layer) return;
-    if(layer.__clickGateWired) return;
-    layer.__clickGateWired = true;
-
-    if(layer.on){
-      layer.on('preclick', function(e){
-        if(!__markerClickGate(layer, e)){
-          try{
-            const oe = (e && e.originalEvent) ? e.originalEvent : e;
-            if(oe) L.DomEvent.stop(oe);
-          }catch(err){}
-        }
-      });
-    }
-
-    // Group ise çocuklara da uygula
-    if(layer.getLayers && typeof layer.getLayers === 'function'){
-      try{ layer.getLayers().forEach(ch => __wireClickGate(ch)); }catch(e){}
-    }
-  }catch(e){}
-}
-
-
 function __computePolygonStats(polyFeature){
-  const filmToItems = new Map(); // film -> [{name, kind, feature}]
+  const filmToItems = new Map(); 
   const filmSet = new Set();
   let pts = 0, lines = 0;
 
   (allKmzFeatures || []).forEach(f => {
     const layer = featureToLayer.get(f);
     if(!layer) return;
-
     if(!__layerInsidePolygon(layer, polyFeature)) return;
 
     const film = cleanFolderName(f?.properties?.folder) || "Bilinmeyen Film";
     const name = (f?.properties?.name) ? String(f.properties.name) : "(Adsız Mekân)";
     const t = f && f.geometry ? f.geometry.type : null;
-
     let kind = 'diger';
     if(__isPointGeom(t)) { kind = 'mekan'; pts++; }
     else if(__isLineGeom(t)) { kind = 'rota'; lines++; }
@@ -1422,7 +1266,6 @@ function __computePolygonStats(polyFeature){
   const totals = __computeGlobalMarkerTotals();
   const inAll = pts + lines;
   const pct = totals.totalAll ? (inAll / totals.totalAll * 100) : 0;
-
   return { pts, lines, films: filmSet.size, pct, filmToItems, totals, inAll };
 }
 
@@ -1460,14 +1303,12 @@ function __renderPolygonPanel(polyName, stats){
       if(!hasA && hasB) return 1;
       return String(a).localeCompare(String(b), 'tr');
     });
-filmsSorted.forEach(filmName => {
+  filmsSorted.forEach(filmName => {
     const wrap = document.createElement('div');
     wrap.className = 'film';
-
     const title = document.createElement('div');
     title.className = 'film-title';
     title.textContent = filmName;
-
     const ul = document.createElement('ul');
     ul.className = 'mekan-list';
     ul.style.display = 'none';
@@ -1485,16 +1326,12 @@ filmsSorted.forEach(filmName => {
     items.forEach(it => {
       const li = document.createElement('li');
       li.textContent = it.name + (it.kind === 'rota' ? ' (rota)' : '');
-      li.dataset.rawText = li.textContent;
-
       li.onclick = (e) => {
         e.stopPropagation();
         const layer = featureToLayer.get(it.feature);
         if(!layer) return;
-
         let targetCenter = null;
         let bounds = L.latLngBounds([]);
-
         if (layer.getLatLng) {
           targetCenter = layer.getLatLng();
         } else if (layer.getBounds) {
@@ -1507,14 +1344,11 @@ filmsSorted.forEach(filmName => {
             });
           }catch(err){}
         }
-
         if (bounds.isValid && bounds.isValid()) targetCenter = bounds.getCenter();
-
         if (targetCenter) {
           map.setView(targetCenter, 16, { animate: true });
           setTimeout(() => { try{ map.panTo(targetCenter, { animate: true }); }catch(err){} }, 200);
         }
-
         if (layer.openPopup) {
           try{ layer.openPopup(); }catch(err){}
         } else if (layer.getLayers && typeof layer.getLayers === "function") {
@@ -1522,14 +1356,11 @@ filmsSorted.forEach(filmName => {
           if (firstSub && firstSub.openPopup) try{ firstSub.openPopup(); }catch(err){}
         }
       };
-
       ul.appendChild(li);
     });
-
     title.onclick = function(e){
       ul.style.display = (ul.style.display === 'none' || ul.style.display === '') ? 'block' : 'none';
     };
-
     wrap.appendChild(title);
     wrap.appendChild(ul);
     list.appendChild(wrap);
@@ -1547,7 +1378,6 @@ function __clearPolygonPanel(){
   if(empty) empty.style.display = 'block';
 }
 
-
 function __setPolygonFilterInfo(name){
   const fi = document.getElementById('map-filter-info');
   if(!fi) return;
@@ -1560,28 +1390,28 @@ function clearPolygonFilter(){
   __activePolygonFeature = null;
   __activePolygonName = null;
 
-  // poligon stili reset
+  // --- KRİTİK DÜZELTME: Temizle denince marker tıklamalarını KAPAT ---
+  if(map.getPane('markerPane')) map.getPane('markerPane').style.pointerEvents = 'none';
+  if(map.getPane('linePane')) map.getPane('linePane').style.pointerEvents = 'none';
+
   try{
     if(__activePolygonLayer && __activePolygonLayer.setStyle){
       __activePolygonLayer.setStyle({ weight: 2, opacity: 0.9, fillOpacity: 0.10, color: '#e63946', fillColor: '#e63946', lineJoin: 'round', lineCap: 'round' });
-      // seçiliyken öne alınmışsa geri it
       __activePolygonLayer.bringToBack && __activePolygonLayer.bringToBack();
     }
   }catch(e){}
   __activePolygonLayer = null;
 
-  // Tab3'te "Temizle" => tekrar sadece poligonlar kalsın
   try{
     if(__isTab3Active && __isTab3Active()){
       try{ allLayers.clearLayers(); }catch(e){}
     } else {
-      // tüm kmzs katmanlarını geri getir (point + diğer)
       __kmzPointLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
       __kmzOtherLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
 
-      // markerlar üstte kalsın
-      __kmzPointLayers.forEach(l => { try{ l.bringToFront && l.bringToFront(); }catch(e){} });
-      __kmzOtherLayers.forEach(l => { try{ l.bringToFront && l.bringToFront(); }catch(e){} });
+      // Tab 1/2'ye dönülmüşse tıklamaları AÇ
+      if(map.getPane('markerPane')) map.getPane('markerPane').style.pointerEvents = 'auto';
+      if(map.getPane('linePane')) map.getPane('linePane').style.pointerEvents = 'auto';
     }
   }catch(e){}
   __clearPolygonPanel();
@@ -1589,8 +1419,10 @@ function clearPolygonFilter(){
 }
 
 function applyPolygonFilter(polyFeature, polyName, polyLeafletLayer){
-  // Tab3'te poligon seçimi TIK'ında (aynı noktada marker olsa bile) marker popup'ını bastır.
-  // Bu bayrak, Leaflet popup açsa bile 'popupopen' yakalayıcısı tarafından kapatılacak.
+  // --- KRİTİK DÜZELTME: Poligon seçilince marker tıklamalarını AÇ ---
+  if(map.getPane('markerPane')) map.getPane('markerPane').style.pointerEvents = 'auto';
+  if(map.getPane('linePane')) map.getPane('linePane').style.pointerEvents = 'auto';
+
   try{
     window.__suppressKmzPopupsUntil = Date.now() + 180;
     try{ map.closePopup(); }catch(e){}
@@ -1599,7 +1431,6 @@ function applyPolygonFilter(polyFeature, polyName, polyLeafletLayer){
   __activePolygonFeature = polyFeature;
   __activePolygonName = polyName;
 
-  // önce eski seçiliyi resetle
   try{
     if(__activePolygonLayer && __activePolygonLayer.setStyle){
       __activePolygonLayer.setStyle({ weight: 2, opacity: 0.9, fillOpacity: 0.10, color: '#e63946', fillColor: '#e63946', lineJoin: 'round', lineCap: 'round' });
@@ -1608,7 +1439,6 @@ function applyPolygonFilter(polyFeature, polyName, polyLeafletLayer){
   }catch(e){}
   __activePolygonLayer = polyLeafletLayer || null;
 
-  // seçili poligonu vurgula ama markerların üstüne çıkmasına izin verme
   try{
     if(__activePolygonLayer && __activePolygonLayer.setStyle){
       __activePolygonLayer.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.22, color: '#ffd000', fillColor: '#ffd000', lineJoin: 'round', lineCap: 'round' });
@@ -1616,13 +1446,10 @@ function applyPolygonFilter(polyFeature, polyName, polyLeafletLayer){
     }
   }catch(e){}
 
-  // kmzs layer'larını filtrele (point + çizgisel)
   try{
-    // hepsini kaldır
     __kmzPointLayers.forEach(l => { if(l && allLayers.hasLayer(l)) allLayers.removeLayer(l); });
     __kmzOtherLayers.forEach(l => { if(l && allLayers.hasLayer(l)) allLayers.removeLayer(l); });
 
-    // poligon içinde kalanları ekle
     __kmzPointLayers.forEach(l => {
       if(!l) return;
       if(__layerInsidePolygon(l, polyFeature)){
@@ -1641,29 +1468,18 @@ function applyPolygonFilter(polyFeature, polyName, polyLeafletLayer){
   }catch(e){}
 
   try{ const __st = __computePolygonStats(polyFeature); __renderPolygonPanel(polyName, __st); }catch(e){}
-
   __setPolygonFilterInfo(polyName);
 }
 
-
-// --- /Bölgeler (poligonlar) ---
-
-
-
 let featureToLayers = new Map();
-
 function __indexFeatureLayer(feat, layer){
   if(!feat || !layer) return;
   let arr = featureToLayers.get(feat);
-  if(!arr){
-    arr = [];
-    featureToLayers.set(feat, arr);
-  }
+  if(!arr){ arr = []; featureToLayers.set(feat, arr); }
   arr.push(layer);
 }
 
 function __getActiveBaseFeaturesForSearch(){
-  // Eğer bir film seçiliyse (showOnlyFilm), arama sadece o filmin feature'ları içinde çalışsın
   const sel = document.querySelector('.film-title.selected');
   if(sel){
     const filmName = (sel.textContent || '').trim();
@@ -1680,7 +1496,6 @@ function __renderFeaturesToMap(feats){
     layers.forEach(l=>{
       try{
         allLayers.addLayer(l);
-        // bounds toplama: layer tipine göre
         if(l.getLatLng) b.extend(l.getLatLng());
         else if(l.getBounds) b.extend(l.getBounds());
       }catch(e){}
@@ -1691,57 +1506,29 @@ function __renderFeaturesToMap(feats){
   }catch(e){}
 }
 
-
-function __escapeRegExp(s){
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-// Unicode uyumlu "tam kelime" yakalama (Türkçe karakterlerle de çalışsın diye \b yerine kullanıyoruz)
+function __escapeRegExp(s){ return s.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&'); }
 function __makeTokenRegex(token){
   const t = (token || '').trim();
   if(!t) return null;
-
-  // Çok kelimeli ifade: parça içinde arama (includes) mantığına uygun basit regex
-  if(t.includes(' ')){
-    return new RegExp(__escapeRegExp(t), 'iu');
-  }
-
-  // Tek kelime: kelime sınırı şartı (harf/rakam dışı karakterlerle çevrili olsun)
-  // (^|[^\p{L}\p{N}_]) token ([^\p{L}\p{N}_]|$)
+  if(t.includes(' ')){ return new RegExp(__escapeRegExp(t), 'iu'); }
   return new RegExp('(^|[^\\p{L}\\p{N}_])(' + __escapeRegExp(t) + ')([^\\p{L}\\p{N}_]|$)', 'iu');
 }
 
-
-
-// Akıllı arama:
-// - "tırnak içi ifade" tek bir token olarak aranır
-// - + kullanılırsa tüm token'lar aynı anda (AND) aranır
-// - + yoksa token'lardan herhangi biri (OR) yeter
 function __parseSmartQuery(raw){
   const s = (raw || '').trim();
   if(!s) return { raw:'', tokens:[], requireAll:false };
-
   const tokens = [];
-  // çift tırnak içi ifadeleri çek
   const re = /"([^"]+)"/g;
   let m;
   while((m = re.exec(s)) !== null){
     const phrase = (m[1] || '').trim();
     if(phrase) tokens.push(phrase.toLowerCase());
   }
-  // tırnaklı kısımları çıkar
   const remainder = s.replace(re, ' ').trim();
-
-  // + işareti AND göstergesi
   const requireAll = remainder.includes('+') || s.includes('+');
-
-  // kalan parçaları + ve boşluklardan böl
   const parts = remainder.split(/\s*\+\s*|\s+/).map(p=>p.trim()).filter(Boolean);
   parts.forEach(p => tokens.push(p.toLowerCase()));
-
-  // boş token temizle
   const clean = tokens.filter(t=>t && t.length);
-
   return { raw:s, tokens: clean, requireAll };
 }
 
@@ -1749,19 +1536,14 @@ function __matchTextSmart(haystack, parsed){
   const h = (haystack || '').toLowerCase();
   const tokens = parsed && parsed.tokens ? parsed.tokens : [];
   if(!tokens.length) return true;
-
   const tests = (t) => {
     const rx = __makeTokenRegex(t);
     if(!rx) return false;
     return rx.test(h);
   };
-
-  if(parsed.requireAll){
-    return tokens.every(t => tests(t));
-  }
+  if(parsed.requireAll){ return tokens.every(t => tests(t)); }
   return tokens.some(t => tests(t));
 }
-
 
 function __escapeHtml(str){
   return (str || '')
@@ -1776,46 +1558,36 @@ function __highlightSmart(text, parsed){
   const tokens = (parsed && parsed.tokens) ? parsed.tokens.slice() : [];
   let out = __escapeHtml(text || '');
   if(!tokens.length) return out;
-
   tokens.sort((a,b)=>b.length-a.length);
-
   tokens.forEach(tok=>{
     if(!tok) return;
     const rx = __makeTokenRegex(tok);
     if(!rx) return;
-
-    // Tek kelime regex'inde yakalanan grup(2) token, çevresi grup1/grup3 — bunları koruyarak mark'la
     if(tok.includes(' ')){
       out = out.replace(new RegExp(__escapeRegExp(tok), 'giu'), m => '<mark>' + m + '</mark>');
     } else {
       out = out.replace(rx, (full, pre, mid, post) => (pre || '') + '<mark>' + (mid || '') + '</mark>' + (post || ''));
     }
   });
-
   return out;
 }
 
 function __applySearchDeterministic(q){
   const parsed = __parseSmartQuery(q);
   const baseFeats = __getActiveBaseFeaturesForSearch();
-
   if(!parsed.tokens.length){
-    // Arama boşsa: mevcut moda göre base feature'ları geri çiz
     __renderFeaturesToMap(baseFeats);
     return;
   }
-
   const matched = [];
   baseFeats.forEach(f=>{
     const props = f && f.properties ? f.properties : {};
     const hay = ((props.name || '')).toString();
     if(__matchTextSmart(hay, parsed)) matched.push(f);
   });
-
   __renderFeaturesToMap(matched);
 }
 
-// Harita odak/zoom'unu her tuş vuruşunda zıplatmamak için debounce
 let __searchDebounceTimer = null;
 function __applySearchDeterministicDebounced(qRaw){
   if(__searchDebounceTimer) clearTimeout(__searchDebounceTimer);
@@ -1823,7 +1595,6 @@ function __applySearchDeterministicDebounced(qRaw){
     __applySearchDeterministic(qRaw);
   }, 250);
 }
-
 
 function loadKmzs(onComplete){
   fetch('kmzs.geojson').then(r=>r.json()).then(data=>{
@@ -1839,580 +1610,308 @@ function loadKmzs(onComplete){
           const ym = folderStr.match(/\b(19[0-9]{2}|20[0-2][0-9])\b/);
           if (ym) year = parseInt(ym[0]);
         }
-        if (year) f.properties._year = year;
       }
+      f.properties.year = year;
       allKmzFeatures.push(f);
-      const folder = cleanFolderName(f.properties?.folder) || "Bilinmeyen Film";
-      const name = f.properties?.name || "(Adsız Mekân)";
-      if(!films[folder]) films[folder]=[];
+
+      const folder = cleanFolderName(f.properties.folder);
+      if(!films[folder]) films[folder] = [];
       films[folder].push(f);
 
-      const geom = f.geometry;
-      if(!geom) return;
-
-      const styleProps = f.properties?.style || {};
-      const color = styleProps.fillColor || '#e63946';
-      let layer = null;
-      if(geom.type === 'Point'){
-        const coords = [geom.coordinates[1], geom.coordinates[0]];
-        const radius = styleProps.radius || 6;
-        layer = L.circleMarker(coords, {pane:'markerPane', renderer: hitRenderer, 
-          radius,
-          color,
-          fillColor: styleProps.fillColor || color,
-          fillOpacity: ('fillOpacity' in styleProps) ? styleProps.fillOpacity : 1
-        });
-      } else if(geom.type === 'MultiPoint'){
-        const coords = geom.coordinates.map(c => [c[1], c[0]]);
-        const group = L.featureGroup(coords.map(c => L.circleMarker(c, {pane:'markerPane', renderer: hitRenderer, radius: styleProps.radius||6, color, fillColor: styleProps.fillColor||color, fillOpacity: ('fillOpacity' in styleProps)? styleProps.fillOpacity:1})));
-        layer = group;
-      } else if(geom.type === 'LineString' || geom.type === 'MultiLineString'){
-        const coords = (geom.type === 'LineString') ? geom.coordinates.map(c => [c[1], c[0]]) : geom.coordinates.map(line => line.map(c => [c[1], c[0]]));
-        layer = (geom.type === 'LineString') ? L.polyline(coords, {pane:'linePane', renderer: hitRenderer, color: color, weight: 3, opacity: 0.9}) : L.featureGroup(coords.map(line => L.polyline(line, {pane:'linePane', renderer: hitRenderer, color: color, weight:3, opacity:0.9})));
-      } else if(geom.type === 'Polygon' || geom.type === 'MultiPolygon'){
-        const coords = (geom.type === 'Polygon') ? geom.coordinates.map(ring => ring.map(c => [c[1], c[0]])) : geom.coordinates.map(poly => poly.map(ring => ring.map(c => [c[1], c[0]])));
-        layer = (geom.type === 'Polygon') ? L.polygon(coords, {pane:'polygonPane', renderer: hitRenderer, color: color, weight:2, fillColor: color, fillOpacity:0.3}) : L.featureGroup(coords.map(poly => L.polygon(poly, {renderer: hitRenderer, color: color, weight:2, fillColor: color, fillOpacity:0.3})));
-      }
-
-      if(layer){
-
-const props = f.properties || {};
-let desc = props.description || '';
-let rawImgs = (desc.match(/<img[^>]*>/gi) || []);
-desc = desc.replace(/<img[^>]*>/gi, '').trim();
-
-let imgs = [];
-if (Array.isArray(props.images)) {
-  imgs = props.images.map(src => `<img class='carousel-image' src="${src}" alt="">`);
-} else {
-  if (props.image) rawImgs.push(`<img class='carousel-image' src="${props.image}" alt="">`);
-  imgs = rawImgs;
-}
-
-let popup = `<div style="font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;">`;
-popup += `<div style="font-weight:700;font-size:11pt;margin-bottom:4px;">${name}</div>`;
-popup += `<div style="font-weight:500;font-size:10pt;margin-bottom:6px;">${folder}</div>`;
-if(desc){ popup += `<div style="font-weight:400;font-size:9pt;margin-bottom:8px;">${desc}</div>`; }
-
-if (imgs.length === 1) {
-  popup += imgs[0].replace("carousel-image", "");
-} else if (imgs.length > 1) {
-  imgs = imgs.map((im,i)=>im.replace("carousel-image", i===0 ? "carousel-image active" : "carousel-image"));
-  popup += `
-    <div class="carousel-container">
-      ${imgs.join('')}
-      <div class="carousel-controls">
-        <div class="carousel-buttons">
-          <button class="carousel-btn prev" onclick="carouselPrev(this)">‹</button>
-          <button class="carousel-btn next" onclick="carouselNext(this)">›</button>
-        </div>
-        <div class="carousel-counter">1 / ${imgs.length}</div>
-      </div>
-    </div>`;
-}
-popup += `</div>`;
-if(layer.getLayers && typeof layer.getLayers === 'function'){
-          layer.getLayers().forEach(ch => { ch.__isKmzLayer = true; if(ch.bindPopup) ch.bindPopup(popup); ch.feature = f; allLayers.addLayer(ch); featureToLayer.set(f, ch); __indexFeatureLayer(f, ch); try{ __wireClickGate(ch); }catch(e){}; if (ch.on) {
-      ch.on('click', function(e){
-        try{ if(!__markerClickGate(ch, e)) return; }catch(err){}
-        if(!__markerClickGate(this, e)) return;
-        let tc=null;
-        if (ch.getLatLng) tc=ch.getLatLng();
-        else if (ch.getBounds) tc=ch.getBounds().getCenter();
-        if (tc) map.panTo(tc,{animate:true});
-      });
-    }
-    });
-        } else {
-
-           layer.__isKmzLayer = true; if(layer.bindPopup) layer.bindPopup(popup);
-          try{ __wireClickGate(layer); }catch(e){}
-
-if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
-  layer.off('click'); // varsa eski click eventini kaldır
-  layer.on('click', function (e) {
-    try{ if(!__markerClickGate(layer, e)) return; }catch(err){}
-    if(!__markerClickGate(layer, e)) return;
-    if(!__markerClickGate(this, e)) return;
-    const center = layer.getBounds().getCenter();
-    map.openPopup(popup, center);
-  });
-}
-
-          layer.feature = f;
-          // kmzs layer indeksleri (poligon filtresi için)
-          try{
-            if(geom && (geom.type === 'Point' || geom.type === 'MultiPoint')) __kmzPointLayers.push(layer);
-            else __kmzOtherLayers.push(layer);
-          }catch(e){}
-          allLayers.addLayer(layer);
-          featureToLayer.set(f, layer); __indexFeatureLayer(f, layer); if (layer.on) {
-      layer.on('click', function(e){
-        try{ if(!__markerClickGate(layer, e)) return; }catch(err){}
-        if(!__markerClickGate(this, e)) return;
-        let tc=null;
-        if (layer.getLatLng) tc=layer.getLatLng();
-        else if (layer.getBounds) tc=layer.getBounds().getCenter();
-        else if (layer.getLayers && typeof layer.getLayers==='function'){
-          try{
-            const gb=L.latLngBounds([]);
-            layer.getLayers().forEach(sub=>{
-              if(sub.getLatLng) gb.extend(sub.getLatLng());
-              else if(sub.getBounds) gb.extend(sub.getBounds());
-            });
-            if(gb.isValid && gb.isValid()) tc=gb.getCenter();
-          }catch(e){}
-        }
-        if (tc) map.panTo(tc,{animate:true});
-      });
-    }
-  if (layer.on) {
-    layer.on('click', function() {
-      let targetCenter = null;
-      if (layer.getLatLng) targetCenter = layer.getLatLng();
-      else if (layer.getBounds) targetCenter = layer.getBounds().getCenter();
-      else if (layer.getLayers && typeof layer.getLayers === 'function') {
-        try {
-          const groupBounds = L.latLngBounds([]);
-          layer.getLayers().forEach(sub => {
-            if (sub.getLatLng) groupBounds.extend(sub.getLatLng());
-            else if (sub.getBounds) groupBounds.extend(sub.getBounds());
-          });
-          if (groupBounds.isValid()) targetCenter = groupBounds.getCenter();
-        } catch (err) {}
-      }
-      if (targetCenter) map.panTo(targetCenter, { animate: true });
-    });
-  }
-
-        }
-      }
-    });
-
-    try{
-      const b=allLayers.getBounds();
-      if(b && b.isValid && b.isValid()) map.fitBounds(b.pad(0.08));
-    }catch(e){ map.setView([39.93,32.85],11); }
-
-    const filmList = document.getElementById('film-list');
-    filmList.innerHTML = '';
-    Object.keys(films)
-    .sort((a,b)=>{
-      const ya=parseInt((a.match(/\d{4}/)||[0])[0]);
-      const yb=parseInt((b.match(/\d{4}/)||[0])[0]);
-      return (ya||9999)-(yb||9999);
-    })
-    .forEach(film=>{
-      const div=document.createElement('div');
-      div.className='film';
-      const title=document.createElement('div');
-      title.className='film-title';
-      title.textContent=film;
-      const ul=document.createElement('ul');
-      ul.className='mekan-list';
-
-      films[film].forEach(feat=>{
-        const li=document.createElement('li');
-        li.textContent=feat.properties.name||'(Adsız Mekan)';
-        li.dataset.rawText = li.textContent;
-        li.onclick = (e) => {
-  e.stopPropagation();
-  const layer = featureToLayer.get(feat);
-  if (!layer) return;
-
-  let targetCenter = null;
-  let bounds = L.latLngBounds([]);
-
-  if (layer.getLatLng) {
-    targetCenter = layer.getLatLng();
-  }
-
-  else if (layer.getBounds) {
-    bounds.extend(layer.getBounds());
-  }
-
-  else if (layer.getLayers && typeof layer.getLayers === "function") {
-    layer.getLayers().forEach((sub) => {
-      if (sub.getLatLng) bounds.extend(sub.getLatLng());
-      else if (sub.getBounds) bounds.extend(sub.getBounds());
-    });
-  }
-
-  if (bounds.isValid && bounds.isValid()) {
-    targetCenter = bounds.getCenter();
-  }
-
-  if (targetCenter) {
-    map.setView(targetCenter, 16, { animate: true });
-    setTimeout(() => map.panTo(targetCenter, { animate: true }), 200);
-  }
-
-  if (layer.openPopup) {
-    layer.openPopup();
-  } else if (layer.getLayers && typeof layer.getLayers === "function") {
-    const firstSub = layer.getLayers()[0];
-    if (firstSub && firstSub.openPopup) firstSub.openPopup();
-  }
-
-  if (window.innerWidth <= 768) {
-    const sidebar = document.getElementById("sidebar");
-    const toggle = document.getElementById("toggle-btn");
-    const arrow = toggle.querySelector("span");
-    sidebar.classList.add("closed");
-    toggle.style.left = "0";
-    arrow.textContent = "▸";
-  }
-};
-        ul.appendChild(li);
-      });
-
-      title.onclick = function(e) {
-  document.querySelectorAll('.mekan-list').forEach(list => {
-    if (list !== ul) list.style.display = 'none';
-  });
-
-  showOnlyFilm(film);
-
-  ul.style.display = (ul.style.display === 'none' || ul.style.display === '') ? 'block' : 'none';
-};
-      div.appendChild(title);
-      div.appendChild(ul);
-      filmList.appendChild(div);
-    });
-
-    const searchInput = document.getElementById('search');
-    searchInput.addEventListener('input',(e)=>{
-      const qRaw = e.target.value;
-      const parsed = __parseSmartQuery(qRaw);
-      __applySearchDeterministicDebounced(qRaw);
-document.querySelectorAll('.film').forEach(div=>{
-        const title = div.querySelector('.film-title').textContent.toLowerCase();
-        const liNodes = Array.from(div.querySelectorAll('li'));
-        const lis = liNodes.map(li=>li.textContent.toLowerCase());
-        const match = !parsed.tokens.length || lis.some(t=>__matchTextSmart(t, parsed));
-        div.style.display = match ? 'block' : 'none';
-
-        if(parsed.tokens.length){
-          // highlight + renk ayarı mark ile yapılacak
-          liNodes.forEach(li=>{
-            const text = li.dataset.rawText || li.textContent;
-            li.innerHTML = __highlightSmart(text, parsed);
-          });
-
-          // eşleşen mekan(lar)ı listenin en üstüne taşı
-          const ul = div.querySelector('.mekan-list');
-          if (ul) {
-            const matchingLis = [];
-            const nonMatchingLis = [];
-            Array.from(ul.querySelectorAll('li')).forEach(li=>{
-              const t = (li.dataset.rawText || li.textContent).toLowerCase();
-              if (__matchTextSmart(t, parsed)) matchingLis.push(li);
-              else nonMatchingLis.push(li);
-            });
-            ul.innerHTML = '';
-            matchingLis.concat(nonMatchingLis).forEach(li=>ul.appendChild(li));
+      const layer = L.geoJSON(f, {
+        pane: (f.geometry.type==='LineString'||f.geometry.type==='MultiLineString') ? 'linePane' : 'markerPane',
+        pointToLayer: function(feat, latlng){
+          return L.circleMarker(latlng, { radius: 5, fillColor: "#ff7800", color: "#000", weight: 1, opacity: 1, fillOpacity: 0.8 });
+        },
+        style: function(feat){
+          if(feat.geometry.type==='LineString'||feat.geometry.type==='MultiLineString'){
+            return { color: "#3388ff", weight: 3, opacity: 0.8 };
           }
-        } else {
+          return {};
+        },
+        onEachFeature: function(feat, lyr){
+          lyr.__isKmzLayer = true;
+          __indexFeatureLayer(feat, lyr);
+          
+          let popupContent = "";
+          if(feat.properties.name) popupContent += "<b>" + feat.properties.name + "</b><br>";
+          if(feat.properties.description) popupContent += feat.properties.description;
+          
+          // Carousel logic
+          const images = [];
+          if(feat.properties.images && Array.isArray(feat.properties.images)){
+             feat.properties.images.forEach(img => images.push(img));
+          }
+          // description içinden img src çekme (yedek)
+          if(feat.properties.description){
+             const div = document.createElement('div');
+             div.innerHTML = feat.properties.description;
+             const imgs = div.querySelectorAll('img');
+             imgs.forEach(img => {
+                if(img.src) images.push(img.src);
+             });
+          }
+          
+          if(images.length > 0){
+             const uniqueImages = [...new Set(images)];
+             let carouselHTML = '<div class="carousel-container" style="width:100%;">';
+             uniqueImages.forEach((src, index) => {
+                 const displayStyle = index === 0 ? 'block' : 'none';
+                 carouselHTML += `<img src="${src}" class="carousel-image" data-index="${index}" style="display:${displayStyle}; width:100%; border-radius:4px; margin-bottom:4px;">`;
+             });
+             if(uniqueImages.length > 1){
+                 carouselHTML += `
+                 <div class="carousel-controls">
+                    <div class="carousel-buttons">
+                       <button class="carousel-btn prev-btn" onclick="moveCarousel(this, -1)">❮</button>
+                       <button class="carousel-btn next-btn" onclick="moveCarousel(this, 1)">❯</button>
+                    </div>
+                    <span class="carousel-counter">1 / ${uniqueImages.length}</span>
+                 </div>`;
+             }
+             carouselHTML += '</div>';
+             popupContent += carouselHTML;
+          }
 
-          // arama kutusu boşsa highlight'ları temizle
-          liNodes.forEach(li=> { li.innerHTML = __escapeHtml(li.dataset.rawText || li.textContent); });
+          lyr.bindPopup(popupContent, { maxWidth: 280 });
+          
+          // Hover tooltip
+          try{
+            if(feat.properties.name){
+               lyr.bindTooltip(feat.properties.name, { direction:'top', offset:[0,-5], opacity:0.9 });
+            }
+          }catch(e){}
         }
       });
+      
+      featureToLayer.set(f, layer);
+      
+      const gt = f.geometry.type;
+      if(__isPointGeom(gt)) __kmzPointLayers.push(layer);
+      else __kmzOtherLayers.push(layer);
+
+      allLayers.addLayer(layer);
     });
 
+    renderFilmList();
     if(onComplete) onComplete();
+  });
+}
+
+window.moveCarousel = function(btn, direction) {
+    const container = btn.closest('.carousel-container');
+    const images = container.querySelectorAll('.carousel-image');
+    let activeIndex = 0;
+    images.forEach((img, index) => {
+        if (img.style.display === 'block' || img.style.display === '') {
+            activeIndex = index;
+        }
+    });
+    
+    images[activeIndex].style.display = 'none';
+    images[activeIndex].classList.remove('active');
+    
+    let newIndex = activeIndex + direction;
+    if (newIndex < 0) newIndex = images.length - 1;
+    if (newIndex >= images.length) newIndex = 0;
+    
+    images[newIndex].style.display = 'block';
+    images[newIndex].classList.add('active');
+    
+    const counter = container.querySelector('.carousel-counter');
+    if(counter) counter.textContent = (newIndex + 1) + ' / ' + images.length;
+};
+
+function renderFilmList(){
+  const list = document.getElementById('film-list');
+  list.innerHTML = '';
+  const sortedKeys = Object.keys(films).sort((a,b)=>{
+    const ya = parseInt((a.match(/\b(19\d{2}|20\d{2})\b/)||[0])[0]);
+    const yb = parseInt((b.match(/\b(19\d{2}|20\d{2})\b/)||[0])[0]);
+    const hasA = !isNaN(ya), hasB = !isNaN(yb);
+    if(hasA && hasB && ya !== yb) return ya - yb;
+    if(hasA && !hasB) return -1;
+    if(!hasA && hasB) return 1;
+    return a.localeCompare(b, 'tr');
+  });
+
+  sortedKeys.forEach(key=>{
+    const div = document.createElement('div');
+    div.className = 'film';
+    const title = document.createElement('div');
+    title.className = 'film-title';
+    title.textContent = key;
+    title.onclick = () => showOnlyFilm(key, title);
+    div.appendChild(title);
+    list.appendChild(div);
+  });
+}
+
+function showOnlyFilm(filmName, titleEl){
+  const wasSelected = titleEl.classList.contains('selected');
+  document.querySelectorAll('.film-title').forEach(t=>t.classList.remove('selected'));
+  
+  if(wasSelected){
+    // Deselect
+    allLayers.clearLayers();
+    __kmzPointLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
+    __kmzOtherLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
     clearFilterInfo();
-  }).catch(err=>{
-    console.error('kmzs.geojson yükleme hatası', err);
-    if(onComplete) onComplete(err);
-  });
-}
-
-function loadHeatmap(periodKey){
-  clearFilterInfo();
-  allLayers.clearLayers();
-  if (!allKmzFeatures.length) return;
-
-  let minYear = 0, maxYear = 9999;
-  if (periodKey === '1966-1980') { minYear = 1966; maxYear = 1980; }
-  else if (periodKey === '1988-2001') { minYear = 1988; maxYear = 2001; }
-  else if (periodKey === '2010-2022') { minYear = 2010; maxYear = 2022; }
-
-  const points = [];
-
-  allKmzFeatures.forEach(f => {
-    const props = f.properties || {};
-    const year = props._year;
-    if (!year || year < minYear || year > maxYear) return;
-
-    const layer = featureToLayer.get(f);
-    if (!layer) return;
-
-    const addPointFromLatLng = (latlng) => {
-      if (!latlng) return;
-      points.push([latlng.lat, latlng.lng, 1.6]);
-    };
-
-    if (layer.getLatLng) {
-      addPointFromLatLng(layer.getLatLng());
-    } else if (layer.getBounds) {
-      addPointFromLatLng(layer.getBounds().getCenter());
-    } else if (layer.getLayers && typeof layer.getLayers === 'function') {
-      try{
-        const groupBounds = L.latLngBounds([]);
-        layer.getLayers().forEach(sub => {
-          if (sub.getLatLng) groupBounds.extend(sub.getLatLng());
-          else if (sub.getBounds) groupBounds.extend(sub.getBounds());
-        });
-        if (groupBounds.isValid && groupBounds.isValid()) {
-          addPointFromLatLng(groupBounds.getCenter());
-        }
-      }catch(e){}
-    }
-
-    if (window.__updateScrollHint) setTimeout(window.__updateScrollHint, 120);
-  });
-
-  if (!points.length) {
-    console.warn('Seçilen dönem için heatmap noktası bulunamadı.');
-    return;
-  }
-
-  L.heatLayer(points, {
-    radius: 42,
-    blur: 26,
-    maxZoom: 19,
-    max: 1.0,
-    minOpacity: 0.25,
-    gradient: {
-      0.0: '#000000',
-      0.3: '#2b0000',
-      0.5: '#660000',
-      0.7: '#b30000',
-      0.85: '#ff4500',
-      1.0: '#ffd000'
-    }
-  }).addTo(allLayers);
-
-  try{
-    const b = allLayers.getBounds();
-    if (b && b.isValid && b.isValid()) map.fitBounds(b.pad(0.08));
-  }catch(e){}
-}
-
-function clearData(){ allLayers.clearLayers(); clearFilterInfo(); }
-
-
-function pulseLayer(layer){
-  try{
-    if(!layer) return;
-    if(typeof layer.setRadius === 'function' && (layer instanceof L.CircleMarker || layer instanceof L.Circle)){
-      var orig = layer.options && (layer.options.radius || layer.getRadius && layer.getRadius()) ? (layer.getRadius ? layer.getRadius() : layer.options.radius) : 6;
-      var bigger = Math.round(orig * 2.5);
-      layer.setRadius(bigger);
-      setTimeout(function(){ try{ layer.setRadius(orig); }catch(e){} }, 1000);
-    } else if(typeof layer.setStyle === 'function'){
-      var origWeight = (layer.options && layer.options.weight) ? layer.options.weight : 3;
-      layer.setStyle({weight: Math.max(2, origWeight*1.8)});
-      if(layer.bringToFront) layer.bringToFront();
-      setTimeout(function(){ try{ layer.setStyle({weight: origWeight}); }catch(e){} }, 1000);
-    }
-  }catch(e){ console.error('pulseLayer error', e); }
-}
-
-function showFilterInfo(filmName){
-  var fi = document.getElementById('map-filter-info');
-  fi.innerHTML = '🎞️&nbsp;&nbsp;Şu anda yalnızca <strong>' + filmName + '</strong> filmi görüntüleniyor. '
-               + '<button class="btn-clear" onclick="restoreAll()">Tümünü Göster</button>';
-  fi.style.display = 'block';
-}
-function clearFilterInfo(){
-  var fi = document.getElementById('map-filter-info');
-  if(fi){ fi.style.display='none'; fi.innerHTML=''; }
-}
-function restoreAll(){
-  try{ clearPolygonFilter(); }catch(e){}
-  clearFilterInfo();
-  document.querySelectorAll('.film-title').forEach(ft=>ft.classList.remove('selected'));
-  loadKmzs();
-}
-function showOnlyFilm(filmName){
-  document.querySelectorAll('.film-title').forEach(ft => ft.classList.remove('selected'));
-  document.querySelectorAll('.film-title').forEach(ft => {
-    if(ft.textContent.trim() === filmName.trim()) ft.classList.add('selected');
-  });
-  if(!films || !films[filmName]) return;
-  allLayers.clearLayers();
-  var bounds = L.latLngBounds([]);
-  films[filmName].forEach(function(f){
-    var layer = featureToLayer.get(f);
-    if(!layer) return;
-    if(layer.getLayers && typeof layer.getLayers === 'function'){
-      layer.getLayers().forEach(function(ch){
-        allLayers.addLayer(ch);
-        if(ch.getLatLng) bounds.extend(ch.getLatLng());
-        else if(ch.getBounds) bounds.extend(ch.getBounds());
-      });
-    } else {
-      allLayers.addLayer(layer);
-      if(layer.getLatLng) bounds.extend(layer.getLatLng());
-      else if(layer.getBounds) bounds.extend(layer.getBounds());
-    }
-  });
-  try{
-    if(bounds.isValid && bounds.isValid()) map.fitBounds(bounds.pad(0.08));
-  }catch(e){ console.error('fitBounds error', e); }
-  showFilterInfo(filmName);
-
-
-}
-
-
-
-function showPeriodFilterInfo(periodText){
-  var fi = document.getElementById('map-filter-info');
-  fi.innerHTML =
-    '🗺️&nbsp;&nbsp;Şu anda yalnızca <strong>' + periodText + ' dönemi</strong> dağılımı ve yoğunluğu görüntüleniyor. ' +
-    '<button class="btn-clear" onclick="restoreAllPeriods()">Tümünü Göster</button>';
-  fi.style.display = 'block';
-}
-
-function restoreAllPeriods(){
-  clearFilterInfo();
-  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
-  loadFullHeatmap();
-}
-
-function loadFullHeatmap(){
-  clearFilterInfo();
-  allLayers.clearLayers();
-  if (!allKmzFeatures.length) return;
-
-  const points = [];
-
-  allKmzFeatures.forEach(f => {
-    const layer = featureToLayer.get(f);
-    if (!layer) return;
-
-    const addPointFromLatLng = (latlng) => {
-      if (!latlng) return;
-      points.push([latlng.lat, latlng.lng, 1.6]);
-    };
-
-    if (layer.getLatLng) {
-      addPointFromLatLng(layer.getLatLng());
-    } else if (layer.getBounds) {
-      addPointFromLatLng(layer.getBounds().getCenter());
-    } else if (layer.getLayers && typeof layer.getLayers === 'function') {
-      try{
-        const groupBounds = L.latLngBounds([]);
-        layer.getLayers().forEach(sub => {
-          if (sub.getLatLng) groupBounds.extend(sub.getLatLng());
-          else if (sub.getBounds) groupBounds.extend(sub.getBounds());
-        });
-        if (groupBounds.isValid && groupBounds.isValid()) {
-          addPointFromLatLng(groupBounds.getCenter());
-        }
-      }catch(e){}
-    }
-  });
-
-  if (!points.length) {
-    console.warn('Tüm dönemler için heatmap noktası bulunamadı.');
-    return;
-  }
-
-  L.heatLayer(points, {
-    radius: 42,
-    blur: 26,
-    maxZoom: 19,
-    max: 1.0,
-    minOpacity: 0.25,
-    gradient: {
-      0.0: '#000000',
-      0.3: '#2b0000',
-      0.5: '#660000',
-      0.7: '#b30000',
-      0.85: '#ff4500',
-      1.0: '#ffd000'
-    }
-  }).addTo(allLayers);
-
-  try{
-    const b = allLayers.getBounds();
-    if (b && b.isValid && b.isValid()) map.fitBounds(b.pad(0.08));
-  }catch(e){}
-}
-
-const sidebar=document.getElementById('sidebar');
-const toggle=document.getElementById('toggle-btn');
-const arrow=toggle.querySelector('span');
-toggle.addEventListener('click', () => {
-  sidebar.classList.toggle('closed');
-  const isClosed = sidebar.classList.contains('closed');
-
-  if (isClosed) {
-    toggle.style.left = '0';
-    arrow.textContent = '▸';
+    map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
   } else {
-    toggle.style.left = '340px';
-    arrow.textContent = '◂';
+    // Select
+    titleEl.classList.add('selected');
+    allLayers.clearLayers();
+    const feats = films[filmName] || [];
+    const b = L.latLngBounds([]);
+    feats.forEach(f=>{
+      const layers = featureToLayers.get(f) || [];
+      layers.forEach(l=>{
+        allLayers.addLayer(l);
+        if(l.getLatLng) b.extend(l.getLatLng());
+        else if(l.getBounds) b.extend(l.getBounds());
+      });
+    });
+    if(b.isValid && b.isValid()) map.fitBounds(b.pad(0.1), {maxZoom:15, animate:true});
+    
+    const fi = document.getElementById('map-filter-info');
+    if(fi){
+       fi.style.display = 'block';
+       fi.innerHTML = 'Seçili film: <b>' + __escapeHtml(filmName) + '</b> <button class="btn-clear" onclick="restoreAll()">Tümünü Göster</button>';
+    }
   }
+}
 
-  map.invalidateSize();
+function restoreAll(){
+  document.querySelectorAll('.film-title').forEach(t=>t.classList.remove('selected'));
+  allLayers.clearLayers();
+  __kmzPointLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
+  __kmzOtherLayers.forEach(l => { if(l && !allLayers.hasLayer(l)) allLayers.addLayer(l); });
+  clearFilterInfo();
+  map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+}
+
+function clearFilterInfo(){
+  const fi = document.getElementById('map-filter-info');
+  if(fi) fi.style.display = 'none';
+}
+
+function clearData(){
+  allLayers.clearLayers();
+  try{ if(polygonLayers) polygonLayers.clearLayers(); }catch(e){}
+  try{ if(heatLayer) map.removeLayer(heatLayer); }catch(e){}
+}
+
+// --- Heatmap ---
+let heatLayer = null;
+function loadFullHeatmap(){
+  if(heatLayer) map.removeLayer(heatLayer);
+  const points = [];
+  allKmzFeatures.forEach(f=>{
+    if(f.geometry.type === 'Point'){
+      points.push([f.geometry.coordinates[1], f.geometry.coordinates[0], 0.6]); 
+    }
+  });
+  heatLayer = L.heatLayer(points, { radius: 25, blur: 15, maxZoom: 14 }).addTo(map);
+}
+
+function loadHeatmap(period){
+  if(heatLayer) map.removeLayer(heatLayer);
+  const parts = period.split('-');
+  const start = parseInt(parts[0]), end = parseInt(parts[1]);
+  const points = [];
+  allKmzFeatures.forEach(f=>{
+    if(f.geometry.type === 'Point' && f.properties.year >= start && f.properties.year <= end){
+      points.push([f.geometry.coordinates[1], f.geometry.coordinates[0], 0.8]);
+    }
+  });
+  heatLayer = L.heatLayer(points, { radius: 25, blur: 15, maxZoom: 14 }).addTo(map);
+}
+
+document.querySelectorAll('.period-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    if(btn.parentElement.id === 'bolgeler-list') return; 
+    document.querySelectorAll('#period-buttons .period-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    loadHeatmap(btn.dataset.period);
+  });
 });
 
-
-
-
-
-document.querySelectorAll('.tab-btn').forEach(btn=>{
+// --- Tab Yönetimi (Düzeltilmiş) ---
+document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    // içerikleri kapat
     document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active-visible'));
-
-    // aktif sekme butonu
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-
     const tab = btn.dataset.tab;
 
-    // Tab3 dışına çıkarken poligon katmanını kaldır
     try{ if(tab !== 'bolgeler' && typeof polygonLayers !== 'undefined') polygonLayers.clearLayers(); }catch(e){}
 
-    // içerikleri aç/kapat
     document.getElementById('tab-filmler').classList.toggle('active-visible', tab === 'filmler');
     document.getElementById('tab-yogunluk').classList.toggle('active-visible', tab === 'yogunluk');
     const bolgelerTab = document.getElementById('tab-bolgeler');
     if(bolgelerTab) bolgelerTab.classList.toggle('active-visible', tab === 'bolgeler');
 
-    // Sekme değişiminde Leaflet yeniden boyutlandırma (gizli container'dan gelince şart)
     setTimeout(function(){ try{ map.invalidateSize(); }catch(e){} }, 60);
 
-    if(tab === 'filmler'){
+    // --- TAB 1: FİLMLER ---
+    if (tab === 'filmler') {
       document.getElementById('search').style.display = 'block';
       document.getElementById('film-list').style.display = 'block';
-      loadKmzs();
-    } else if(tab === 'yogunluk'){
+      
+      // Marker tıklamalarını AÇ
+      if(map.getPane('markerPane')) map.getPane('markerPane').style.pointerEvents = 'auto';
+      if(map.getPane('linePane')) map.getPane('linePane').style.pointerEvents = 'auto';
+
+      if (allKmzFeatures && allKmzFeatures.length > 0) {
+         restoreAll();
+      } else {
+         loadKmzs();
+      }
+    } 
+    // --- TAB 2: YOĞUNLUK ---
+    else if (tab === 'yogunluk') {
       document.getElementById('search').style.display = 'none';
       document.getElementById('film-list').style.display = 'none';
       document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
-      loadFullHeatmap();
+      
+      // Marker tıklamalarını AÇ (Gerçi heatmap var ama yine de standart olsun)
+      if(map.getPane('markerPane')) map.getPane('markerPane').style.pointerEvents = 'auto';
+      if(map.getPane('linePane')) map.getPane('linePane').style.pointerEvents = 'auto';
+
+      if (allKmzFeatures && allKmzFeatures.length > 0) {
+          loadFullHeatmap();
+      } else {
+          loadKmzs(function(){ loadFullHeatmap(); });
+      }
       clearFilterInfo();
       map.setView(DEFAULT_CENTER, DEFAULT_ZOOM, { animate: true });
-    } else if(tab === 'bolgeler'){
+    } 
+    // --- TAB 3: BÖLGELER (DÜZELTİLDİ) ---
+    else if (tab === 'bolgeler') {
       document.getElementById('search').style.display = 'none';
       document.getElementById('film-list').style.display = 'none';
       document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
       clearFilterInfo();
-      // Tab3: önce sadece poligonlar görünsün; bölge seçilince içerideki marker/rota görünsün
-      loadKmzs(function(){
-        try{ __activePolygonFeature = null; __activePolygonName = null; __activePolygonLayer = null; }catch(e){}
-        try{ __clearPolygonPanel && __clearPolygonPanel(); }catch(e){}
-        try{ allLayers.clearLayers(); }catch(e){}
+
+      // --- KRİTİK: Tab 3'e girişte marker tıklamalarını KAPAT ---
+      if(map.getPane('markerPane')) map.getPane('markerPane').style.pointerEvents = 'none';
+      if(map.getPane('linePane')) map.getPane('linePane').style.pointerEvents = 'none';
+
+      const initTab3 = () => {
+        try { __activePolygonFeature = null; __activePolygonName = null; __activePolygonLayer = null; } catch(e){}
+        try { __clearPolygonPanel && __clearPolygonPanel(); } catch(e){}
+        try { allLayers.clearLayers(); } catch(e){}
         loadPolygons();
-      });
-    } else {
+      };
+
+      if (allKmzFeatures && allKmzFeatures.length > 0) {
+        initTab3();
+      } else {
+        loadKmzs(function() { initTab3(); });
+      }
+    } 
+    else {
       document.getElementById('search').style.display = 'none';
       document.getElementById('film-list').style.display = 'none';
       clearData();
@@ -2420,28 +1919,75 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
   });
 });
 
-
-document.querySelectorAll('.period-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const periodKey = btn.getAttribute('data-period');
-    const yogunlukTabBtn = document.querySelector('.tab-btn[data-tab="yogunluk"]');
-    if (yogunlukTabBtn && yogunlukTabBtn.classList.contains('active')) {
-      loadHeatmap(periodKey);
-
-      const periodText = btn.textContent.split(':')[0].trim();
-      showPeriodFilterInfo(periodText);
-    }
-  });
+document.getElementById('toggle-btn').addEventListener('click', function(){
+  const sb = document.getElementById('sidebar');
+  sb.classList.toggle('closed');
+  const icon = this.querySelector('span');
+  if(sb.classList.contains('closed')){
+    icon.textContent = '▸';
+    this.style.left = '0';
+  } else {
+    icon.textContent = '◂';
+    if(window.innerWidth <= 768) this.style.left = '200px';
+    else this.style.left = '340px';
+  }
+  setTimeout(function(){ map.invalidateSize(); }, 360);
 });
 
-loadKmzs();
-document.getElementById('tab-filmler').classList.add('active-visible');
-document.getElementById('tab-filmler').classList.add('active-visible');
-document.querySelector('.tab-btn[data-tab="filmler"]').classList.add('active');
+const searchInput = document.getElementById('search');
+if(searchInput){
+  searchInput.addEventListener('input', function(e){
+    __applySearchDeterministicDebounced(e.target.value);
+  });
+}
 
+// Slider
+const sliderImages = [
+  "https://ankaracinemap.sezerkina.com/images/1.jpg",
+  "https://ankaracinemap.sezerkina.com/images/2.jpg",
+  "https://ankaracinemap.sezerkina.com/images/3.jpg",
+  "https://ankaracinemap.sezerkina.com/images/4.jpg",
+  "https://ankaracinemap.sezerkina.com/images/5.jpg",
+  "https://ankaracinemap.sezerkina.com/images/6.jpg",
+  "https://ankaracinemap.sezerkina.com/images/7.jpg",
+  "https://ankaracinemap.sezerkina.com/images/8.jpg",
+  "https://ankaracinemap.sezerkina.com/images/9.jpg",
+  "https://ankaracinemap.sezerkina.com/images/10.jpg"
+];
+let currentSliderIndex = 0;
+const sliderImgEl = document.getElementById('sidebar-slider-image');
+function changeSliderImage() {
+  if(!sliderImgEl) return;
+  sliderImgEl.classList.remove('visible');
+  setTimeout(() => {
+    currentSliderIndex = (currentSliderIndex + 1) % sliderImages.length;
+    sliderImgEl.src = sliderImages[currentSliderIndex];
+    sliderImgEl.onload = () => {
+      sliderImgEl.classList.add('visible');
+    };
+  }, 800);
+}
+if(sliderImgEl){
+  sliderImgEl.src = sliderImages[0];
+  sliderImgEl.onload = () => sliderImgEl.classList.add('visible');
+  setInterval(changeSliderImage, 6000);
+}
+
+// Scroll hint
+const filmListEl = document.getElementById('film-list');
+const scrollHintEl = document.getElementById('scroll-hint');
+if(filmListEl && scrollHintEl){
+  filmListEl.addEventListener('scroll', () => {
+    const d = filmListEl.scrollHeight - filmListEl.scrollTop - filmListEl.clientHeight;
+    if(d < 20) scrollHintEl.style.display = 'none';
+    else scrollHintEl.style.display = 'flex';
+  });
+}
+
+// Initial load
+loadKmzs(); 
 </script>
+
 
 <script>
 function carouselNext(btn){
