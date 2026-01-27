@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sezer a. kına</title>
+  <style>
+    :root{
+      --bg:#f7f7f5;
+      --paper:#ffffff;
+      --ink:#0b0b0f;
+      --muted:#6b7280;
+      --line:#111111;
+      --r:#e11d48;
+      --b:#2563eb;
+      --y:#f59e0b;
+      --max: 1040px;
+      --grid-gap: 16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.55;
+    }
+    a{color:var(--ink); text-decoration:none; border-bottom:2px solid var(--ink);}
+    a:hover{background:var(--ink); color:var(--paper);}
+
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 72px;}
+
+    header{
+      background:var(--paper);
+      border:2px solid var(--line);
+      border-radius:22px;
+      padding:18px 18px 16px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+      position:relative;
+      overflow:hidden;
+    }
+    @media(min-width:900px){
+      header{ grid-template-columns: 1.2fr 0.8fr; align-items:end; }
+    }
+    .name{
+      font-size:40px;
+      letter-spacing:-0.6px;
+      margin:0;
+    }
+
+    .meta{
+      color:var(--muted);
+      margin:8px 0 0;
+      max-width:70ch;
+      font-size:15px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+      margin-top:16px;
+    }
+    @media(min-width:900px){
+      .grid{
+        grid-template-columns: 1fr 1fr;
+        gap:var(--grid-gap);
+      }
+    }
+
+    .panel{
+      background:var(--paper);
+      border:2px solid var(--line);
+      border-radius:22px;
+      padding:16px 16px 14px;
+    }
+
+    @media(min-width:900px){
+      .panel.full{
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media(min-width:900px){
+      .panel.pubs .inner{
+        max-width: 100%;
+      }
+    }
+
+    .title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin:0 0 10px;
+      font-size:13px;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      font-weight:700;
+    }
+
+    .dot{width:10px; height:10px; border-radius:999px; background:var(--ink);}
+    .dot.r{background:var(--r)} .dot.b{background:var(--b)} .dot.y{background:var(--y)}
+
+    p{margin:0 0 12px; color:var(--ink)}
+    .muted{color:var(--muted)}
+    .list{display:grid; gap:10px}
+    .item{
+      border-top:2px solid var(--line);
+      padding-top:10px;
+    }
+    .item:first-child{border-top:0; padding-top:0}
+    .item strong{font-size:16px}
+    .item .desc{margin-top:6px; color:var(--muted); font-size:14px}
+
+    .links{display:flex; gap:12px; flex-wrap:wrap; margin-top:8px}
+    .links a{border-bottom:2px solid var(--ink); font-weight:600}
+
+    .pub{
+      display:flex;
+      gap:12px;
+      border-top:2px solid var(--line);
+      padding-top:10px;
+      padding-bottom:10px;
+    }
+    .pub:first-child{border-top:0; padding-top:0}
+    .year{
+      width:70px;
+      flex:0 0 auto;
+      font-weight:800;
+      letter-spacing:0.06em;
+    }
+
+    /* PDF linklerinin özel stili */
+    .muted a{
+      color:var(--muted);
+      border-bottom:none;
+      font-weight:normal;
+    }
+    .muted a:hover{
+      background:var(--ink);
+      color:var(--paper);
+    }
+
+    /* Metinler kutusu için kaydırma - 2 satır yüksekliğinde */
+    .panel.pubs .inner{
+      max-height: 160px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    /* Kaydırma çubuğu stili */
+    .panel.pubs .inner::-webkit-scrollbar {
+      width: 8px;
+    }
+    .panel.pubs .inner::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .panel.pubs .inner::-webkit-scrollbar-thumb {
+      background: var(--muted);
+      border-radius: 4px;
+    }
+    .panel.pubs .inner::-webkit-scrollbar-thumb:hover {
+      background: var(--ink);
+    }
+
+    footer{
+      margin-top:16px;
+      padding:14px 16px;
+      background:var(--paper);
+      border:2px solid var(--line);
+      border-radius:22px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      color:var(--muted);
+      font-size:13px;
+      align-items:center;
+      flex-wrap:nowrap;
+      overflow-x:auto;
+    }
+    footer .links{
+      margin-top:0;
+      flex-wrap:nowrap;
+      align-items:center;
+      white-space:nowrap;
+    }
+    footer .copy{white-space:nowrap;}
+
+    @media(max-width:520px){
+      .name{font-size:32px}
+      .year{width:56px}
+    }
+
+    /* Photo: 4:3 frame (konumu sabit) */
+    .photo{
+      position:absolute;
+      right:14px;
+      top:14px;
+      width:180px;
+      height:135px;
+      border:2px solid var(--line);
+      border-radius:22px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+    .photo img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+      object-position:center;
+    }
+
+    @media(max-width:520px){
+      /* Mobilde fotoğrafı akışa alıp üstte ortalıyoruz; başlık/metin sıkışmasın */
+      .photo{
+        position:relative;
+        right:auto; top:auto;
+        margin:0 auto 10px;
+        width:160px; height:120px;
+      }
+      header{ padding-right:18px; }
+      .name{font-size:32px}
+      .meta{font-size:14px}
+    }
+    @media(min-width:521px){
+      header{ padding-right:230px; }
+    }
+
+    /* Modal stili */
+    .modal-overlay{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.5);
+      z-index:9999;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+    .modal-overlay.show{
+      display:flex;
+    }
+    .modal-box{
+      background:var(--paper);
+      border:2px solid var(--line);
+      border-radius:22px;
+      padding:28px;
+      max-width:680px;
+      width:100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+    .modal-text{
+      margin:0 0 20px;
+      font-size:16px;
+      line-height:1.6;
+      color:var(--ink);
+    }
+    .modal-buttons{
+      display:flex;
+      gap:12px;
+      justify-content:flex-start;
+    }
+    .modal-btn{
+      border:2px solid var(--line);
+      background:var(--paper);
+      padding:10px 20px;
+      cursor:pointer;
+      font-family:inherit;
+      font-size:15px;
+      font-weight:600;
+      border-radius:8px;
+      transition: all 0.15s;
+    }
+    .modal-btn:hover{
+      background:var(--ink);
+      color:var(--paper);
+    }
+    .modal-btn:active{
+      transform:scale(0.97);
+    }
+  
+
+  header, .header, .hero {
+    padding-right: 16px !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+  header {
+    display: block !important;
+  }
+
+  header img {
+    display: block;
+    float: none !important;
+    margin: 0 0 8px 0 !important;
+    width: 72px !important;
+    max-width: 72px !important;
+    height: auto !important;
+    object-fit: contain;
+  }
+
+  .header-photo,
+  .hero-photo {
+    display: block;
+    width: 72px !important;
+    max-width: 72px !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+}
+
+
+
+/* --- Mobil: fotoğrafı sola al + küçült (override) --- */
+@media (max-width: 899px){
+  header{ padding-right:18px !important; }
+  header{ grid-template-columns: 1fr !important; }
+  .photo{
+    position:relative !important;
+    left:0 !important;
+    right:auto !important;
+    top:auto !important;
+    margin:0 0 10px 0 !important;
+    width:96px !important;
+    height:72px !important; /* 4:3 */
+  }
+  .photo img{
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+  }
+}
+
+
+/* v5 mobile header: photo to the RIGHT of the name block and smaller */
+@media (max-width: 520px) {
+  header{
+    display:flex !important;
+    align-items:flex-start !important;
+    justify-content:space-between !important;
+    gap:12px !important;
+    flex-wrap:nowrap !important;
+  }
+
+  header > .photo{
+    order: 2 !important;           /* move photo to the right */
+    position: static !important;
+    width: 48px !important;
+    height: 48px !important;
+    flex: 0 0 48px !important;
+    margin: 2px 0 0 0 !important;
+    border-radius: 14px !important;
+  }
+  header > .photo img{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display:block !important;
+  }
+
+  header > div:not(.photo){
+    order: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .name{
+    margin: 0 !important;
+    line-height: 1.1 !important;
+  }
+  .meta{
+    margin-top: 6px !important;
+    line-height: 1.25 !important;
+  }
+}
+
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header>
+      <div class="photo" aria-label="Portre fotoğrafı">
+        <img
+          src="/szrkn.JPG"
+          alt="portre fotoğrafı"
+          loading="lazy"
+          decoding="async"
+        >
+      </div>
+
+      <div>
+        <h1 class="name">sezer a. kına</h1>
+
+        <p class="meta">
+          film çalışmaları · sinemasal mekân · kent · fotoğraf · dijital haritalama.
+        </p>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section id="about" class="panel">
+        <div class="title"><span class="dot b"></span>hakkımda</div>
+        <p class="muted">
+          
+          ankara'nın sinemadaki temsilleri ve kentin dönüşümü üzerine çalışıyorum. mekânı hem estetik bir kurgu hem de toplumsal bir kayıt yüzeyi olarak ele alan yaklaşımlarla ilgileniyorum. film analizi ile veri/haritalama pratiklerini birlikte kullanıyorum.
+        
+        </p>
+        <div class="links">
+          <a href="https://akademik.baskent.edu.tr/sezerkina" aria-label="CV PDF" target="_blank" rel="noopener">cv</a>
+          <a href="mailto:sezerkina@gmail.com" aria-label="E-posta">e-posta</a>
+        </div>
+      </section>
+
+      <section id="work" class="panel">
+        <div class="title"><span class="dot r"></span>gündem</div>
+        <div class="list">
+          <div class="item">
+            <strong>ankara'nın sinemasal kartografyası</strong>
+            <div class="desc">film–mekân ilişkilerini haritalayan interaktif arayüz.</div>
+            <div class="links">
+              <a href="https://ankaracinemap.sezerkina.com" target="_blank" rel="noopener">projeyi aç</a>
+              <a href="#" onclick="openCitation(event)">atıf</a>
+            </div>
+          </div>
+
+          <div class="item">
+            <strong>sinemada kentin dönüşümünü seyretmek: ankara örneği</strong>
+            <div class="desc">doktora tezi · hazırlanıyor.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pubs" class="panel full pubs">
+        <div class="title"><span class="dot y"></span>metinler</div>
+        <div class="inner">
+
+          <div class="pub">
+            <div class="year">2025</div>
+            <div>
+              <div><strong>"ada" sahillerindeki mehtap: nesteren davutoğlu</strong> — iletişimin özneleri</div>
+              <div class="muted">kitap bölümü · <a href="https://www.academia.edu/143279437/_Ada_Sahillerindeki_Mehtap_Nesteren_Davutoğlu" target="_blank" rel="noopener">pdf</a></div>
+            </div>
+          </div>
+
+          <div class="pub">
+            <div class="year">2025</div>
+            <div>
+              <div><strong>world political leaders as kids: ai-driven reimagining of leadership</strong> — taom 2025</div>
+              <div class="muted">özet bildiri · <a href="https://www.academia.edu/144388402/World_Political_Leaders_as_Kids_AI_driven_Reimagining_of_Leadership" target="_blank" rel="noopener">pdf</a></div>
+            </div>
+          </div>
+
+          <div class="pub">
+            <div class="year">2024</div>
+            <div>
+              <div><strong>türkiye'de trap müzik: endüstriyel müziğin eleştirel imkânları</strong> — ejmd</div>
+              <div class="muted">makale · <a href="https://www.academia.edu/126722855/Türkiyede_Trap_Müzik_Endüstriyel_Müziğin_Eleştirel_İmkânları" target="_blank" rel="noopener">pdf</a></div>
+            </div>
+          </div>
+
+          <div class="pub">
+            <div class="year">2024</div>
+            <div>
+              <div><strong>halkla ilişkilere anlam katanlar-öncüler karma afiş sergisi</strong> — galeri başkent / zorlu psm (2025)</div>
+              <div class="muted">kürasyon · <a href="https://ilt.baskent.edu.tr/kw/genel.php?id=197496" target="_blank" rel="noopener">haber1</a> <a href="https://ilf.baskent.edu.tr/kw/onizleme.php?&birimid=219581&dil=TR" target="_blank" rel="noopener">haber2</a></div>
+            </div>
+          </div>
+
+          <div class="pub">
+            <div class="year">2023</div>
+            <div>
+              <div><strong>atıf yılmaz sinemasında halk hikâyeleri ve destanlar</strong> — atıf yılmaz sineması</div>
+              <div class="muted">kitap bölümü · <a href="https://www.academia.edu/100389571/Atıf_Yılmaz_Sinemasında_Halk_Hikâyeleri_ve_Destanlar" target="_blank" rel="noopener">pdf</a></div>
+            </div>
+          </div>
+
+          <div class="pub">
+            <div class="year">2023</div>
+            <div>
+              <div><strong>makineler arasında sinema: necip sarıcı</strong> — 34. ankara ff / 24. izmir kff / 7. afsad ukff / 19. işçi ff (2024)</div>
+              <div class="muted">senaryo · <a href="https://www.kameraarkasi.org/yonetmenler/belgeseller/makinelerarasindasinema.html#google_vignette" target="_blank" rel="noopener">sayfa</a></div>
+            </div>
+          </div>
+
+          <div class="pub">
+            <div class="year"></div>
+            <div>
+              <div class="muted">hazırlanıyor</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="links">        <a href="https://scholar.google.com/citations?user=-9DdlrIAAAAJ&hl=tr" target="_blank" rel="noopener">google scholar</a>
+        <a href="https://orcid.org/0000-0002-0814-6915" target="_blank" rel="noopener">orcid</a>
+        <a href="https://github.com/sezerkina" target="_blank" rel="noopener">github</a>
+      </div>
+      <div class="copy">© <span id="y"></span> sezer a. kına</div>
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <div id="citationModal" class="modal-overlay" onclick="closeIfOutside(event)">
+    <div class="modal-box">
+      <p id="citationText" class="modal-text">
+        kına, sezer ahmet. (2022). ankara'nın sinemasal kartografyası [etkileşimli harita]. https://ankaracinemap.sezerkina.com
+      </p>
+      <div class="modal-buttons">
+        <button id="copyBtn" class="modal-btn" onclick="copyCitation()">kopyala</button>
+        <button class="modal-btn" onclick="closeCitation()">kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    function openCitation(e){
+      e.preventDefault();
+      document.getElementById("citationModal").classList.add('show');
+      // Reset buton metni
+      document.getElementById("copyBtn").textContent = "kopyala";
+    }
+
+    function closeCitation(){
+      document.getElementById("citationModal").classList.remove('show');
+    }
+
+    function closeIfOutside(e){
+      if(e.target.id === 'citationModal'){
+        closeCitation();
+      }
+    }
+
+    function copyCitation(){
+      const text = document.getElementById("citationText").innerText;
+      const btn = document.getElementById("copyBtn");
+      
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = "kopyalandı ✓";
+        setTimeout(() => {
+          btn.textContent = "kopyala";
+        }, 500);
+      });
+    }
+  </script>
+
+</body>
+</html>
