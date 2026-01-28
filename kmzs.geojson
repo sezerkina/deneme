@@ -9314,6 +9314,107 @@
         "type": "LineString",
         "coordinates": [
           [
+            32.870715, 
+            39.898566
+          ],
+          [
+            32.870726,
+            39.898709
+          ],
+          [
+            32.870933,
+            39.898685
+          ],
+          [
+            32.871138,
+            39.898644
+          ],
+          [
+            32.871145,
+            39.898643 
+          ],
+          [
+            32.871371,
+            39.898562
+          ],
+          [
+            32.871511,
+            39.898467
+          ]
+        ]
+      },
+      "properties": {
+        "name": "Eve varış rotası",
+        "description": "",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#line-424242-1194-nodesc",
+        "icon": null,
+        "lineStyle": {
+          "color": "#424242",
+          "opacity": 1,
+          "width": 1.194
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.871409,
+          39.898319
+        ]
+      },
+      "properties": {
+        "name": "Cenap Bey'in evi",
+         "description": "<br>Umurbey Sokak 6",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#icon-1739-424242-nodesc",
+        "icon": {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAASFBMVEUAAACLi4sAAAAAAAD///////////9cXFzn5+cAAADX19f///////8AAAD///////////+vr69sbGxMTExAQEDr6+tkZGT7+/uByPqEAAAAEHRSTlMAfUw7RZvXaNQwuvMmFe/BU8fpAQAAALZJREFUeNrt/UcSgzAMQFHgbpsm+v1vGpEhoazk9CT6+zfSGLHPOI7jHpg2Ns+t0YmsqGGpLlKcruBalTC0QDc1bde1zYSSPhP3HMb+3DjgtlSncd7iUOJM6rIGoOmvNQCGCC1Au8IWwBJhDtCtsAPInw1vXjUeHycSoTh+DkGEwe8PwAciLN3+5FxJhJkS2yMXiuqyUjp/cd5J8sBZShHnHzkKmeJQKrmkktxMA1oVUhnHcd/UCUbqEl+N2voHAAAAAElFTkSuQmCC",
+          "scale": 1,
+          "hot": null
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            32.871556, 
+            39.898417
+          ],
+          [
+            32.871834,
+            39.898164
+          ],
+          [
+            32.872122,
+            39.898345
+          ]
+        ]
+      },
+      "properties": {
+        "name": "Evden ayrılış rotası",
+        "description": "",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#line-424242-1194-nodesc",
+        "icon": null,
+        "lineStyle": {
+          "color": "#424242",
+          "opacity": 1,
+          "width": 1.194
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
             32.85419,
             39.913871
           ],
