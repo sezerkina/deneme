@@ -9653,27 +9653,6 @@
       },
       "properties": {
         "name": "Ceydaların evi",
-        "description": "<br>Ethem Köslü Sokak",
-        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
-        "styleUrl": "#icon-1739-424242-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAASFBMVEUAAACLi4sAAAAAAAD///////////9cXFzn5+cAAADX19f///////8AAAD///////////+vr69sbGxMTExAQEDr6+tkZGT7+/uByPqEAAAAEHRSTlMAfUw7RZvXaNQwuvMmFe/BU8fpAQAAALZJREFUeNrt/UcSgzAMQFHgbpsm+v1vGpEhoazk9CT6+zfSGLHPOI7jHpg2Ns+t0YmsqGGpLlKcruBalTC0QDc1bde1zYSSPhP3HMb+3DjgtlSncd7iUOJM6rIGoOmvNQCGCC1Au8IWwBJhDtCtsAPInw1vXjUeHycSoTh+DkGEwe8PwAciLN3+5FxJhJkS2yMXiuqyUjp/cd5J8sBZShHnHzkKmeJQKrmkktxMA1oVUhnHcd/UCUbqEl+N2voHAAAAAElFTkSuQmCC",
-          "scale": 1,
-          "hot": null
-        }
-      }
-    },
-{
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.863301,
-          39.926534
-        ]
-      },
-      "properties": {
-        "name": "Kurtuluş Parkı",
         "description": "",
         "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
         "styleUrl": "#icon-1739-424242-nodesc",
@@ -9828,6 +9807,48 @@
 	{
       "type": "Feature",
       "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.863301,
+          39.926534
+        ]
+      },
+      "properties": {
+        "name": "Kurtuluş Parkı",
+        "description": "",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#icon-1739-424242-nodesc",
+        "icon": {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAASFBMVEUAAACLi4sAAAAAAAD///////////9cXFzn5+cAAADX19f///////8AAAD///////////+vr69sbGxMTExAQEDr6+tkZGT7+/uByPqEAAAAEHRSTlMAfUw7RZvXaNQwuvMmFe/BU8fpAQAAALZJREFUeNrt/UcSgzAMQFHgbpsm+v1vGpEhoazk9CT6+zfSGLHPOI7jHpg2Ns+t0YmsqGGpLlKcruBalTC0QDc1bde1zYSSPhP3HMb+3DjgtlSncd7iUOJM6rIGoOmvNQCGCC1Au8IWwBJhDtCtsAPInw1vXjUeHycSoTh+DkGEwe8PwAciLN3+5FxJhJkS2yMXiuqyUjp/cd5J8sBZShHnHzkKmeJQKrmkktxMA1oVUhnHcd/UCUbqEl+N2voHAAAAAElFTkSuQmCC",
+          "scale": 1,
+          "hot": null
+        }
+      }
+    },
+{
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.854058,
+          39.917527
+        ]
+      },
+      "properties": {
+        "name": "Kızılay'dan Çankaya yönüne kaydırma",
+        "description": "",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#icon-1739-424242-nodesc",
+        "icon": {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAASFBMVEUAAACLi4sAAAAAAAD///////////9cXFzn5+cAAADX19f///////8AAAD///////////+vr69sbGxMTExAQEDr6+tkZGT7+/uByPqEAAAAEHRSTlMAfUw7RZvXaNQwuvMmFe/BU8fpAQAAALZJREFUeNrt/UcSgzAMQFHgbpsm+v1vGpEhoazk9CT6+zfSGLHPOI7jHpg2Ns+t0YmsqGGpLlKcruBalTC0QDc1bde1zYSSPhP3HMb+3DjgtlSncd7iUOJM6rIGoOmvNQCGCC1Au8IWwBJhDtCtsAPInw1vXjUeHycSoTh+DkGEwe8PwAciLN3+5FxJhJkS2yMXiuqyUjp/cd5J8sBZShHnHzkKmeJQKrmkktxMA1oVUhnHcd/UCUbqEl+N2voHAAAAAElFTkSuQmCC",
+          "scale": 1,
+          "hot": null
+        }
+      }
+    },
+{
+      "type": "Feature",
+      "geometry": {
         "type": "LineString",
         "coordinates": [
           [
@@ -9922,12 +9943,12 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          32.86121,
-          39.895596
+          32.862873,
+          39.892769
         ]
       },
       "properties": {
-        "name": "Pembe Köşk Sitesi",
+        "name": "Japonya Büyükelçiliği konutu",
         "description": "",
         "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
         "styleUrl": "#icon-1739-424242-nodesc",
@@ -9938,17 +9959,38 @@
         }
       }
     },
-    {
+{
       "type": "Feature",
       "geometry": {
         "type": "Point",
         "coordinates": [
-          32.862873,
-          39.892769
+          32.864856,
+          39.896757
         ]
       },
       "properties": {
-        "name": "Japonya Büyükelçiliği",
+        "name": "Kent Sitesi silüeti",
+        "description": "",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#icon-1739-424242-nodesc",
+        "icon": {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAASFBMVEUAAACLi4sAAAAAAAD///////////9cXFzn5+cAAADX19f///////8AAAD///////////+vr69sbGxMTExAQEDr6+tkZGT7+/uByPqEAAAAEHRSTlMAfUw7RZvXaNQwuvMmFe/BU8fpAQAAALZJREFUeNrt/UcSgzAMQFHgbpsm+v1vGpEhoazk9CT6+zfSGLHPOI7jHpg2Ns+t0YmsqGGpLlKcruBalTC0QDc1bde1zYSSPhP3HMb+3DjgtlSncd7iUOJM6rIGoOmvNQCGCC1Au8IWwBJhDtCtsAPInw1vXjUeHycSoTh+DkGEwe8PwAciLN3+5FxJhJkS2yMXiuqyUjp/cd5J8sBZShHnHzkKmeJQKrmkktxMA1oVUhnHcd/UCUbqEl+N2voHAAAAAElFTkSuQmCC",
+          "scale": 1,
+          "hot": null
+        }
+      }
+    },
+	{
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.86121,
+          39.895596
+        ]
+      },
+      "properties": {
+        "name": "Pembe Köşk Sitesi silüeti",
         "description": "",
         "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
         "styleUrl": "#icon-1739-424242-nodesc",
