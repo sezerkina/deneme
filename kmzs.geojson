@@ -9367,7 +9367,7 @@
       },
       "properties": {
         "name": "Cenap Bey'in evi",
-         "description": "<br>Umurbey Sokak 6",
+        "description": "<br>Umurbey Sokak 6",
         "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
         "styleUrl": "#icon-1739-424242-nodesc",
         "icon": {
@@ -9609,6 +9609,63 @@
     {
       "type": "Feature",
       "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            32.857600,
+            39.901146
+          ],
+          [
+            32.857958,
+            39.900917
+          ],
+          [
+            32.858569,
+            39.900875
+          ],
+          [
+            32.858550,
+            39.900878
+          ]
+         ]
+      },
+      "properties": {
+        "name": "Eğlence sonrası rota",
+        "description": "<br>Metin ile Rezzak ve Ceyda ile Mübeccel bu rotada tanışır.",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#line-424242-1388-nodesc",
+        "icon": null,
+        "lineStyle": {
+          "color": "#424242",
+          "opacity": 1,
+          "width": 1.388
+        }
+      }
+    },
+	{
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.867552,
+          39.916928
+        ]
+      },
+      "properties": {
+        "name": "Ceydaların evi",
+        "description": "<br>Ethem Köslü Sokak",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#icon-1739-424242-nodesc",
+        "icon": {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAASFBMVEUAAACLi4sAAAAAAAD///////////9cXFzn5+cAAADX19f///////8AAAD///////////+vr69sbGxMTExAQEDr6+tkZGT7+/uByPqEAAAAEHRSTlMAfUw7RZvXaNQwuvMmFe/BU8fpAQAAALZJREFUeNrt/UcSgzAMQFHgbpsm+v1vGpEhoazk9CT6+zfSGLHPOI7jHpg2Ns+t0YmsqGGpLlKcruBalTC0QDc1bde1zYSSPhP3HMb+3DjgtlSncd7iUOJM6rIGoOmvNQCGCC1Au8IWwBJhDtCtsAPInw1vXjUeHycSoTh+DkGEwe8PwAciLN3+5FxJhJkS2yMXiuqyUjp/cd5J8sBZShHnHzkKmeJQKrmkktxMA1oVUhnHcd/UCUbqEl+N2voHAAAAAElFTkSuQmCC",
+          "scale": 1,
+          "hot": null
+        }
+      }
+    },
+{
+      "type": "Feature",
+      "geometry": {
         "type": "Point",
         "coordinates": [
           32.863301,
@@ -9627,7 +9684,148 @@
         }
       }
     },
-    {
+ {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            32.866683,
+            39.915965
+          ],
+          [
+            32.866584,
+            39.916065
+          ],
+          [
+            32.866800,
+            39.916328
+          ],
+          [
+            32.867068,
+            39.916613
+          ]
+        ]
+      },
+      "properties": {
+        "name": "Metin ve Rezzak bavulları bırakmaya geliyor",
+        "description": "",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#line-424242-1388-nodesc",
+        "icon": null,
+        "lineStyle": {
+          "color": "#424242",
+          "opacity": 1,
+          "width": 1.388
+        }
+      }
+    },    
+	{
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.866819,
+          39.916640
+        ]
+      },
+      "properties": {
+        "name": "Ankara 50. Yıl Lisesi",
+        "description": "",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#icon-1739-424242-nodesc",
+        "icon": {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAASFBMVEUAAACLi4sAAAAAAAD///////////9cXFzn5+cAAADX19f///////8AAAD///////////+vr69sbGxMTExAQEDr6+tkZGT7+/uByPqEAAAAEHRSTlMAfUw7RZvXaNQwuvMmFe/BU8fpAQAAALZJREFUeNrt/UcSgzAMQFHgbpsm+v1vGpEhoazk9CT6+zfSGLHPOI7jHpg2Ns+t0YmsqGGpLlKcruBalTC0QDc1bde1zYSSPhP3HMb+3DjgtlSncd7iUOJM6rIGoOmvNQCGCC1Au8IWwBJhDtCtsAPInw1vXjUeHycSoTh+DkGEwe8PwAciLN3+5FxJhJkS2yMXiuqyUjp/cd5J8sBZShHnHzkKmeJQKrmkktxMA1oVUhnHcd/UCUbqEl+N2voHAAAAAElFTkSuQmCC",
+          "scale": 1,
+          "hot": null
+        }
+      }
+    },
+{
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.867205,
+          39.916421
+        ]
+      },
+      "properties": {
+        "name": "Esat Karakolu",
+        "description": "",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#icon-1739-424242-nodesc",
+        "icon": {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAASFBMVEUAAACLi4sAAAAAAAD///////////9cXFzn5+cAAADX19f///////8AAAD///////////+vr69sbGxMTExAQEDr6+tkZGT7+/uByPqEAAAAEHRSTlMAfUw7RZvXaNQwuvMmFe/BU8fpAQAAALZJREFUeNrt/UcSgzAMQFHgbpsm+v1vGpEhoazk9CT6+zfSGLHPOI7jHpg2Ns+t0YmsqGGpLlKcruBalTC0QDc1bde1zYSSPhP3HMb+3DjgtlSncd7iUOJM6rIGoOmvNQCGCC1Au8IWwBJhDtCtsAPInw1vXjUeHycSoTh+DkGEwe8PwAciLN3+5FxJhJkS2yMXiuqyUjp/cd5J8sBZShHnHzkKmeJQKrmkktxMA1oVUhnHcd/UCUbqEl+N2voHAAAAAElFTkSuQmCC",
+          "scale": 1,
+          "hot": null
+        }
+      }
+    },
+{
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.867597,
+          39.916485
+        ]
+      },
+      "properties": {
+        "name": "Rezzak'ın girdiği bakkal",
+        "description": "",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#icon-1739-424242-nodesc",
+        "icon": {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAASFBMVEUAAACLi4sAAAAAAAD///////////9cXFzn5+cAAADX19f///////8AAAD///////////+vr69sbGxMTExAQEDr6+tkZGT7+/uByPqEAAAAEHRSTlMAfUw7RZvXaNQwuvMmFe/BU8fpAQAAALZJREFUeNrt/UcSgzAMQFHgbpsm+v1vGpEhoazk9CT6+zfSGLHPOI7jHpg2Ns+t0YmsqGGpLlKcruBalTC0QDc1bde1zYSSPhP3HMb+3DjgtlSncd7iUOJM6rIGoOmvNQCGCC1Au8IWwBJhDtCtsAPInw1vXjUeHycSoTh+DkGEwe8PwAciLN3+5FxJhJkS2yMXiuqyUjp/cd5J8sBZShHnHzkKmeJQKrmkktxMA1oVUhnHcd/UCUbqEl+N2voHAAAAAElFTkSuQmCC",
+          "scale": 1,
+          "hot": null
+        }
+      }
+    },
+{
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.867213,
+          39.916732
+        ]
+      },
+      "properties": {
+        "name": "Ethem Köslü Sokak'tan Esat'a bakış",
+        "description": "",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#icon-1739-424242-nodesc",
+        "icon": {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAASFBMVEUAAACLi4sAAAAAAAD///////////9cXFzn5+cAAADX19f///////8AAAD///////////+vr69sbGxMTExAQEDr6+tkZGT7+/uByPqEAAAAEHRSTlMAfUw7RZvXaNQwuvMmFe/BU8fpAQAAALZJREFUeNrt/UcSgzAMQFHgbpsm+v1vGpEhoazk9CT6+zfSGLHPOI7jHpg2Ns+t0YmsqGGpLlKcruBalTC0QDc1bde1zYSSPhP3HMb+3DjgtlSncd7iUOJM6rIGoOmvNQCGCC1Au8IWwBJhDtCtsAPInw1vXjUeHycSoTh+DkGEwe8PwAciLN3+5FxJhJkS2yMXiuqyUjp/cd5J8sBZShHnHzkKmeJQKrmkktxMA1oVUhnHcd/UCUbqEl+N2voHAAAAAElFTkSuQmCC",
+          "scale": 1,
+          "hot": null
+        }
+      }
+    },
+{
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.867283,
+          39.917047
+        ]
+      },
+      "properties": {
+        "name": "Seyranbağları İlkokulu",
+        "description": "",
+        "folder": "Dört Köşe Dünya (Ünal Küpeli, 1988) / | / |",
+        "styleUrl": "#icon-1739-424242-nodesc",
+        "icon": {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAASFBMVEUAAACLi4sAAAAAAAD///////////9cXFzn5+cAAADX19f///////8AAAD///////////+vr69sbGxMTExAQEDr6+tkZGT7+/uByPqEAAAAEHRSTlMAfUw7RZvXaNQwuvMmFe/BU8fpAQAAALZJREFUeNrt/UcSgzAMQFHgbpsm+v1vGpEhoazk9CT6+zfSGLHPOI7jHpg2Ns+t0YmsqGGpLlKcruBalTC0QDc1bde1zYSSPhP3HMb+3DjgtlSncd7iUOJM6rIGoOmvNQCGCC1Au8IWwBJhDtCtsAPInw1vXjUeHycSoTh+DkGEwe8PwAciLN3+5FxJhJkS2yMXiuqyUjp/cd5J8sBZShHnHzkKmeJQKrmkktxMA1oVUhnHcd/UCUbqEl+N2voHAAAAAElFTkSuQmCC",
+          "scale": 1,
+          "hot": null
+        }
+      }
+    },
+	{
       "type": "Feature",
       "geometry": {
         "type": "LineString",
