@@ -7299,8 +7299,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          32.845234,
-          39.920381
+          32.845367,
+          39.920198
         ]
       },
       "properties": {
@@ -7519,7 +7519,7 @@
       },
       "properties": {
         "name": "Ahmet'in banka rotası",
-        "description": "Ahmet'in Kolej yönünden SSK İşhanı'na doğru yürüdüğü rotada günümüze kalan nadir Erken Cumhuriyet Dönemi konutlarından olup CHP'nin eski genel merkez binalarından biri olarak da kullanılan, günümüzde bir kafeye olarak bilinen yapı da görünür.",
+        "description": "Ahmet'in Kolej yönünden SSK İşhanı'na doğru yürüdüğü rotada günümüze kalan nadir Erken Cumhuriyet Dönemi konutlarından olup CHP'nin eski genel merkez binalarından biri olarak da kullanılan, günümüzde bir kafenin işlettiği yapı da görünür.",
         "folder": "Sönen Ocak (Oğuz Gözen, 1993) / | / |",
         "styleUrl": "#line-9C27B0-1388",
         "icon": null,
