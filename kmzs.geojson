@@ -4194,1179 +4194,1179 @@
       }
     },
     {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            32.8543835,
-            39.9419258
-          ],
-          [
-            32.8542977,
-            39.9413254
-          ],
-          [
-            32.8542548,
-            39.9408318
-          ],
-          [
-            32.8542333,
-            39.9403712
-          ],
-          [
-            32.8542655,
-            39.9399352
-          ],
-          [
-            32.8542762,
-            39.9394169
-          ],
-          [
-            32.8542655,
-            39.939092
-          ],
-          [
-            32.8542548,
-            39.9386272
-          ],
-          [
-            32.8542548,
-            39.9382612
-          ],
-          [
-            32.8542548,
-            39.9379527
-          ],
-          [
-            32.8542333,
-            39.937673
-          ],
-          [
-            32.8542279,
-            39.9374509
-          ],
-          [
-            32.8541904,
-            39.9371959
-          ],
-          [
-            32.8541904,
-            39.937019
-          ],
-          [
-            32.8542011,
-            39.9368257
-          ],
-          [
-            32.8542172,
-            39.9365666
-          ],
-          [
-            32.8542011,
-            39.9362992
-          ],
-          [
-            32.8541582,
-            39.9359578
-          ],
-          [
-            32.8540992,
-            39.9356411
-          ],
-          [
-            32.8540026,
-            39.9353614
-          ],
-          [
-            32.8539007,
-            39.9350981
-          ],
-          [
-            32.8537934,
-            39.9347855
-          ],
-          [
-            32.8536593,
-            39.9345757
-          ],
-          [
-            32.853552,
-            39.9343331
-          ],
-          [
-            32.8533911,
-            39.934078
-          ],
-          [
-            32.8533213,
-            39.9338312
-          ],
-          [
-            32.8532087,
-            39.9335268
-          ],
-          [
-            32.8531336,
-            39.9333006
-          ],
-          [
-            32.853096,
-            39.9330456
-          ],
-          [
-            32.8531175,
-            39.9327617
-          ],
-          [
-            32.8532141,
-            39.9325067
-          ],
-          [
-            32.8533535,
-            39.9322722
-          ],
-          [
-            32.8535145,
-            39.9320378
-          ],
-          [
-            32.8537559,
-            39.9316635
-          ],
-          [
-            32.8539597,
-            39.9313961
-          ],
-          [
-            32.8541475,
-            39.9311164
-          ],
-          [
-            32.8542923,
-            39.9308572
-          ],
-          [
-            32.8543835,
-            39.930561
-          ],
-          [
-            32.8544747,
-            39.9302361
-          ],
-          [
-            32.8545659,
-            39.9299358
-          ],
-          [
-            32.8546249,
-            39.9296848
-          ],
-          [
-            32.8547,
-            39.9293516
-          ],
-          [
-            32.8547429,
-            39.9290678
-          ],
-          [
-            32.8547966,
-            39.9287798
-          ],
-          [
-            32.8548556,
-            39.9285577
-          ],
-          [
-            32.8548609,
-            39.9283314
-          ],
-          [
-            32.8549307,
-            39.9280928
-          ],
-          [
-            32.8549897,
-            39.927809
-          ],
-          [
-            32.8550111,
-            39.9275498
-          ],
-          [
-            32.8550326,
-            39.9271426
-          ],
-          [
-            32.8550111,
-            39.9267929
-          ],
-          [
-            32.8550004,
-            39.9265337
-          ],
-          [
-            32.8549897,
-            39.9262252
-          ],
-          [
-            32.8549468,
-            39.9259496
-          ],
-          [
-            32.8548502,
-            39.9255505
-          ],
-          [
-            32.8547483,
-            39.9251762
-          ],
-          [
-            32.8546785,
-            39.9248265
-          ],
-          [
-            32.8545659,
-            39.9243616
-          ],
-          [
-            32.8544532,
-            39.9239667
-          ],
-          [
-            32.8543674,
-            39.9235882
-          ],
-          [
-            32.8543138,
-            39.9233701
-          ],
-          [
-            32.8542494,
-            39.9231192
-          ],
-          [
-            32.8542011,
-            39.9229053
-          ],
-          [
-            32.8541797,
-            39.9227736
-          ],
-          [
-            32.8541367,
-            39.9225473
-          ],
-          [
-            32.8540885,
-            39.922284
-          ],
-          [
-            32.8540643,
-            39.9212802
-          ],
-          [
-            32.8540898,
-            39.9203504
-          ],
-          [
-            32.8541797,
-            39.9184003
-          ],
-          [
-            32.8542306,
-            39.9165467
-          ],
-          [
-            32.8542561,
-            39.9133528
-          ],
-          [
-            32.8547087,
-            39.912085
-          ],
-          [
-            32.855391,
-            39.9107516
-          ],
-          [
-            32.8561806,
-            39.9091219
-          ]
-        ]
-      },
-      "properties": {
-        "name": "Açılış rotası",
-        "description": "Çankaya’da konumlu bir kameranın Kale’den Anıtkabir’e yaptığı kaydırmayla görülen panoramayla jenerik izlenir. Açılışta Ulus Meydanı'nda taksisiyle seyreden Bekir ile Ulus İşhanı, Zafer Anıtı, Vilayet Binası, Hisar ve Sümerbank binaları izlenir. Tekel İdaresi, PTT, Kültür Bakanlığı ve Emek İşhanı fondadır. Osmanlı Bankası, Opera Köprüsü, Ankara Radyoevi geçilir. Kızılay'da Kuzgun Acar’ın Türkiye rölyefi görülür. Dönemin Atatürk Bulvarı’nın Ulus’tan Çankaya’ya bu seyri, TBMM civarında sonlanır.",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#line-880E4F-1194-nodesc",
-        "icon": null,
-        "lineStyle": {
-          "color": "#880e4f",
-          "opacity": 1,
-          "width": 1.194
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__acilis__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__acilis__002.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__acilis__003.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__acilis__004.png"
-        ]
-      }
+  "type": "Feature",
+  "geometry": {
+    "type": "LineString",
+    "coordinates": [
+      [
+        32.8543835,
+        39.9419258
+      ],
+      [
+        32.8542977,
+        39.9413254
+      ],
+      [
+        32.8542548,
+        39.9408318
+      ],
+      [
+        32.8542333,
+        39.9403712
+      ],
+      [
+        32.8542655,
+        39.9399352
+      ],
+      [
+        32.8542762,
+        39.9394169
+      ],
+      [
+        32.8542655,
+        39.939092
+      ],
+      [
+        32.8542548,
+        39.9386272
+      ],
+      [
+        32.8542548,
+        39.9382612
+      ],
+      [
+        32.8542548,
+        39.9379527
+      ],
+      [
+        32.8542333,
+        39.937673
+      ],
+      [
+        32.8542279,
+        39.9374509
+      ],
+      [
+        32.8541904,
+        39.9371959
+      ],
+      [
+        32.8541904,
+        39.937019
+      ],
+      [
+        32.8542011,
+        39.9368257
+      ],
+      [
+        32.8542172,
+        39.9365666
+      ],
+      [
+        32.8542011,
+        39.9362992
+      ],
+      [
+        32.8541582,
+        39.9359578
+      ],
+      [
+        32.8540992,
+        39.9356411
+      ],
+      [
+        32.8540026,
+        39.9353614
+      ],
+      [
+        32.8539007,
+        39.9350981
+      ],
+      [
+        32.8537934,
+        39.9347855
+      ],
+      [
+        32.8536593,
+        39.9345757
+      ],
+      [
+        32.853552,
+        39.9343331
+      ],
+      [
+        32.8533911,
+        39.934078
+      ],
+      [
+        32.8533213,
+        39.9338312
+      ],
+      [
+        32.8532087,
+        39.9335268
+      ],
+      [
+        32.8531336,
+        39.9333006
+      ],
+      [
+        32.853096,
+        39.9330456
+      ],
+      [
+        32.8531175,
+        39.9327617
+      ],
+      [
+        32.8532141,
+        39.9325067
+      ],
+      [
+        32.8533535,
+        39.9322722
+      ],
+      [
+        32.8535145,
+        39.9320378
+      ],
+      [
+        32.8537559,
+        39.9316635
+      ],
+      [
+        32.8539597,
+        39.9313961
+      ],
+      [
+        32.8541475,
+        39.9311164
+      ],
+      [
+        32.8542923,
+        39.9308572
+      ],
+      [
+        32.8543835,
+        39.930561
+      ],
+      [
+        32.8544747,
+        39.9302361
+      ],
+      [
+        32.8545659,
+        39.9299358
+      ],
+      [
+        32.8546249,
+        39.9296848
+      ],
+      [
+        32.8547,
+        39.9293516
+      ],
+      [
+        32.8547429,
+        39.9290678
+      ],
+      [
+        32.8547966,
+        39.9287798
+      ],
+      [
+        32.8548556,
+        39.9285577
+      ],
+      [
+        32.8548609,
+        39.9283314
+      ],
+      [
+        32.8549307,
+        39.9280928
+      ],
+      [
+        32.8549897,
+        39.927809
+      ],
+      [
+        32.8550111,
+        39.9275498
+      ],
+      [
+        32.8550326,
+        39.9271426
+      ],
+      [
+        32.8550111,
+        39.9267929
+      ],
+      [
+        32.8550004,
+        39.9265337
+      ],
+      [
+        32.8549897,
+        39.9262252
+      ],
+      [
+        32.8549468,
+        39.9259496
+      ],
+      [
+        32.8548502,
+        39.9255505
+      ],
+      [
+        32.8547483,
+        39.9251762
+      ],
+      [
+        32.8546785,
+        39.9248265
+      ],
+      [
+        32.8545659,
+        39.9243616
+      ],
+      [
+        32.8544532,
+        39.9239667
+      ],
+      [
+        32.8543674,
+        39.9235882
+      ],
+      [
+        32.8543138,
+        39.9233701
+      ],
+      [
+        32.8542494,
+        39.9231192
+      ],
+      [
+        32.8542011,
+        39.9229053
+      ],
+      [
+        32.8541797,
+        39.9227736
+      ],
+      [
+        32.8541367,
+        39.9225473
+      ],
+      [
+        32.8540885,
+        39.922284
+      ],
+      [
+        32.8540643,
+        39.9212802
+      ],
+      [
+        32.8540898,
+        39.9203504
+      ],
+      [
+        32.8541797,
+        39.9184003
+      ],
+      [
+        32.8542306,
+        39.9165467
+      ],
+      [
+        32.8542561,
+        39.9133528
+      ],
+      [
+        32.8547087,
+        39.912085
+      ],
+      [
+        32.855391,
+        39.9107516
+      ],
+      [
+        32.8561806,
+        39.9091219
+      ]
+    ]
+  },
+  "properties": {
+    "name": "Açılış rotası",
+    "description": "Çankaya’da konumlu bir kameranın Kale’den Anıtkabir’e yaptığı kaydırmayla görülen panoramayla jenerik izlenir. Açılışta Ulus Meydanı'nda taksisiyle seyreden Bekir ile Ulus İşhanı, Zafer Anıtı, Vilayet Binası, Hisar ve Sümerbank binaları izlenir. Tekel İdaresi, PTT, Kültür Bakanlığı ve Emek İşhanı fondadır. Osmanlı Bankası, Opera Köprüsü, Ankara Radyoevi geçilir. Kızılay'da Kuzgun Acar’ın Türkiye rölyefi görülür. Dönemin Atatürk Bulvarı’nın Ulus’tan Çankaya’ya bu seyri, TBMM civarında sonlanır.",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#line-880E4F-1194-nodesc",
+    "icon": null,
+    "lineStyle": {
+      "color": "#880e4f",
+      "opacity": 1,
+      "width": 1.194
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.870042,
-          39.893168
-        ]
-      },
-      "properties": {
-        "name": "Kalender Taksi",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__kalender__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__kalender__002.png"
-        ]
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__acilis__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__acilis__002.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__acilis__003.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__acilis__004.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.870042,
+      39.893168
+    ]
+  },
+  "properties": {
+    "name": "Kalender Taksi",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.855108,
-          39.888478
-        ]
-      },
-      "properties": {
-        "name": "Cinnah Caddesi",
-        "description": "Bekir taksisiyle bugün de durak olan cepte bekler.",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cinnah__001.png"
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__kalender__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__kalender__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.855108,
+      39.888478
+    ]
+  },
+  "properties": {
+    "name": "Cinnah Caddesi",
+    "description": "Bekir taksisiyle bugün de durak olan cepte bekler.",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.848937,
-          39.897835
-        ]
-      },
-      "properties": {
-        "name": "Yeşilyurt Sokak merdivenleri",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__yesilyurt__001.png"
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cinnah__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.848937,
+      39.897835
+    ]
+  },
+  "properties": {
+    "name": "Yeşilyurt Sokak merdivenleri",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.84899,
-          39.89837
-        ]
-      },
-      "properties": {
-        "name": "Hoşdere Caddesi",
-        "description": "Selimiye Caddesi ve Nazilli Sokak çatalı.",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__hosdere__001.png"
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__yesilyurt__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.84899,
+      39.89837
+    ]
+  },
+  "properties": {
+    "name": "Hoşdere Caddesi",
+    "description": "Selimiye Caddesi ve Nazilli Sokak çatalı.",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.841664,
-          39.937797
-        ]
-      },
-      "properties": {
-        "name": "Gar Gazinosu",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gazino__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gazino__002.png"
-        ]
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__hosdere__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.841664,
+      39.937797
+    ]
+  },
+  "properties": {
+    "name": "Gar Gazinosu",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.87091,
-          39.892537
-        ]
-      },
-      "properties": {
-        "name": "Liliş'in evi ve Köroğlu Caddesi",
-        "description": "Bugünkü adıyla Uğur Mumcu Caddesi 15 numarada bulunan bu yapı, Doç. Dr. Bahriye Üçok'un suikaste uğradığı evidir. Yapı günümüzde de durmaktadır.",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__lilisvekoroglu__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__lilisvekoroglu__002.png"
-        ]
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gazino__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gazino__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.87091,
+      39.892537
+    ]
+  },
+  "properties": {
+    "name": "Liliş'in evi ve Köroğlu Caddesi",
+    "description": "Bugünkü adıyla Uğur Mumcu Caddesi 15 numarada bulunan bu yapı, Doç. Dr. Bahriye Üçok'un suikaste uğradığı evidir. Yapı günümüzde de durmaktadır.",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.87126,
-          39.89192
-        ]
-      },
-      "properties": {
-        "name": "Gaziosmanpaşa'dan Birlik - Kırkkonaklar'a bakış",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__birlikkirkkonak__001.png"
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__lilisvekoroglu__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__lilisvekoroglu__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.87126,
+      39.89192
+    ]
+  },
+  "properties": {
+    "name": "Gaziosmanpaşa'dan Birlik - Kırkkonaklar'a bakış",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.86955,
-          39.89353
-        ]
-      },
-      "properties": {
-        "name": "Reşit Galip Caddesi",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__resitgalip__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__resitgalip__002.png"
-        ]
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__birlikkirkkonak__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.86955,
+      39.89353
+    ]
+  },
+  "properties": {
+    "name": "Reşit Galip Caddesi",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.863812,
-          39.894786
-        ]
-      },
-      "properties": {
-        "name": "İran Caddesi ve Ankara panoraması",
-        "description": "Çankaya'ya çıkan ana arterlerden olan bu caddede, Bekir'in seyrini takip eden kamera fonda Emek İşhanı, GATA, TED Koleji, Kocatepe Camii inşaatı, Köy Hizmetleri Binası, Hacettepe, SSK, Etibank gibi Ankara'nın üç farklı ilçesinden yapıları ve bölgeleri de gösterir.",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__irancadde__001.png"
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__resitgalip__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__resitgalip__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.863812,
+      39.894786
+    ]
+  },
+  "properties": {
+    "name": "İran Caddesi ve Ankara panoraması",
+    "description": "Çankaya'ya çıkan ana arterlerden olan bu caddede, Bekir'in seyrini takip eden kamera fonda Emek İşhanı, GATA, TED Koleji, Kocatepe Camii inşaatı, Köy Hizmetleri Binası, Hacettepe, SSK, Etibank gibi Ankara'nın üç farklı ilçesinden yapıları ve bölgeleri de gösterir.",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            32.863869,
-            39.89471
-          ],
-          [
-            32.863934,
-            39.894418
-          ],
-          [
-            32.863971,
-            39.894191
-          ],
-          [
-            32.864009,
-            39.894006
-          ],
-          [
-            32.864046,
-            39.893846
-          ],
-          [
-            32.864084,
-            39.893718
-          ],
-          [
-            32.864122,
-            39.893549
-          ],
-          [
-            32.864154,
-            39.893384
-          ],
-          [
-            32.864164,
-            39.893269
-          ]
-        ]
-      },
-      "properties": {
-        "name": "Bekir'in rotası",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#line-880E4F-1194-nodesc",
-        "icon": null,
-        "lineStyle": {
-          "color": "#880e4f",
-          "opacity": 1,
-          "width": 1.194
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__bekirrota__001.png"
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__irancadde__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "LineString",
+    "coordinates": [
+      [
+        32.863869,
+        39.89471
+      ],
+      [
+        32.863934,
+        39.894418
+      ],
+      [
+        32.863971,
+        39.894191
+      ],
+      [
+        32.864009,
+        39.894006
+      ],
+      [
+        32.864046,
+        39.893846
+      ],
+      [
+        32.864084,
+        39.893718
+      ],
+      [
+        32.864122,
+        39.893549
+      ],
+      [
+        32.864154,
+        39.893384
+      ],
+      [
+        32.864164,
+        39.893269
+      ]
+    ]
+  },
+  "properties": {
+    "name": "Bekir'in rotası",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#line-880E4F-1194-nodesc",
+    "icon": null,
+    "lineStyle": {
+      "color": "#880e4f",
+      "opacity": 1,
+      "width": 1.194
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.791667,
-          39.9475
-        ]
-      },
-      "properties": {
-        "name": "AOÇ Hayvanat Bahçesi",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__aocbahce__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__aocbahce__002.png"
-        ]
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__bekirrota__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.791667,
+      39.9475
+    ]
+  },
+  "properties": {
+    "name": "AOÇ Hayvanat Bahçesi",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.793903,
-          39.932059
-        ]
-      },
-      "properties": {
-        "name": "AOÇ fidanlıkları",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__fidanlik__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__fidanlik__002.png"
-        ]
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__aocbahce__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__aocbahce__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.793903,
+      39.932059
+    ]
+  },
+  "properties": {
+    "name": "AOÇ fidanlıkları",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.799722,
-          39.934167
-        ]
-      },
-      "properties": {
-        "name": "Marmara Oteli",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__marmara__001.png"
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__fidanlik__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__fidanlik__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.799722,
+      39.934167
+    ]
+  },
+  "properties": {
+    "name": "Marmara Oteli",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.806513,
-          39.941434
-        ]
-      },
-      "properties": {
-        "name": "Gazi Mahallesi ve Yenimahalle manzarası",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gaziveyenimahalle__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gaziveyenimahalle__002.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gaziveyenimahalle__003.png"
-        ]
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__marmara__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.806513,
+      39.941434
+    ]
+  },
+  "properties": {
+    "name": "Gazi Mahallesi ve Yenimahalle manzarası",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.861926,
-          39.938803
-        ]
-      },
-      "properties": {
-        "name": "Akkale",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__akkale__001.png"
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gaziveyenimahalle__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gaziveyenimahalle__002.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gaziveyenimahalle__003.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.861926,
+      39.938803
+    ]
+  },
+  "properties": {
+    "name": "Akkale",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.852778,
-          39.947778
-        ]
-      },
-      "properties": {
-        "name": "Yeni Sanayi Bölgesi",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__yenisanayi__001.png"
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__akkale__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.852778,
+      39.947778
+    ]
+  },
+  "properties": {
+    "name": "Yeni Sanayi Bölgesi",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.863923,
-          39.892123
-        ]
-      },
-      "properties": {
-        "name": "Çankaya Tepesi ve Dışişleri Konutu",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayatepe__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayatepe__002.png"
-        ]
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__yenisanayi__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.863923,
+      39.892123
+    ]
+  },
+  "properties": {
+    "name": "Çankaya Tepesi ve Dışişleri Konutu",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.864759,
-          39.892691
-        ]
-      },
-      "properties": {
-        "name": "ABD Büyükelçi Konutu",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__abdkonut__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__abdkonut__002.png"
-        ]
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayatepe__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayatepe__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.864759,
+      39.892691
+    ]
+  },
+  "properties": {
+    "name": "ABD Büyükelçi Konutu",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.958611,
-          39.944167
-        ]
-      },
-      "properties": {
-        "name": "Hüseyingazi Tepesi silüeti",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__huseyingazi__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__huseyingazi__002.png"
-        ]
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__abdkonut__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__abdkonut__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.958611,
+      39.944167
+    ]
+  },
+  "properties": {
+    "name": "Hüseyingazi Tepesi silüeti",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.857736,
-          39.886271
-        ]
-      },
-      "properties": {
-        "name": "27 Aralık Sokak",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__yirmiyediaralik__001.png"
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__huseyingazi__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__huseyingazi__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.857736,
+      39.886271
+    ]
+  },
+  "properties": {
+    "name": "27 Aralık Sokak",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            32.854993,
-            39.887029
-          ],
-          [
-            32.855052,
-            39.88674
-          ],
-          [
-            32.855116,
-            39.886535
-          ],
-          [
-            32.855213,
-            39.886267
-          ],
-          [
-            32.855315,
-            39.88609
-          ],
-          [
-            32.855454,
-            39.885847
-          ],
-          [
-            32.855583,
-            39.885641
-          ],
-          [
-            32.855749,
-            39.885522
-          ],
-          [
-            32.855985,
-            39.885538
-          ],
-          [
-            32.856286,
-            39.885711
-          ],
-          [
-            32.856559,
-            39.885864
-          ],
-          [
-            32.856913,
-            39.886119
-          ],
-          [
-            32.857198,
-            39.886354
-          ],
-          [
-            32.857402,
-            39.886489
-          ]
-        ]
-      },
-      "properties": {
-        "name": "Cinnah Caddesi - Çankaya Caddesi rotası",
-        "description": "Çetin'in Yeni Sanayi'den Çankaya Vadisi'ne atlamayla izlendiği bu rotayı, sonrasında Bekir ile Liliş'in AOÇ'ye giderken de kullandığı görülür. Çankaya Vadisi ve Hindistan Büyükelçiliği gibi yapılar da bu rotanın takibinde fondadır.",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#line-880E4F-1194-nodesc",
-        "icon": null,
-        "lineStyle": {
-          "color": "#880e4f",
-          "opacity": 1,
-          "width": 1.194
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayarota__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayarota__002.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayarota__003.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayarota__004.png"
-        ]
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__yirmiyediaralik__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "LineString",
+    "coordinates": [
+      [
+        32.854993,
+        39.887029
+      ],
+      [
+        32.855052,
+        39.88674
+      ],
+      [
+        32.855116,
+        39.886535
+      ],
+      [
+        32.855213,
+        39.886267
+      ],
+      [
+        32.855315,
+        39.88609
+      ],
+      [
+        32.855454,
+        39.885847
+      ],
+      [
+        32.855583,
+        39.885641
+      ],
+      [
+        32.855749,
+        39.885522
+      ],
+      [
+        32.855985,
+        39.885538
+      ],
+      [
+        32.856286,
+        39.885711
+      ],
+      [
+        32.856559,
+        39.885864
+      ],
+      [
+        32.856913,
+        39.886119
+      ],
+      [
+        32.857198,
+        39.886354
+      ],
+      [
+        32.857402,
+        39.886489
+      ]
+    ]
+  },
+  "properties": {
+    "name": "Cinnah Caddesi - Çankaya Caddesi rotası",
+    "description": "Çetin'in Yeni Sanayi'den Çankaya Vadisi'ne atlamayla izlendiği bu rotayı, sonrasında Bekir ile Liliş'in AOÇ'ye giderken de kullandığı görülür. Çankaya Vadisi ve Hindistan Büyükelçiliği gibi yapılar da bu rotanın takibinde fondadır.",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#line-880E4F-1194-nodesc",
+    "icon": null,
+    "lineStyle": {
+      "color": "#880e4f",
+      "opacity": 1,
+      "width": 1.194
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.857313,
-          39.88651
-        ]
-      },
-      "properties": {
-        "name": "Kaza yeri",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__kaza__001.png"
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayarota__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayarota__002.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayarota__003.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cankayarota__004.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.857313,
+      39.88651
+    ]
+  },
+  "properties": {
+    "name": "Kaza yeri",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.87445,
-          39.90057
-        ]
-      },
-      "properties": {
-        "name": "Gaziosmanpaşa'dan Esat'a bakış",
-        "description": "Kocatepe Camii inşaatı, Emek İşhanı ve henüz yapılaşan Küçükesat izlenir.",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gopesat__001.png"
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__kaza__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.87445,
+      39.90057
+    ]
+  },
+  "properties": {
+    "name": "Gaziosmanpaşa'dan Esat'a bakış",
+    "description": "Kocatepe Camii inşaatı, Emek İşhanı ve henüz yapılaşan Küçükesat izlenir.",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.84731,
-          39.91467
-        ]
-      },
-      "properties": {
-        "name": "İsmet İnönü Bulvarı",
-        "description": "Karayolları Genel Müdürlüğü Binası ve yıkılan Devlet İstatistik Enstitüsü Binası oldukça az yapılaşma Bulvarda nadir mekânsal özneler olarak izlenir.",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__inonubulvar__001.png"
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gopesat__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.84731,
+      39.91467
+    ]
+  },
+  "properties": {
+    "name": "İsmet İnönü Bulvarı",
+    "description": "Karayolları Genel Müdürlüğü Binası ve yıkılan Devlet İstatistik Enstitüsü Binası oldukça az yapılaşma Bulvarda nadir mekânsal özneler olarak izlenir.",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.853932,
-          39.949835
-        ]
-      },
-      "properties": {
-        "name": "Aral Şarap Fabrikası",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__aralsarap__001.png"
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__inonubulvar__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.853932,
+      39.949835
+    ]
+  },
+  "properties": {
+    "name": "Aral Şarap Fabrikası",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.927032,
-          40.002976
-        ]
-      },
-      "properties": {
-        "name": "Çubuk 1 Barajı",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cubuk__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cubuk__002.png"
-        ]
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__aralsarap__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.927032,
+      40.002976
+    ]
+  },
+  "properties": {
+    "name": "Çubuk 1 Barajı",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.854161,
-          39.920826
-        ]
-      },
-      "properties": {
-        "name": "Kızılay Meydanı",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__kizilay__001.png"
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cubuk__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__cubuk__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.854161,
+      39.920826
+    ]
+  },
+  "properties": {
+    "name": "Kızılay Meydanı",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.854391,
-          39.920517
-        ]
-      },
-      "properties": {
-        "name": "Set Kafeterya",
-        "description": "Kızılay Binası'nın henüz durduğu ancak Atatürk Bulvarı üzerindeki yapılaşmanın yeni çevriminde olduğu takip edilir.",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__set__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__set__002.png"
-        ]
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__kizilay__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.854391,
+      39.920517
+    ]
+  },
+  "properties": {
+    "name": "Set Kafeterya",
+    "description": "Kızılay Binası'nın henüz durduğu ancak Atatürk Bulvarı üzerindeki yapılaşmanın yeni çevriminde olduğu takip edilir.",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.856192,
-          39.921064
-        ]
-      },
-      "properties": {
-        "name": "Ziya Gökalp Caddesi",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "images": [
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__ziyagokalp__001.png",
-          "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__ziyagokalp__002.png"
-        ]
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__set__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__set__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.856192,
+      39.921064
+    ]
+  },
+  "properties": {
+    "name": "Ziya Gökalp Caddesi",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          32.85243,
-          39.9212
-        ]
-      },
-      "properties": {
-        "name": "GMK Bulvarı",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#icon-1739-880E4F-nodesc",
-        "icon": {
-          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
-          "scale": 1,
-          "hot": null
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gmk__001.png"
-      }
+    "images": [
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__ziyagokalp__001.jpg",
+      "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__ziyagokalp__002.jpg"
+    ]
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      32.85243,
+      39.9212
+    ]
+  },
+  "properties": {
+    "name": "GMK Bulvarı",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#icon-1739-880E4F-nodesc",
+    "icon": {
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAACXBIWXMAAAAcAAAAHAAPAbmPAAAAS1BMVEUAAACLi4sAAAAAAAD///////9cXFz////n5+cAAADX19f///8AAAD////////////7+/v////Ll7OjQHSPGFiHDFDz4+ufPHD79/tvw1FmAAAAEXRSTlMAfU47m9do89QwuiYVRUDB8wdoTQwAAAC3SURBVHja7f1HEoMwDEBR4G7TRb//SSMyJJSVnJ5Ef/9GGiP2Ccdx3AMrtHHO6CKSZRUsVVmMK2u4Vpd0l6Gbmrbr2mZCSZ+Jew5jf24ccFuqK3De4lDiTOoLaYCmv9YAaCI0AO0KWwBDhA6gW2EH4J4Nb141PT5OSoTi+DkEEQa/PwAfiDC3+5OzOREmSmyPXCiqS3Jp/cV5K8kDZylFOv/IqZAxDqWSSyrKzTSgVSGWcRz3TZ0AItsTQRTJLkkAAAAASUVORK5CYII=",
+      "scale": 1,
+      "hot": null
     },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            32.854126,
-            39.922815
-          ],
-          [
-            32.854029,
-            39.922173
-          ],
-          [
-            32.853997,
-            39.921721
-          ],
-          [
-            32.853965,
-            39.921219
-          ],
-          [
-            32.854008,
-            39.920733
-          ],
-          [
-            32.853997,
-            39.920272
-          ],
-          [
-            32.85404,
-            39.919696
-          ],
-          [
-            32.854072,
-            39.919162
-          ],
-          [
-            32.854062,
-            39.918865
-          ]
-        ]
-      },
-      "properties": {
-        "name": "Kapanış rotası",
-        "description": "",
-        "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
-        "styleUrl": "#line-880E4F-1194-nodesc",
-        "icon": null,
-        "lineStyle": {
-          "color": "#880e4f",
-          "opacity": 1,
-          "width": 1.194
-        },
-        "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__kapanis__001.png"
-      }
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__gmk__001.jpg"
+  }
+},
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "LineString",
+    "coordinates": [
+      [
+        32.854126,
+        39.922815
+      ],
+      [
+        32.854029,
+        39.922173
+      ],
+      [
+        32.853997,
+        39.921721
+      ],
+      [
+        32.853965,
+        39.921219
+      ],
+      [
+        32.854008,
+        39.920733
+      ],
+      [
+        32.853997,
+        39.920272
+      ],
+      [
+        32.85404,
+        39.919696
+      ],
+      [
+        32.854072,
+        39.919162
+      ],
+      [
+        32.854062,
+        39.918865
+      ]
+    ]
+  },
+  "properties": {
+    "name": "Kapanış rotası",
+    "description": "",
+    "folder": "Tuzsuz Deli Bekir (Yılmaz Atadeniz, 1972) / | / |",
+    "styleUrl": "#line-880E4F-1194-nodesc",
+    "icon": null,
+    "lineStyle": {
+      "color": "#880e4f",
+      "opacity": 1,
+      "width": 1.194
     },
+    "image": "images/tuzsuzdelibekir1972/tuzsuzdelibekir1972__kapanis__001.jpg"
+  }
+},
     {
       "type": "Feature",
       "geometry": {
